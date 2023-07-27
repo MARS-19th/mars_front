@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@android:color/holo_blue_bright" /> <!-- 이미지뷰의 배경색 지정 -->
+    <corners android:radius="1000dp" /> <!-- 둥근 모서리의 반지름 값을 조절하여 조절 -->
+</shape>

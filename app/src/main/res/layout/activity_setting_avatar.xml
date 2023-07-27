@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingAvatarActivity"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 아바타 이미지 -->
+    <ImageView
+        android:id="@+id/avatarImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cat_avatar"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="5dp"
+        android:contentDescription="아바타"
+        android:layout_gravity="center_horizontal" />
+
+    <!-- 고양이, 원숭이 버튼 -->
+    <LinearLayout
+        android:id="@+id/genderButtonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:orientation="horizontal"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="2dp">
+
+        <ImageButton
+            android:id="@+id/monkeyButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_monkey"
+            android:contentDescription="원숭이"
+            android:onClick="onMonkeyButtonClick"
+            android:background="@drawable/avatar_button_background" />
+
+        <ImageButton
+            android:id="@+id/catButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_cat"
+            android:contentDescription="고양이"
+            android:onClick="onCatButtonClick"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/avatar_button_clicked" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@android:color/black" />
+
+    </LinearLayout>
+
+    <!-- 아바타 이미지 아래의 버튼들 -->
+    <LinearLayout
+        android:id="@+id/leftButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/topsButton"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:src="@drawable/icon_face"
+            android:contentDescription="표정"
+            android:onClick="onTopsButtonClick"
+            android:layout_weight="1"
+            android:background="@android:color/transparent" /> <!-- 배경을 투명으로 설정 -->
+
+        <ImageButton
+            android:id="@+id/bottomsButton"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:src="@drawable/icon_color2"
+            android:contentDescription="외형"
+            android:onClick="onBottomsButtonClick"
+            android:layout_weight="1"
+            android:background="@android:color/transparent" /> <!-- 배경을 투명으로 설정 -->
+
+        <!-- 여기에 더 많은 버튼을 추가하면, 버튼의 개수에 따라 자동으로 너비가 조정됩니다. -->
+
+    </LinearLayout>
+
+    <!-- 버튼 아래의 두 번째 RecyclerView (장비 아이템) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/equipmentRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="표정 및 외형 컨텐츠 리사이클러뷰"
+        tools:listitem="@layout/item_equipment" />
+
+
+</LinearLayout>

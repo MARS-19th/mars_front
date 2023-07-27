@@ -1,0 +1,9 @@
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    </style>
+
+    <!-- CalendarView를 위한 Custom 테마 정의 -->
+    <style name="CalendarViewTheme" parent="Theme.AppCompat.Light">
+        <item name="android:textColorPrimary">#000000</item>
+    </style>
+</resources>
