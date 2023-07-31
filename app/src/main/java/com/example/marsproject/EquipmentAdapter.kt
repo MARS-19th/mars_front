@@ -12,7 +12,7 @@ class EquipmentAdapter(
 ) : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(expression: String)
+        fun onItemClick(expression: String, expressionAppearance: String)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -25,7 +25,7 @@ class EquipmentAdapter(
                 if (position != RecyclerView.NO_POSITION) {
                     val equipmentItem = equipmentItems[position]
                     // 아이템 클릭 시 onItemClick 함수 호출
-                    itemClickListener.onItemClick(equipmentItem.name)
+                    itemClickListener.onItemClick(equipmentItem.name, equipmentItem.appearance)
                 }
             }
         }
