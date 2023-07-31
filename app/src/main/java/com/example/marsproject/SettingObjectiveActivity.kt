@@ -19,10 +19,11 @@ class SettingObjectiveActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingObjectiveBinding
     var launcher: ActivityResultLauncher<Intent>? = null
     private lateinit var email: String
+    private lateinit var profile: String
     private lateinit var name: String
     private lateinit var animal: String
     private lateinit var face: String
-    private lateinit var color: String
+    private lateinit var appearance: String
     private var category: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,10 +38,11 @@ class SettingObjectiveActivity : AppCompatActivity() {
 
         // 액티비티 이동하면서 넘어온 값 받아오기
         email = intent.getStringExtra("email").toString()
+        profile = intent.getStringExtra("profile").toString()
         name = intent.getStringExtra("name").toString()
         animal = intent.getStringExtra("animal").toString()
         face = intent.getStringExtra("face").toString()
-        color = intent.getStringExtra("color").toString()
+        appearance = intent.getStringExtra("appearance").toString()
 
         val contract = ActivityResultContracts.StartActivityForResult()
         val callback = object: ActivityResultCallback<ActivityResult> {
@@ -95,10 +97,11 @@ class SettingObjectiveActivity : AppCompatActivity() {
                 } else {
                     val intentD = Intent(this, SettingDetailObjectiveActivity::class.java)
                     intentD.putExtra("email", email)
+                    intentD.putExtra("profile", profile)
                     intentD.putExtra("name", name)
                     intentD.putExtra("animal", animal)
                     intentD.putExtra("face", face)
-                    intentD.putExtra("color", color)
+                    intentD.putExtra("appearance", appearance)
                     intentD.putExtra("category", category)
                     launcher?.launch(intentD)
                 }

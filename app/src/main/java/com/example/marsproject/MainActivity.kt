@@ -3,6 +3,7 @@ package com.example.marsproject
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -12,12 +13,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import com.example.marsproject.databinding.ActivityMainBinding
+import org.json.JSONObject
+import java.net.UnknownServiceException
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     var launcher: ActivityResultLauncher<Intent>? = null
     private var skill: String = ""
+    private var login: String = "ok"
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,21 +29,113 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if(user.check == 0) { // 처음 실행인 지 확인 // 추후에 로그인 유무에 따른 로그인 페이지로 이동 or 메인 페이지로 이동
+        // 로그인 정보 불러오기
+        val pref = getSharedPreferences("userLogin", 0)
+        val savedID = pref.getString("id", "").toString()
+        val savedPW = pref.getString("pw", "").toString()
+
+        val LoginThread = Thread {
+            if (savedID == "" && savedPW == "") {
+                // 회원가입
+                // 추후에 회원가입 페이지에 사용
+                try {
+                    val outputjson = JSONObject() //json 생성
+                    outputjson.put("id", "test@naver.com") // 아이디
+                    outputjson.put("passwd", "qwer1234") // 비밀번호
+
+                    val jsonObject =
+                        Request().reqpost("http://dmumars.kro.kr/api/setperson", outputjson)
+                    // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+
+                    println(jsonObject.getString("results")) //results 데이터가 ture만 나오는 경우 굳이 처리 해줄 필요 없은
+                    // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+                } catch (e: UnknownServiceException) {
+                    // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+
+                    if (e.message == "ER_DUP_ENTRY") { /* 중복오류 발생 예외처리구문 */
+                    }
+                    println(e.message)
+                    // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+                // 로그인 정보 저장
+                // 추후에 로그인 페이지에 사용
+                saveLogin("test@naver.com", "qwer1234")
+
+                // 추후에 로그인 페이지로 이동 추가
+                login = "login"
+            } else {
+                try {
+                    val outputjson = JSONObject() //json 생성
+                    outputjson.put("id", savedID) // 아이디
+                    outputjson.put("passwd", savedPW) // 비밀번호
+
+                    val jsonObject =
+                        Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
+                    // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+
+                    println(jsonObject.getString("results")) //results 데이터가 ture만 나오는 경우 굳이 처리 해줄 필요 없은
+                    // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+                } catch (e: UnknownServiceException) {
+                    // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+
+                    if (e.message == "is_new") {
+                        login = "is_new"
+                    }
+                    println(e.message)
+                    // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        LoginThread.start()
+        LoginThread.join()
+
+        if (login == "login") {
+            Toast.makeText(applicationContext, "회원가입과 로그인 완료\n종료 후 재실행", Toast.LENGTH_SHORT).show()
+        }
+        if (login == "is_new") {
             val contract = ActivityResultContracts.StartActivityForResult()
-            val callback = object: ActivityResultCallback<ActivityResult> {
+            val callback = object : ActivityResultCallback<ActivityResult> {
                 override fun onActivityResult(result: ActivityResult?) {
-                    if(result?.resultCode == RESULT_OK) { // 닉네임, 아바타, 목표 설정이 끝났을 때
+                    if (result?.resultCode == RESULT_OK) { // 닉네임, 아바타, 목표 설정이 끝났을 때
                     }
                 }
             }
             launcher = registerForActivityResult(contract, callback)
-            user.check++ // 다음에 실행 안 하도록 증가
             // 닉네임 설정 액티비티 시작
             val intentN = Intent(this, SettingNameActivity::class.java)
-            intentN.putExtra("email", "t@t.t")
+            intentN.putExtra("email", savedID)
             launcher?.launch(intentN)
         }
+
+        val NameThread = Thread {
+            try {
+                val outputjson = JSONObject() //json 생성
+                outputjson.put("id", savedID) // 아이디
+                outputjson.put("passwd", savedPW) // 비밀번호
+
+                val jsonObject =
+                    Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
+                // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+
+                println(jsonObject.getString("results")) //results 데이터가 ture만 나오는 경우 굳이 처리 해줄 필요 없은
+                saveName(jsonObject.getString("user_name"))
+                // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+            } catch (e: UnknownServiceException) {
+                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+
+                println(e.message)
+                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        NameThread.start()
+        NameThread.join()
 
         val menuBottomNavigation = binding.menuBottomNavigation
 
@@ -48,18 +144,26 @@ class MainActivity : AppCompatActivity() {
             changeFragment(
                 when (item.itemId) {
                     R.id.menu_home -> { // 홈 탭 클릭
-                        menuBottomNavigation.itemIconTintList = ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
-                        menuBottomNavigation.itemTextColor = ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
+                        menuBottomNavigation.itemIconTintList =
+                            ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
+                        menuBottomNavigation.itemTextColor =
+                            ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
                         MainHomeFragment()
                     }
+
                     R.id.menu_objective -> { // 목표 탭 클릭
-                        menuBottomNavigation.itemIconTintList = ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
-                        menuBottomNavigation.itemTextColor = ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
+                        menuBottomNavigation.itemIconTintList =
+                            ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
+                        menuBottomNavigation.itemTextColor =
+                            ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
                         MainObjectiveFragment()
                     }
+
                     else -> { // 마이 탭 클릭
-                        menuBottomNavigation.itemIconTintList = ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
-                        menuBottomNavigation.itemTextColor = ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
+                        menuBottomNavigation.itemIconTintList =
+                            ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
+                        menuBottomNavigation.itemTextColor =
+                            ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
                         MainMypageFragment()
                     }
                 }
@@ -103,6 +207,29 @@ class MainActivity : AppCompatActivity() {
                     .commit()
             }
         }
+    }
+
+    // 로그인 정보를 저장하는 함수
+    fun saveLogin(loginID: String, loginPW: String) {
+        val pref = getSharedPreferences("userLogin", MODE_PRIVATE) //shared key 설정
+        val edit = pref.edit() // 수정모드
+        edit.putString("id", loginID) // 값 넣기
+        edit.putString("pw", loginPW) // 값 넣기
+        edit.apply() // 적용하기
+    }
+
+    // 닉네임 정보를 저장하는 함수
+    fun saveName(userName: String) {
+        val pref = getSharedPreferences("userName", MODE_PRIVATE) //shared key 설정
+        val edit = pref.edit() // 수정모드
+        edit.putString("name", userName) // 값 넣기
+        edit.apply() // 적용하기
+    }
+
+    // 닉네임 정보를 가져오는 함수
+    fun getName(): String {
+        val pref = getSharedPreferences("Name", 0)
+        return pref.getString("name", "").toString()
     }
 
     // 목표에서 선택한 이름을 저장하는 함수

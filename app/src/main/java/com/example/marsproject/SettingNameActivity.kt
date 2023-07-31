@@ -13,6 +13,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marsproject.databinding.ActivitySettingNameBinding
+import org.json.JSONObject
+import java.net.UnknownServiceException
 import java.util.regex.Pattern
 
 class SettingNameActivity : AppCompatActivity() {
@@ -103,6 +105,7 @@ class SettingNameActivity : AppCompatActivity() {
             // 아바타 설정 액티비티 시작
             val intentA = Intent(this, SettingAvatarActivity::class.java)
             intentA.putExtra("email", email)
+            intentA.putExtra("profile", "null")
             intentA.putExtra("name", name)
             launcher?.launch(intentA)
         }
@@ -134,9 +137,33 @@ class SettingNameActivity : AppCompatActivity() {
     // 중복확인
     fun checkName2():Boolean{
         var name = binding.editName.text.toString().trim()
-        val testName = "테스트"
-        // 추후에 db 중복 확인
-        if (name != testName) {
+        var result = "false"
+
+        val checkThread = Thread {
+            try {
+                val outputjson = JSONObject() //json 생성
+                outputjson.put("user_name", name) // 닉네임
+
+                val jsonObject =
+                    Request().reqpost("http://dmumars.kro.kr/api/checkname", outputjson)
+                // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+
+                println(jsonObject.getString("results")) //results 데이터가 ture만 나오는 경우 굳이 처리 해줄 필요 없은
+                result = jsonObject.getString("results")
+                // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+            } catch (e: UnknownServiceException) {
+                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+
+                println(e.message)
+                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        checkThread.start()
+        checkThread.join()
+
+        if (result == "true") {
             binding.guideText2.setTextColor(Color.parseColor("#00ff00"))
             binding.guideText2.text = "v 중복확인"
             return true
