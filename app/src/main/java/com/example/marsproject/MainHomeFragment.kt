@@ -22,6 +22,7 @@ class MainHomeFragment : Fragment() {
     private var life: Int = 0
     private lateinit var money: String
     private lateinit var level: String
+    private var progress: Double = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,9 +35,7 @@ class MainHomeFragment : Fragment() {
 
         val HomeThread = Thread {
             try {
-                val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuserdata/테스트1") //get요청
-
-                println(jsonObject.getString("user_name"))
+                val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuserdata/${savedname}") //get요청
 
                 name = jsonObject.getString("user_name")
                 id = jsonObject.getString("user_id")
@@ -79,6 +78,26 @@ class MainHomeFragment : Fragment() {
                 binding.lifeImage3.visibility = View.INVISIBLE
             }
         }
+
+        val progressThread = Thread {
+            try {
+                val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuserskill/${savedname}") //get요청
+
+                progress = jsonObject.getJSONArray("results").length() * 12.5
+
+                // /getdetailmark 부분 파싱 results에서 JSONArray 뽑고 JSONArray[0] 에 mark_id = 3
+            } catch (e: UnknownServiceException) {
+                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                println(e.message)
+                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        progressThread.start()
+        progressThread.join()
+
+        binding.progressBar.progress = progress.toInt()
 
         // 클릭 시 내 주변 사람 찾기로 이동 리스너
         binding.bluetoothImage.setOnClickListener {
