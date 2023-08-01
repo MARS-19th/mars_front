@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.marsproject.databinding.FragmentMainHomeBinding
 import org.json.JSONObject
 import java.net.UnknownServiceException
@@ -13,10 +14,10 @@ import java.net.UnknownServiceException
 class MainHomeFragment : Fragment() {
     private lateinit var binding: FragmentMainHomeBinding
     private lateinit var savedname: String
-    private lateinit var name: String
-    private lateinit var id: String
-    private lateinit var objective: String
-    private lateinit var title: String
+    private var name: String = "닉네임"
+    private var id: String = "아이디"
+    private var objective: String = "목표"
+    private var title: String = "칭호"
     private lateinit var profile: String
     private var life: Int = 0
     private lateinit var money: String
@@ -33,16 +34,18 @@ class MainHomeFragment : Fragment() {
 
         val HomeThread = Thread {
             try {
-                val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuserdata/${savedname}") //get요청
+                val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuserdata/테스트1") //get요청
 
-                name = jsonObject.getJSONArray("results").getJSONObject(0).getString("user_name")
-                id = jsonObject.getJSONArray("results").getJSONObject(0).getString("user_id")
-                objective = jsonObject.getJSONArray("results").getJSONObject(0).getString("choice_mark")
-                title = jsonObject.getJSONArray("results").getJSONObject(0).getString("user_title")
-                profile = jsonObject.getJSONArray("results").getJSONObject(0).getString("profile_local")
-                life = jsonObject.getJSONArray("results").getJSONObject(0).getInt("life")
-                money = jsonObject.getJSONArray("results").getJSONObject(0).getInt("money").toString()
-                level = jsonObject.getJSONArray("results").getJSONObject(0).getInt("level").toString()
+                println(jsonObject.getString("user_name"))
+
+                name = jsonObject.getString("user_name")
+                id = jsonObject.getString("user_id")
+                objective = jsonObject.getString("choice_mark")
+                title = jsonObject.getString("user_title")
+                profile = jsonObject.getString("profile_local")
+                life = jsonObject.getInt("life")
+                money = jsonObject.getInt("money").toString()
+                level = jsonObject.getInt("level").toString()
                 // /getdetailmark 부분 파싱 results에서 JSONArray 뽑고 JSONArray[0] 에 mark_id = 3
             } catch (e: UnknownServiceException) {
                 // API 사용법에 나와있는 모든 오류응답은 여기서 처리
@@ -57,7 +60,7 @@ class MainHomeFragment : Fragment() {
 
         binding.titleName.text = title
         binding.userName.text = name
-        binding.userId.text = "@${id}"
+        binding.userId.text = id
         binding.objectiveName.text = objective
         when(life) {
             3 -> {

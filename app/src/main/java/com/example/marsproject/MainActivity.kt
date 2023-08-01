@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity() {
                         Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
                     // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
 
-                    println(jsonObject.getString("results")) //results 데이터가 ture만 나오는 경우 굳이 처리 해줄 필요 없은
                     // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
                 } catch (e: UnknownServiceException) {
                     // API 사용법에 나와있는 모든 오류응답은 여기서 처리
@@ -102,6 +101,7 @@ class MainActivity : AppCompatActivity() {
             val callback = object : ActivityResultCallback<ActivityResult> {
                 override fun onActivityResult(result: ActivityResult?) {
                     if (result?.resultCode == RESULT_OK) { // 닉네임, 아바타, 목표 설정이 끝났을 때
+                        changeFragment(MainHomeFragment())
                     }
                 }
             }
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
                     Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
                 // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
 
-                println(jsonObject.getString("results")) //results 데이터가 ture만 나오는 경우 굳이 처리 해줄 필요 없은
+                println(jsonObject.getString("user_name"))
                 saveName(jsonObject.getString("user_name"))
                 // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
             } catch (e: UnknownServiceException) {
@@ -228,7 +228,7 @@ class MainActivity : AppCompatActivity() {
 
     // 닉네임 정보를 가져오는 함수
     fun getName(): String {
-        val pref = getSharedPreferences("Name", 0)
+        val pref = getSharedPreferences("userName", 0)
         return pref.getString("name", "").toString()
     }
 

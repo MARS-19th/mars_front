@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -103,7 +104,7 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
     }
 
     // 고양이 클릭 아바타 이미지 변경
-    fun onCatButtonClick() {
+    fun onCatButtonClick(view: View?) {
         binding.avatarImageView.setImageResource(com.example.marsproject.R.drawable.cat_avatar)
         binding.catButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_clicked)
         binding.monkeyButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_background)
@@ -111,7 +112,7 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
     }
 
     // 원숭이 클릭 아바타 이미지 변경
-    fun onMonkeyButtonClick() {
+    fun onMonkeyButtonClick(view: View?) {
         binding.avatarImageView.setImageResource(com.example.marsproject.R.drawable.monkey_avatar)
         binding.monkeyButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_clicked)
         binding.catButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_background)
@@ -119,14 +120,14 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
     }
 
     // 상단 표정 선택
-    fun onTopsButtonClick() {
+    fun onTopsButtonClick(view: View?) {
         updateEquipmentItemsForTops()
         binding.topsButton.setImageResource(com.example.marsproject.R.drawable.icon_face)
         binding.bottomsButton.setImageResource(com.example.marsproject.R.drawable.icon_color2)
     }
 
     // 하단 외형 선택
-    fun onBottomsButtonClick() {
+    fun onBottomsButtonClick(view: View?) {
         updateEquipmentItemsForBottoms()
         binding.topsButton.setImageResource(com.example.marsproject.R.drawable.icon_face2)
         binding.bottomsButton.setImageResource(com.example.marsproject.R.drawable.icon_color)
