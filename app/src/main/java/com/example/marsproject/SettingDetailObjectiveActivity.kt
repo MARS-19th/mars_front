@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import com.example.marsproject.databinding.ActivitySettingDetailObjectiveBinding
 import org.json.JSONObject
+import java.io.FileNotFoundException
 import java.net.UnknownServiceException
 
 class SettingDetailObjectiveActivity : AppCompatActivity() {
@@ -79,7 +80,7 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
             R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
                 finish()
             }
-            com.example.marsproject.R.id.action_ok -> { // 완료 버튼 눌렀을 때
+            com.example.marsproject.R.id.action_ok -> { // 완료 버튼 눌렀을 때s
                 if(objective == "") {
                     Toast.makeText(baseContext, "하나를 선택해주세요.", Toast.LENGTH_SHORT).show()
                 } else {
@@ -97,7 +98,6 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
                                 Request().reqpost("http://dmumars.kro.kr/api/setuser", outputjson)
                             // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
 
-                            println(jsonObject.getString("results")) //results 데이터가 ture만 나오는 경우 굳이 처리 해줄 필요 없은
                             // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
                         } catch (e: UnknownServiceException) {
                             // API 사용법에 나와있는 모든 오류응답은 여기서 처리
@@ -118,7 +118,6 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
                                 Request().reqpost("http://dmumars.kro.kr/api/setmoney", outputjson)
                             // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
 
-                            println(jsonObject.getString("results")) //results 데이터가 ture만 나오는 경우 굳이 처리 해줄 필요 없은
                             // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
                         } catch (e: UnknownServiceException) {
                             // API 사용법에 나와있는 모든 오류응답은 여기서 처리
@@ -139,7 +138,6 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
                                 Request().reqpost("http://dmumars.kro.kr/api/setlife", outputjson)
                             // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
 
-                            println(jsonObject.getString("results")) //results 데이터가 ture만 나오는 경우 굳이 처리 해줄 필요 없은
                             // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
                         } catch (e: UnknownServiceException) {
                             // API 사용법에 나와있는 모든 오류응답은 여기서 처리
@@ -160,7 +158,6 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
                                 Request().reqpost("http://dmumars.kro.kr/api/setlevel", outputjson)
                             // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
 
-                            println(jsonObject.getString("results")) //results 데이터가 ture만 나오는 경우 굳이 처리 해줄 필요 없은
                             // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
                         } catch (e: UnknownServiceException) {
                             // API 사용법에 나와있는 모든 오류응답은 여기서 처리
@@ -181,7 +178,6 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
                                 Request().reqpost("http://dmumars.kro.kr/api/setusertitle", outputjson)
                             // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
 
-                            println(jsonObject.getString("results")) //results 데이터가 ture만 나오는 경우 굳이 처리 해줄 필요 없은
                             // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
                         } catch (e: UnknownServiceException) {
                             // API 사용법에 나와있는 모든 오류응답은 여기서 처리
@@ -203,13 +199,35 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
                                 Request().reqpost("http://dmumars.kro.kr/api/setuseravatar", outputjson)
                             // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
 
-                            println(jsonObject.getString("results")) //results 데이터가 ture만 나오는 경우 굳이 처리 해줄 필요 없은
                             // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
                         } catch (e: UnknownServiceException) {
                             // API 사용법에 나와있는 모든 오류응답은 여기서 처리
 
                             println(e.message)
                             // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+
+                        // 유저 프로필 사진 저장
+                        try {
+                            val outputjson = JSONObject()
+                            outputjson.put("user_name", name)
+                            outputjson.put("file", profile)
+
+                            Request().fileupload("http://korseok.kro.kr/api/uploadprofile", outputjson)
+                            // 사실상 응답 데이터가 {results: true} 밖에 없서서 데이터를 따로 저장하진 않음
+                        } catch (e: UnknownServiceException) {
+                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                            val messge = e.message // 해당 주소에서 발생가능한 애러 메세지 (api 사용법 참고)
+                            if (messge == "less_data") {
+                                println("파일 업로드 중에 오류 발생")
+                            }
+
+                            println(messge)
+                        } catch (e: FileNotFoundException) {
+                            //선택한 파일이 없어진 경우
+                            println("파일없음")
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
