@@ -799,13 +799,13 @@
         app:layout_constraintTop_toTopOf="@+id/guideline46" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/diangoButton"
+        android:id="@+id/djangoButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/shape_for_circle_button"
         android:gravity="center"
         android:fontFamily="@font/pretendardbold"
-        android:text="Diango"
+        android:text="Django"
         android:textAllCaps="false"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline47"
