@@ -39,18 +39,20 @@ class MainDetailStudyFragment : Fragment() {
                 for(i in 0 until jsonObject.getJSONArray("results").length()) {
                     // 강의의 유튜브 링크 또는 과제 가져오기
                     val jsonObject2 = Request().reqget("http://dmumars.kro.kr/api/getmoredata/${jsonObject.getJSONArray("results").getJSONObject(i).getInt("mark_id")}") //get요청
-                    println(jsonObject2.getJSONArray("results").getString(0))
+
                     // 클릭 시 유튜브로 연결 리스너
                     var clicklistener1 = View.OnClickListener { p0 ->
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("${jsonObject2.getJSONArray("results").getString(0)}"))
                         startActivity(intent)
                     }
+
                     // 중간 시험은 클릭 시 토스트 출력 리스너
                     if(skill == "중간시험") {
                         clicklistener1 = View.OnClickListener { p0 ->
                             Toast.makeText(context, jsonObject2.getJSONArray("results").getString(0), Toast.LENGTH_SHORT).show()
                         }
                     }
+
                     when(i) {
                         0 -> {
                             binding.title1.text = jsonObject.getJSONArray("results").getJSONObject(i).getString("mark_list")

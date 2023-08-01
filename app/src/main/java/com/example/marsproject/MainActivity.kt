@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
                         Request().reqpost("http://dmumars.kro.kr/api/setperson", outputjson)
                     // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
 
-                    println(jsonObject.getString("results")) //results 데이터가 ture만 나오는 경우 굳이 처리 해줄 필요 없은
                     // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
                 } catch (e: UnknownServiceException) {
                     // API 사용법에 나와있는 모든 오류응답은 여기서 처리
@@ -101,6 +100,30 @@ class MainActivity : AppCompatActivity() {
             val callback = object : ActivityResultCallback<ActivityResult> {
                 override fun onActivityResult(result: ActivityResult?) {
                     if (result?.resultCode == RESULT_OK) { // 닉네임, 아바타, 목표 설정이 끝났을 때
+                        // 닉네임 정보 저장하기
+                        val NameThread = Thread {
+                            try {
+                                val outputjson = JSONObject() //json 생성
+                                outputjson.put("id", savedID) // 아이디
+                                outputjson.put("passwd", savedPW) // 비밀번호
+
+                                val jsonObject =
+                                    Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
+                                // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+
+                                saveName(jsonObject.getString("user_name"))
+                                // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+                            } catch (e: UnknownServiceException) {
+                                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+
+                                println(e.message)
+                                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+                        NameThread.start()
+                        NameThread.join()
                         changeFragment(MainHomeFragment())
                     }
                 }
@@ -111,31 +134,6 @@ class MainActivity : AppCompatActivity() {
             intentN.putExtra("email", savedID)
             launcher?.launch(intentN)
         }
-
-        val NameThread = Thread {
-            try {
-                val outputjson = JSONObject() //json 생성
-                outputjson.put("id", savedID) // 아이디
-                outputjson.put("passwd", savedPW) // 비밀번호
-
-                val jsonObject =
-                    Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
-                // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
-
-                println(jsonObject.getString("user_name"))
-                saveName(jsonObject.getString("user_name"))
-                // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-            } catch (e: UnknownServiceException) {
-                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
-
-                println(e.message)
-                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        NameThread.start()
-        NameThread.join()
 
         val menuBottomNavigation = binding.menuBottomNavigation
 
