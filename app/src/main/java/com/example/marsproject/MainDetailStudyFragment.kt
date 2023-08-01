@@ -10,10 +10,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.example.marsproject.databinding.FragmentMainDetailStudyBinding
+import org.json.JSONObject
+import java.net.UnknownServiceException
 
 class MainDetailStudyFragment : Fragment() {
     private lateinit var binding: FragmentMainDetailStudyBinding
     private lateinit var skill: String
+    private lateinit var savedname: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,19 +27,61 @@ class MainDetailStudyFragment : Fragment() {
         // 선택한 스킬이 무엇인지 가져오기
         skill = (activity as MainActivity).getSkill()
 
+        // 닉네임 정보 불러오기
+        savedname = (activity as MainActivity).getName()
+
+        // 강의 불러오기
+        val skillThread = Thread {
+            try {
+                val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getdetailmark/${skill}") //get요청
+
+                // 스킬의 강의 수만큼 for문 실행
+                for(i in 0 until jsonObject.getJSONArray("results").length()) {
+                    // 강의의 유튜브 링크 또는 과제 가져오기
+                    val jsonObject2 = Request().reqget("http://dmumars.kro.kr/api/getmoredata/${jsonObject.getJSONArray("results").getJSONObject(i).getInt("mark_id")}") //get요청
+                    println(jsonObject2.getJSONArray("results").getString(0))
+                    // 클릭 시 유튜브로 연결 리스너
+                    var clicklistener1 = View.OnClickListener { p0 ->
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("${jsonObject2.getJSONArray("results").getString(0)}"))
+                        startActivity(intent)
+                    }
+                    // 중간 시험은 클릭 시 토스트 출력 리스너
+                    if(skill == "중간시험") {
+                        clicklistener1 = View.OnClickListener { p0 ->
+                            Toast.makeText(context, jsonObject2.getJSONArray("results").getString(0), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    when(i) {
+                        0 -> {
+                            binding.title1.text = jsonObject.getJSONArray("results").getJSONObject(i).getString("mark_list")
+                            binding.title1.setOnClickListener(clicklistener1)
+                            binding.goalButton1.setOnClickListener(clicklistener1)
+                            binding.constraintLayout1.setOnClickListener(clicklistener1)
+                        }
+                        1 -> {
+                            binding.title2.text = jsonObject.getJSONArray("results").getJSONObject(i).getString("mark_list")
+                            binding.title2.setOnClickListener(clicklistener1)
+                            binding.goalButton2.setOnClickListener(clicklistener1)
+                            binding.constraintLayout2.setOnClickListener(clicklistener1)
+                        }
+                    }
+                }
+            } catch (e: UnknownServiceException) {
+                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                println(e.message)
+                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        skillThread.start()
+        skillThread.join()
+
         // 툴바
         val toolbar: Toolbar = binding.toolbar
         toolbar.setNavigationIcon(R.drawable.icon_left_resize) // 뒤로가기 아이콘 생성
         toolbar.setNavigationOnClickListener{ // 뒤로가기 아이콘 클릭 리스너
             (activity as MainActivity).clickchangeFragment(1) // 뒤로 이동하는 함수
-        }
-
-        
-        // 일단 그냥 해둔거고 api로 바꿔야함
-        // 클릭 시 유튜브로 연결
-        val clicklistener1 = View.OnClickListener { p0 ->
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com"))
-            startActivity(intent)
         }
 
         // 클릭 시 완료로 변경
@@ -60,16 +105,9 @@ class MainDetailStudyFragment : Fragment() {
                 }
             }
         }
-        binding.title1.setOnClickListener(clicklistener1)
-        binding.goalButton1.setOnClickListener(clicklistener1)
-        binding.constraintLayout1.setOnClickListener(clicklistener1)
-        binding.completeButton1.setOnClickListener(clicklistener2)
 
-        binding.title2.setOnClickListener(clicklistener1)
-        binding.goalButton2.setOnClickListener(clicklistener1)
-        binding.constraintLayout2.setOnClickListener(clicklistener1)
+        binding.completeButton1.setOnClickListener(clicklistener2)
         binding.completeButton2.setOnClickListener(clicklistener2)
-        //----------------------------------------------------------------------
 
         return binding.root
     }
