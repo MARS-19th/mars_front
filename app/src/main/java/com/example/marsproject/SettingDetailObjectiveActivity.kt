@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import com.example.marsproject.databinding.ActivitySettingDetailObjectiveBinding
 import org.json.JSONObject
-import java.io.FileNotFoundException
 import java.net.UnknownServiceException
 
 class SettingDetailObjectiveActivity : AppCompatActivity() {
@@ -86,148 +85,74 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
                 } else {
                     // api를 통해서 db에 저장
                     Thread {
-                        // 유저 정보 저장
                         try {
-                            val outputjson = JSONObject() //json 생성
-                            outputjson.put("user_name", name) // 닉네임
-                            outputjson.put("user_id", email) // 아이디
-                            outputjson.put("choice_mark", objective) // 목표
-                            outputjson.put("profile_local", "null") // 프로필 사진
+                            // 유저 정보 json 생성
+                            val userjson = JSONObject()
+                            userjson.put("user_name", name) // 닉네임
+                            userjson.put("user_id", email) // 아이디
+                            userjson.put("choice_mark", objective) // 목표
+                            userjson.put("profile_local", JSONObject.NULL) // 프로필 사진
 
-                            val jsonObject =
-                                Request().reqpost("http://dmumars.kro.kr/api/setuser", outputjson)
-                            // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+                            val jsonUser =
+                                Request().reqpost("http://dmumars.kro.kr/api/setuser", userjson)
 
-                            // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                        } catch (e: UnknownServiceException) {
-                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                            // 재화 json 생성
+                            val moneyjson = JSONObject()
+                            moneyjson.put("user_name", name) // 닉네임
+                            moneyjson.put("value", 0) // 재화
 
-                            println(e.message)
-                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
+                            val jsonMoney =
+                                Request().reqpost("http://dmumars.kro.kr/api/setmoney", moneyjson)
 
-                        // 유저 재화 저장
-                        try {
-                            val outputjson = JSONObject() //json 생성
-                            outputjson.put("user_name", name) // 닉네임
-                            outputjson.put("value", 0) // 재화
+                            // 목숨 json 생성
+                            val lifejson = JSONObject()
+                            lifejson.put("user_name", name) // 닉네임
+                            lifejson.put("value", 3) // 목숨
 
-                            val jsonObject =
-                                Request().reqpost("http://dmumars.kro.kr/api/setmoney", outputjson)
-                            // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+                            val jsonLife =
+                                Request().reqpost("http://dmumars.kro.kr/api/setlife", lifejson)
 
-                            // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                        } catch (e: UnknownServiceException) {
-                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                            // 레벨 json 생성
+                            val leveljson = JSONObject()
+                            leveljson.put("user_name", name) // 닉네임
+                            leveljson.put("value", 1) // 레벨
 
-                            println(e.message)
-                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
+                            val jsonLevel =
+                                Request().reqpost("http://dmumars.kro.kr/api/setlevel", leveljson)
 
-                        // 유저 목숨 저장
-                        try {
-                            val outputjson = JSONObject() //json 생성
-                            outputjson.put("user_name", name) // 닉네임
-                            outputjson.put("value", 3) // 목숨
+                            // 칭호 json 생성
+                            val titlejson = JSONObject()
+                            titlejson.put("user_name", name) // 닉네임
+                            titlejson.put("value", "새싹") // 칭호
 
-                            val jsonObject =
-                                Request().reqpost("http://dmumars.kro.kr/api/setlife", outputjson)
-                            // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+                            val jsonTitle =
+                                Request().reqpost("http://dmumars.kro.kr/api/setusertitle", titlejson)
 
-                            // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                        } catch (e: UnknownServiceException) {
-                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                            // 아바타 json 생성
+                            val avatarjson = JSONObject()
+                            avatarjson.put("user_name", name) // 닉네임
+                            avatarjson.put("look", face) // 표정
+                            avatarjson.put("color", appearance) // 색상
 
-                            println(e.message)
-                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
+                            val jsonAvatar =
+                                Request().reqpost("http://dmumars.kro.kr/api/setuseravatar", avatarjson)
 
-                        // 유저 레벨 저장
-                        try {
-                            val outputjson = JSONObject() //json 생성
-                            outputjson.put("user_name", name) // 닉네임
-                            outputjson.put("value", 1) // 레벨
+                            // 프로필 json 생성
+                            val profilejson = JSONObject()
 
-                            val jsonObject =
-                                Request().reqpost("http://dmumars.kro.kr/api/setlevel", outputjson)
-                            // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
-
-                            // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                        } catch (e: UnknownServiceException) {
-                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
-
-                            println(e.message)
-                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-
-                        // 유저 칭호 저장
-                        try {
-                            val outputjson = JSONObject() //json 생성
-                            outputjson.put("user_name", name) // 닉네임
-                            outputjson.put("value", "새싹") // 칭호
-
-                            val jsonObject =
-                                Request().reqpost("http://dmumars.kro.kr/api/setusertitle", outputjson)
-                            // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
-
-                            // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                        } catch (e: UnknownServiceException) {
-                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
-
-                            println(e.message)
-                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-
-                        // 유저 아바타 저장
-                        try {
-                            val outputjson = JSONObject() //json 생성
-                            outputjson.put("user_name", name) // 닉네임
-                            outputjson.put("look", face) // 표정
-                            outputjson.put("color", appearance) // 색상
-
-                            val jsonObject =
-                                Request().reqpost("http://dmumars.kro.kr/api/setuseravatar", outputjson)
-                            // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
-
-                            // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                        } catch (e: UnknownServiceException) {
-                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
-
-                            println(e.message)
-                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-
-                        // 유저 프로필 사진 저장
-                        try {
-                            val outputjson = JSONObject()
-                            outputjson.put("user_name", name)
-                            outputjson.put("file", profile)
-
-                            Request().fileupload("http://korseok.kro.kr/api/uploadprofile", outputjson)
-                            // 사실상 응답 데이터가 {results: true} 밖에 없서서 데이터를 따로 저장하진 않음
-                        } catch (e: UnknownServiceException) {
-                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
-                            val messge = e.message // 해당 주소에서 발생가능한 애러 메세지 (api 사용법 참고)
-                            if (messge == "less_data") {
-                                println("파일 업로드 중에 오류 발생")
+                            profilejson.put("user_name", name)
+                            if(profile == "null") {
+                                profilejson.put("file", JSONObject.NULL)
+                            } else {
+                                profilejson.put("file", profile)
                             }
 
-                            println(messge)
-                        } catch (e: FileNotFoundException) {
-                            //선택한 파일이 없어진 경우
-                            println("파일없음")
+                            Request().fileupload("http://korseok.kro.kr/api/uploadprofile", profilejson)
+                        } catch (e: UnknownServiceException) {
+                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+
+                            println(e.message)
+                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
