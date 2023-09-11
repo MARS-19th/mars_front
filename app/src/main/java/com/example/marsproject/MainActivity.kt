@@ -1,8 +1,10 @@
 package com.example.marsproject
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
@@ -13,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import com.example.marsproject.databinding.ActivityMainBinding
+import com.kakao.sdk.common.util.Utility
 import org.json.JSONObject
 import java.net.UnknownServiceException
 
@@ -28,6 +31,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //kakaohashkey 불러오기
+        var keyHash = Utility.getKeyHash(this)
+        Log.i(ContentValues.TAG, "keyhash : $keyHash")
 
         // 로그인 정보 불러오기
         val pref = getSharedPreferences("userLogin", 0)
