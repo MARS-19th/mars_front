@@ -131,6 +131,7 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
                             // 아바타 json 생성
                             val avatarjson = JSONObject()
                             avatarjson.put("user_name", name) // 닉네임
+                            avatarjson.put("type", animal) // 아바타 타입(cat, monkey)
                             avatarjson.put("look", face) // 표정
                             avatarjson.put("color", appearance) // 색상
 
