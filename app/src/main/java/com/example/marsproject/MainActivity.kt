@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import com.example.marsproject.databinding.ActivityMainBinding
 import com.kakao.sdk.common.util.Utility
+import com.kakao.sdk.user.Constants
+import com.kakao.sdk.user.UserApiClient
 import org.json.JSONObject
 import java.net.UnknownServiceException
 
@@ -41,36 +43,9 @@ class MainActivity : AppCompatActivity() {
         val savedID = pref.getString("id", "").toString()
         val savedPW = pref.getString("pw", "").toString()
 
-        val LoginThread = Thread {
+        val CheckThread = Thread {
             if (savedID == "" && savedPW == "") {
-                // 회원가입
-                // 추후에 회원가입 페이지에 사용
-                try {
-                    val outputjson = JSONObject() //json 생성
-                    outputjson.put("id", "test@naver.com") // 아이디
-                    outputjson.put("passwd", "qwer1234") // 비밀번호
-
-                    val jsonObject =
-                        Request().reqpost("http://dmumars.kro.kr/api/setperson", outputjson)
-                    // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
-
-                    // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                } catch (e: UnknownServiceException) {
-                    // API 사용법에 나와있는 모든 오류응답은 여기서 처리
-
-                    if (e.message == "ER_DUP_ENTRY") { /* 중복오류 발생 예외처리구문 */
-                    }
-                    println(e.message)
-                    // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-
-                // 로그인 정보 저장
-                // 추후에 로그인 페이지에 사용
-                saveLogin("test@naver.com", "qwer1234")
-
-                // 추후에 로그인 페이지로 이동 추가
+                // 로그인 페이지로 가도록
                 login = "login"
             } else {
                 try {
@@ -87,6 +62,7 @@ class MainActivity : AppCompatActivity() {
                     // API 사용법에 나와있는 모든 오류응답은 여기서 처리
 
                     if (e.message == "is_new") {
+                        // 설정 페이지로 가도록
                         login = "is_new"
                     }
                     println(e.message)
@@ -96,11 +72,61 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        LoginThread.start()
-        LoginThread.join()
+        CheckThread.start()
+        CheckThread.join()
 
         if (login == "login") {
-            Toast.makeText(applicationContext, "회원가입과 로그인 완료\n종료 후 재실행", Toast.LENGTH_SHORT).show()
+            val contract = ActivityResultContracts.StartActivityForResult()
+            val callback = object : ActivityResultCallback<ActivityResult> {
+                override fun onActivityResult(result: ActivityResult?) {
+                    if (result?.resultCode == RESULT_OK) { // 로그인을 완료 했을 때
+                        val LoginThread = Thread {
+                            var id = ""
+                            var pw = "qwer1234"
+                            UserApiClient.instance.me { user, error ->
+                                if (error != null) {
+                                    Log.e(Constants.TAG, "사용자 정보 요청 실패 $error")
+                                } else if (user != null) {
+                                    Log.d(Constants.TAG, "사용자 정보 요청 성공 : $user")
+                                    id = user.kakaoAccount?.email.toString()
+                                }
+                            }
+                            // 회원가입 & 로그인
+                            try {
+                                val outputjson = JSONObject() //json 생성
+                                outputjson.put("id", id) // 아이디
+                                outputjson.put("passwd", pw) // 비밀번호
+
+                                val jsonObject =
+                                    Request().reqpost("http://dmumars.kro.kr/api/setperson", outputjson)
+                                // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+
+                                // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+                            } catch (e: UnknownServiceException) {
+                                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+
+                                if (e.message == "ER_DUP_ENTRY") { /* 중복오류 발생 예외처리구문 */
+                                }
+                                println(e.message)
+                                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+
+                            // 로그인 정보 저장
+                            // 추후에 로그인 페이지에 사용
+                            saveLogin(id, pw)
+                        }
+                        LoginThread.start()
+                        LoginThread.join()
+                        changeFragment(MainHomeFragment())
+                    }
+                }
+            }
+            launcher = registerForActivityResult(contract, callback)
+            // 로그인 액티비티 시작
+            val intentL = Intent(this, LoginActivity::class.java)
+            launcher?.launch(intentL)
         }
         if (login == "is_new") {
             val contract = ActivityResultContracts.StartActivityForResult()
