@@ -1,11 +1,9 @@
 package com.example.marsproject
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -15,9 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import com.example.marsproject.databinding.ActivityMainBinding
-import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.Constants
-import com.kakao.sdk.user.UserApiClient
 import org.json.JSONObject
 import java.net.UnknownServiceException
 
@@ -34,11 +30,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         // 로그인 정보 불러오기
         val pref = getSharedPreferences("userLogin", 0)
         val savedID = pref.getString("id", "").toString()
         val savedPW = pref.getString("pw", "").toString()
+
+        Log.d(Constants.TAG, "로그인 아이디 : $savedID")
 
         val CheckThread = Thread {
             if (savedID == "" && savedPW == "") {
@@ -71,23 +68,18 @@ class MainActivity : AppCompatActivity() {
         }
         CheckThread.start()
         CheckThread.join()
+        Log.d(Constants.TAG, "로그인 변수 : $login")
 
         if (login == "login") {
             val contract = ActivityResultContracts.StartActivityForResult()
             val callback = object : ActivityResultCallback<ActivityResult> {
                 override fun onActivityResult(result: ActivityResult?) {
                     if (result?.resultCode == RESULT_OK) { // 로그인을 완료 했을 때
+                        var id = ""
+                        var pw = "qwer1234"
+                        id = result.data?.getStringExtra("id") ?: ""
+                        Log.d(Constants.TAG, "사용자 이메일 : $id")
                         val LoginThread = Thread {
-                            var id = ""
-                            var pw = "qwer1234"
-                            UserApiClient.instance.me { user, error ->
-                                if (error != null) {
-                                    Log.e(Constants.TAG, "사용자 정보 요청 실패 $error")
-                                } else if (user != null) {
-                                    Log.d(Constants.TAG, "사용자 정보 요청 성공 : $user")
-                                    id = user.id.toString()
-                                }
-                            }
                             // 회원가입 & 로그인
                             try {
                                 val outputjson = JSONObject() //json 생성
@@ -116,7 +108,11 @@ class MainActivity : AppCompatActivity() {
                         }
                         LoginThread.start()
                         LoginThread.join()
-                        changeFragment(MainHomeFragment())
+                        finish() //인텐트 종료
+                        overridePendingTransition(0, 0) //인텐트 효과 없애기
+                        val intent = intent //인텐트
+                        startActivity(intent) //액티비티 열기
+                        overridePendingTransition(0, 0) //인텐트 효과 없애기
                     }
                 }
             }
