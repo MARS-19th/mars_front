@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
                             )
                             // 완료 결과 보내기
                             val intentM = Intent()
-                            intentM.putExtra("id", user.kakaoAccount?.email)
+                            intentM.putExtra("id", user.id.toString())
                             setResult(RESULT_OK, intentM)
                             finish()
                         }
@@ -98,7 +98,7 @@ class LoginActivity : AppCompatActivity() {
                                 )
                                 // 완료 결과 보내기
                                 val intentM = Intent()
-                                intentM.putExtra("id", user.kakaoAccount?.email)
+                                intentM.putExtra("id", user.id.toString())
                                 setResult(RESULT_OK, intentM)
                                 finish()
                             }
@@ -113,4 +113,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onBackPressed() {}
 }

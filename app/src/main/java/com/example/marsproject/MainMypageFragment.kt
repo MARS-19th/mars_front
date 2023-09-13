@@ -15,6 +15,12 @@ class MainMypageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMainMypageBinding.inflate(inflater)
+
+        binding.logout.setOnClickListener{
+            (activity as MainActivity).clearLogin()
+            (activity as MainActivity).clickchangeFragment(3)
+        }
+
         return binding.root
     }
 }

@@ -6,10 +6,11 @@
     tools:context=".MainMypageFragment">
 
     <TextView
+        android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="마이"
+        android:text="로그아웃"
         android:textColor="@android:color/black"
         android:textSize="50sp"/>
 </LinearLayout>

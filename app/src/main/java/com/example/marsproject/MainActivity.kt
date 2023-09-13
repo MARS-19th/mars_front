@@ -1,6 +1,7 @@
 package com.example.marsproject
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -230,6 +231,13 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null)
                     .commit()
             }
+            3 -> { // 로그아웃 사용
+                finish() //인텐트 종료
+                overridePendingTransition(0, 0) //인텐트 효과 없애기
+                val intent = intent //인텐트
+                startActivity(intent) //액티비티 열기
+                overridePendingTransition(0, 0) //인텐트 효과 없애기
+            }
         }
     }
 
@@ -240,6 +248,14 @@ class MainActivity : AppCompatActivity() {
         edit.putString("id", loginID) // 값 넣기
         edit.putString("pw", loginPW) // 값 넣기
         edit.apply() // 적용하기
+    }
+
+    // 로그인 정보를 삭제하는 함수
+    fun clearLogin() {
+        val pref = getSharedPreferences("userLogin", MODE_PRIVATE) //shared key 설정
+        val edit = pref.edit() // 수정모드
+        edit.clear() // 삭제하기
+        edit.commit() // 적용하기
     }
 
     // 닉네임 정보를 저장하는 함수
