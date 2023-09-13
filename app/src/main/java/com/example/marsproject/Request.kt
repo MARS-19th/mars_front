@@ -1,5 +1,6 @@
 package com.example.marsproject
 
+import com.kakao.sdk.user.UserApiClient
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -71,6 +72,7 @@ class Request {
             }
         }
     }
+
 
     //파일 업로드 메소드
     @Throws(IOException::class, FileNotFoundException::class, JSONException::class)

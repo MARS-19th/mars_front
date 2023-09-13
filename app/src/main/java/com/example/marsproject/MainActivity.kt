@@ -34,9 +34,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //kakaohashkey 불러오기
-        var keyHash = Utility.getKeyHash(this)
-        Log.i(ContentValues.TAG, "keyhash : $keyHash")
 
         // 로그인 정보 불러오기
         val pref = getSharedPreferences("userLogin", 0)
@@ -88,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                                     Log.e(Constants.TAG, "사용자 정보 요청 실패 $error")
                                 } else if (user != null) {
                                     Log.d(Constants.TAG, "사용자 정보 요청 성공 : $user")
-                                    id = user.kakaoAccount?.email.toString()
+                                    id = user.id.toString()
                                 }
                             }
                             // 회원가입 & 로그인
