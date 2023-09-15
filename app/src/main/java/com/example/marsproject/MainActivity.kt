@@ -109,6 +109,34 @@ class MainActivity : AppCompatActivity() {
                         }
                         LoginThread.start()
                         LoginThread.join()
+                        val NameThread = Thread {
+                            try {
+                                // 로그인 정보 불러오기
+                                val pref = getSharedPreferences("userLogin", 0)
+                                val savedID = pref.getString("id", "").toString()
+                                val savedPW = pref.getString("pw", "").toString()
+
+                                val outputjson = JSONObject() //json 생성
+                                outputjson.put("id", savedID) // 아이디
+                                outputjson.put("passwd", savedPW) // 비밀번호
+
+                                val jsonObject =
+                                    Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
+                                // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+
+                                saveName(jsonObject.getString("user_name"))
+                                // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+                            } catch (e: UnknownServiceException) {
+                                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+
+                                println(e.message)
+                                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+                        NameThread.start()
+                        NameThread.join()
                         finish() //인텐트 종료
                         overridePendingTransition(0, 0) //인텐트 효과 없애기
                         val intent = intent //인텐트
@@ -256,6 +284,7 @@ class MainActivity : AppCompatActivity() {
         val edit = pref.edit() // 수정모드
         edit.clear() // 삭제하기
         edit.commit() // 적용하기
+
     }
 
     // 닉네임 정보를 저장하는 함수
@@ -264,6 +293,14 @@ class MainActivity : AppCompatActivity() {
         val edit = pref.edit() // 수정모드
         edit.putString("name", userName) // 값 넣기
         edit.apply() // 적용하기
+    }
+
+    fun clearName() {
+        val pref = getSharedPreferences("userName", MODE_PRIVATE) //shared key 설정
+        val edit = pref.edit() // 수정모드
+        edit.clear() // 삭제하기
+        edit.commit() // 적용하기
+
     }
 
     // 닉네임 정보를 가져오는 함수

@@ -18,6 +18,7 @@ class MainMypageFragment : Fragment() {
 
         binding.logout.setOnClickListener{
             (activity as MainActivity).clearLogin()
+            (activity as MainActivity).clearName()
             (activity as MainActivity).clickchangeFragment(3)
         }
 
