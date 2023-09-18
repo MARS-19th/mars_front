@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
                 uuid = ParcelUuid.fromString(UUID.randomUUID().toString())
                 Log.e("블루투스", "발급된 uuid: $uuid")
                 // 최초로그인 시 블루투스를 식별하는 값 발급
-                // TODO: 해당 uuid를 api 에 /setbtmac 넘기는 작업 필요
+                // TODO: 해당 uuid를 api 에 /setuserbtuuid 넘기는 작업 필요
 
                 // 로컬에 uuid 저장
                 val save = getSharedPreferences("bt_uuid", MODE_PRIVATE).edit()
@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity() {
                 login = "login"
             } else {
                 try {
+                    // 로컬에서 저장한 uuid 갔고오기
                     val getuuid = getSharedPreferences("bt_uuid", 0)
                     uuid =  ParcelUuid.fromString(getuuid.getString("uuid", "").toString())
                     Log.e("블루투스", "가져온 UUID: $uuid")

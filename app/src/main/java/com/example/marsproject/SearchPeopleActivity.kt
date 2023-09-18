@@ -76,7 +76,7 @@ class SearchPeopleActivity : AppCompatActivity() {
             if (!isdup.contains(mac.toString())) {
                 isdup.add(mac.toString())
 
-                // TODO: 이제 여기다 블루투스 장치를 찾을때 마다 api 에 uuid 보내서 유저 정보 얻는거 만들면 됨
+                // TODO: 이제 여기다 블루투스 장치를 찾을때 마다 api /getbtuserdata/[uuid] 에서 uuid 보내서 유저 정보 얻는거 만들면 됨
                 // mac 주소를 보내고 싶으나 안드로이드 보안 정책상 자기 블루트스 mac 주소를 얻을 수 없음
                 // 그래서 로그인 할 때 랜덤 UUID 를 발급하여 그걸로 장치를 식별 하기로 함
 
