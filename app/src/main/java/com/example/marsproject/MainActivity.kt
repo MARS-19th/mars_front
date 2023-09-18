@@ -1,15 +1,22 @@
 package com.example.marsproject
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.os.ParcelUuid
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
@@ -17,19 +24,46 @@ import com.example.marsproject.databinding.ActivityMainBinding
 import com.kakao.sdk.user.Constants
 import org.json.JSONObject
 import java.net.UnknownServiceException
+import java.util.UUID
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var uuid: ParcelUuid   //블루투스 장치 식별용 랜덤 값
     var launcher: ActivityResultLauncher<Intent>? = null
     private var skill: String = ""
     private var login: String = "ok"
+    private val PERMISSIONS_REQUEST = 1 // 권한 요청 레벨
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 블루투스 사용시 위치 및 블루투스 권한허용을 해야함
+        val permissionlist: Array<String>
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            // 안드로이드 12 이후 권한
+            permissionlist = arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.BLUETOOTH_SCAN,
+                Manifest.permission.BLUETOOTH_ADVERTISE
+            )
+        } else {
+            // 안드로이드 12 이전 권한
+            permissionlist = arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        }
+        if (!checkpermission(this, permissionlist)) {
+            requestPermissions(permissionlist, PERMISSIONS_REQUEST)
+            // 권한 체크 하고 사용자로 부터 권한 받아오기
+        }
+        /* 권한 확인 끝 */
 
         // 로그인 정보 불러오기
         val pref = getSharedPreferences("userLogin", 0)
@@ -40,10 +74,24 @@ class MainActivity : AppCompatActivity() {
 
         val CheckThread = Thread {
             if (savedID == "" && savedPW == "") {
+                uuid = ParcelUuid.fromString(UUID.randomUUID().toString())
+                Log.e("블루투스", "발급된 uuid: $uuid")
+                // 최초로그인 시 블루투스를 식별하는 값 발급
+                // TODO: 해당 uuid를 api 에 /setbtmac 넘기는 작업 필요
+
+                // 로컬에 uuid 저장
+                val save = getSharedPreferences("bt_uuid", MODE_PRIVATE).edit()
+                save.putString("uuid", uuid.toString()) // 값 넣기
+                save.apply() // 적용하기
+
                 // 로그인 페이지로 가도록
                 login = "login"
             } else {
                 try {
+                    val getuuid = getSharedPreferences("bt_uuid", 0)
+                    uuid =  ParcelUuid.fromString(getuuid.getString("uuid", "").toString())
+                    Log.e("블루투스", "가져온 UUID: $uuid")
+
                     val outputjson = JSONObject() //json 생성
                     outputjson.put("id", savedID) // 아이디
                     outputjson.put("passwd", savedPW) // 비밀번호
@@ -224,6 +272,11 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        // 검색 가능 모드 활성화 (이제 다른 사용자가 해당 사용자 식별 가능)
+        // 성공하면 로그에 성공적으로 광고 뜸
+        val bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
+        BluetoothSearch(bluetoothManager).BluetoothDiscoverable(uuid)
+
         // 초기 화면 홈으로 설정
         menuBottomNavigation.selectedItemId = R.id.menu_home
     }
@@ -317,5 +370,33 @@ class MainActivity : AppCompatActivity() {
     // 상세 목표에서 선택한 이름을 가져오는 함수
     fun getSkill(): String {
         return skill
+    }
+
+    // 사용자가 권한을 취소하거나 수락할때 발생하는 이벤트
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (!grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            // 하나라도 수락안하면 다시 할수 있게
+            requestPermissions(permissions, PERMISSIONS_REQUEST)
+            Toast.makeText(this, "권한을 수락해야 합니다!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // 권한 확인 하는 함수
+    fun checkpermission(context: Context, list: Array<String>): Boolean {
+        for (permission in list) {
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return false
+            }
+        }
+        return true
     }
 }
