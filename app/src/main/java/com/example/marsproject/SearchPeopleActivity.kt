@@ -69,7 +69,7 @@ class SearchPeopleActivity : AppCompatActivity() {
             super.onScanResult(callbackType, result)
 
             val name = result?.device?.name
-            val uuid = result?.scanRecord?.serviceUuids?.get(0)
+            val uuid = result?.scanRecord?.serviceUuids?.get(0).toString() // 이 uuid를 db에서 스켄 해야함
             val mac = result?.device?.address
 
             // 장치 검색 결과 중복 제거
@@ -84,6 +84,8 @@ class SearchPeopleActivity : AppCompatActivity() {
                 // Advertiser의 31 바이트 제한으로 장치이름은 보내지 않음 즉 null로 표시
                 Log.d("로그", "mac 주소 : $mac")
                 Log.d("로그", "UUID : $uuid")
+                // 일반적인 블루투스장치의 경우 uuid는 null로 뜰꺼임
+                // 앱을 킨 사람은 ble로 uuid를 넣어서 계속 해서 신호를 보니기 때문에 정상적으로 출력 될꺼임
             }
         }
     }
