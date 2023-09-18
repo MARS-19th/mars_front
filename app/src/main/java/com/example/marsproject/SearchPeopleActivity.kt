@@ -1,16 +1,21 @@
 package com.example.marsproject
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.HandlerCompat
 import com.example.marsproject.databinding.ActivitySearchPeopleBinding
 
@@ -18,6 +23,8 @@ import com.example.marsproject.databinding.ActivitySearchPeopleBinding
 class SearchPeopleActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchPeopleBinding
     private val isdup = ArrayList<String>() // 장치 중복 제거용 ArrayList
+    private lateinit var bluetoothManager: BluetoothManager
+    private lateinit var bluetoothsearch: BluetoothSearch
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchPeopleBinding.inflate(layoutInflater)
@@ -29,9 +36,27 @@ class SearchPeopleActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // 사용자 찾기 버튼 클릭 리스너
-        binding.searchButton.setOnClickListener{
-            val bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
-            BluetoothSearch(bluetoothManager).startbluetoothSearch(2)
+        binding.searchButton.setOnClickListener {
+            bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
+            bluetoothsearch = BluetoothSearch(bluetoothManager)
+            if (!bluetoothsearch.bluetoothAdapter.isEnabled) {
+                // 블루투스 활성화 안될때 활성화 시키기
+                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                resultLaunch.launch(enableBtIntent) // 이 함수를 사용하면 resultLaunch 메소드가 실행됨
+            } else {
+                bluetoothsearch.startbluetoothSearch(2)
+                // 2분동안 다른 블루투스 장치를 찾음
+
+                Toast.makeText(applicationContext, "다른 플레이어를 찾는중....", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // 블루투스가 활성화 되어있지 않을때 사용자로 부터 요청을 받음
+    val resultLaunch = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        // 사용자가 블루투스 사용을 허용 했을때
+        if (result.resultCode == -1) {
+            bluetoothsearch.startbluetoothSearch(2)
             // 2분동안 다른 블루투스 장치를 찾음
 
             Toast.makeText(applicationContext, "다른 플레이어를 찾는중....", Toast.LENGTH_SHORT).show()
@@ -39,7 +64,7 @@ class SearchPeopleActivity : AppCompatActivity() {
     }
 
     // 블루투스가 장치를 찾을 때 마다 해당 함수를 실행함(비동기임)
-    val bluetoothSearch = object: ScanCallback() {
+    val bluetoothSearch = object : ScanCallback() {
         override fun onScanResult(callbackType: Int, result: ScanResult?) {
             super.onScanResult(callbackType, result)
 
@@ -64,7 +89,7 @@ class SearchPeopleActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item?.itemId){
+        when (item?.itemId) {
             android.R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
                 finish()
             }

@@ -1,3 +1,4 @@
+/*블루투스 사용을 위한 클래스*/
 package com.example.marsproject
 
 import android.annotation.SuppressLint
@@ -17,10 +18,10 @@ import androidx.core.os.HandlerCompat
 @SuppressLint("MissingPermission")
 class BluetoothSearch(bluetoothManager: BluetoothManager) {
     private val mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper())
-    private var bluetoothAdapter: BluetoothAdapter
     private val advertiser: BluetoothLeAdvertiser
     private val scanner: BluetoothLeScanner
     private var isDiscoverable = false
+    var bluetoothAdapter: BluetoothAdapter
 
     // 블루투스 초기화
     init {
