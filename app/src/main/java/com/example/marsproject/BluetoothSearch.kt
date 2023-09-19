@@ -20,7 +20,8 @@ class BluetoothSearch(bluetoothManager: BluetoothManager) {
     private val mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper())
     private val advertiser: BluetoothLeAdvertiser
     private val scanner: BluetoothLeScanner
-    private var isDiscoverable = false
+    private var isDiscoverable = false // 블루투스 검색 가능 모드 상태
+    private var isScan = false // 블루투스 스캔 모드 상태
     var bluetoothAdapter: BluetoothAdapter
 
     // 블루투스 초기화
@@ -64,10 +65,24 @@ class BluetoothSearch(bluetoothManager: BluetoothManager) {
     }
 
     // 블루투스로 유저 찾기 시작
-    fun startbluetoothSearch(minute: Int) {
-        scanner.startScan(SearchPeopleActivity().bluetoothSearch)
-        mainThreadHandler.postDelayed({
-            scanner.stopScan(SearchPeopleActivity().bluetoothSearch)
-        }, (minute * 60 * 1000).toLong())
+    fun startbluetoothSearch(minute: Int): Boolean {
+        if (!isScan) {
+            // 중복 스캔이 아닌경우
+            val scanval = SearchPeopleActivity().bluetoothSearchCallback
+            isScan = true
+            scanner.startScan(scanval)
+            Log.d("블루투스", "스캔이 시작됨")
+
+            mainThreadHandler.postDelayed({
+                scanner.stopScan(scanval)
+                isScan = false
+                Log.d("블루투스", "스캔이 종료됨")
+            }, (minute * 60 * 1000).toLong())
+
+            return true
+        } else {
+            // 중복 스캔일 경우
+            return false
+        }
     }
 }
