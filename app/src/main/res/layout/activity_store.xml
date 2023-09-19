@@ -21,13 +21,12 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_gravity="end"
-            android:layout_marginLeft="8dp"
-            android:paddingTop="2dp"
+            android:layout_marginLeft="6dp"
             android:textSize="16sp"
-            android:text="1004" />
+            android:text="1,004" />
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_gravity="end"
             android:src="@drawable/coin"/>
     </androidx.appcompat.widget.Toolbar>
