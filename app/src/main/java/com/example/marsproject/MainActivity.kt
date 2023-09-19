@@ -26,15 +26,19 @@ import com.kakao.sdk.user.Constants
 import org.json.JSONObject
 import java.net.UnknownServiceException
 import java.util.UUID
+import kotlin.math.log10
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var uuid: ParcelUuid   //블루투스 장치 식별용 랜덤 값
+    private lateinit var savedID: String // 저장된 아이디
+    private lateinit var savedPW: String // 저장된 비번
     var launcher: ActivityResultLauncher<Intent>? = null
     private var skill: String = ""
     private var login: String = "ok"
     private val PERMISSIONS_REQUEST = 1 // 권한 요청 레벨
+
 
     // 권한 체크가 비동기 이므로 onCreate 에서는 권한 체크만하고 onRequestPermissionsResult 콜백 함수에서 나머지 실행
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,20 +70,22 @@ class MainActivity : AppCompatActivity() {
         } else {
             // 처음 시작 할때는 onRequestPermissionsResult 에서 권한 확인 받고 findlogin 함수가 실행
             Thread {
+                Looper.prepare()
                 findlogin()
             }.start()
         }
-
         /* 권한 확인 끝 */
+
+        // ActivityCallback 등록
+        val contract = ActivityResultContracts.StartActivityForResult()
+        launcher = registerForActivityResult(contract, callback)
     }
 
     // 로그인 정보 불러오는 함수 (사실상 앱에 스타트)
     fun findlogin() {
-        Looper.prepare()
-
         val pref = getSharedPreferences("userLogin", 0)
-        val savedID = pref.getString("id", "").toString()
-        val savedPW = pref.getString("pw", "").toString()
+        savedID = pref.getString("id", "").toString()
+        savedPW = pref.getString("pw", "").toString()
 
         Log.d(Constants.TAG, "로그인 아이디 : $savedID")
 
@@ -107,8 +113,7 @@ class MainActivity : AppCompatActivity() {
                 outputjson.put("id", savedID) // 아이디
                 outputjson.put("passwd", savedPW) // 비밀번호
 
-                val jsonObject =
-                    Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
+                val jsonObject = Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
                 // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
 
                 // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
@@ -125,34 +130,33 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
-
         Log.d(Constants.TAG, "로그인 변수 : $login")
-        ListenerRegistration()
-        resultActivity(login, savedID, savedPW)
-    }
 
-    // intent callback 처리 (메인 코드에 함수화로 ActivityResultCallback을 함수 안에 두면 오류발생함)
-    val callback = object: ActivityResultCallback<ActivityResult> {
-        override fun onActivityResult(result: ActivityResult?) {
-            if (login == "login") {
-                if (result?.resultCode == RESULT_OK) {
-
-                }
-            } else if (login == "is_new") {
-                if (result?.resultCode == RESULT_OK) {
-
-                }
-            }
+        if (login == "login") {
+            // 로그인 액티비티 시작
+            val intentL = Intent(this, LoginActivity::class.java)
+            launcher?.launch(intentL)
+        } else if (login == "is_new") {
+            // 닉네임 설정 액티비티 시작
+            val intentN = Intent(this, SettingNameActivity::class.java)
+            intentN.putExtra("email", savedID)
+            launcher?.launch(intentN)
+        } else {
+            // 엑티비티 시작은 비동기 이므로 인텐트 callback 함수에서 ListenerRegistration 메소드 실행
+            ListenerRegistration()
         }
     }
 
-    // 로그인 결과에 따른 액티비티 이동과 유저 정보 불러오기
-    fun resultActivity(login: String, savedID: String, savedPW: String) {
-        if (login == "login") {
-            val contract = ActivityResultContracts.StartActivityForResult()
-            val callback = object : ActivityResultCallback<ActivityResult> {
-                override fun onActivityResult(result: ActivityResult?) {
-                    if (result?.resultCode == RESULT_OK) { // 로그인을 완료 했을 때
+    // 인텐트 callback 처리 (메인 코드에 함수화로 ActivityResultCallback을 함수 안에 선언 불가)
+    val callback = object : ActivityResultCallback<ActivityResult> {
+        override fun onActivityResult(result: ActivityResult?) {
+            // callback 함수는 메인쓰레드에서 실행함으로 새로운 쓰레드 생성
+            Thread {
+                Looper.prepare()
+
+                // LoginActivity 에서 넘어온 이후 작업
+                if (login == "login") {
+                    if (result?.resultCode == RESULT_OK) {
                         var id = ""
                         var pw = "qwer1234"
                         id = result.data?.getStringExtra("id") ?: ""
@@ -186,8 +190,8 @@ class MainActivity : AppCompatActivity() {
                         // 로그인 정보 불러오기
                         try {
                             val pref = getSharedPreferences("userLogin", 0)
-                            val savedID = pref.getString("id", "").toString()
-                            val savedPW = pref.getString("pw", "").toString()
+                            savedID = pref.getString("id", "").toString()
+                            savedPW = pref.getString("pw", "").toString()
 
                             val outputjson = JSONObject() //json 생성
                             outputjson.put("id", savedID) // 아이디
@@ -214,18 +218,10 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent) //액티비티 열기
                     overridePendingTransition(0, 0) //인텐트 효과 없애기
                 }
-            }
-            launcher = registerForActivityResult(contract, callback)
-            // 로그인 액티비티 시작
-            val intentL = Intent(this, LoginActivity::class.java)
-            launcher?.launch(intentL)
-        }
-        if (login == "is_new") {
-            val contract = ActivityResultContracts.StartActivityForResult()
-            val callback = object : ActivityResultCallback<ActivityResult> {
-                override fun onActivityResult(result: ActivityResult?) {
-                    if (result?.resultCode == RESULT_OK) { // 닉네임, 아바타, 목표 설정이 끝났을 때
 
+                // SettingNameActivity 에서 넘어온 이후 작업
+                else if (login == "is_new") {
+                    if (result?.resultCode == RESULT_OK) {  // 닉네임, 아바타, 목표 설정이 끝났을 때
                         // 닉네임 정보 저장하기
                         try {
                             val outputjson = JSONObject() //json 생성
@@ -249,12 +245,8 @@ class MainActivity : AppCompatActivity() {
                         changeFragment(MainHomeFragment())
                     }
                 }
-            }
-            launcher = registerForActivityResult(contract, callback)
-            // 닉네임 설정 액티비티 시작
-            val intentN = Intent(this, SettingNameActivity::class.java)
-            intentN.putExtra("email", savedID)
-            launcher?.launch(intentN)
+                ListenerRegistration()
+            }.start()
         }
     }
 
@@ -363,8 +355,7 @@ class MainActivity : AppCompatActivity() {
         val pref = getSharedPreferences("userLogin", MODE_PRIVATE) //shared key 설정
         val edit = pref.edit() // 수정모드
         edit.clear() // 삭제하기
-        edit.commit() // 적용하기
-
+        edit.apply() // 적용하기
     }
 
     // 닉네임 정보를 저장하는 함수
@@ -379,8 +370,7 @@ class MainActivity : AppCompatActivity() {
         val pref = getSharedPreferences("userName", MODE_PRIVATE) //shared key 설정
         val edit = pref.edit() // 수정모드
         edit.clear() // 삭제하기
-        edit.commit() // 적용하기
-
+        edit.apply() // 적용하기
     }
 
     // 닉네임 정보를 가져오는 함수
@@ -408,6 +398,7 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Thread {
+                Looper.prepare()
                 findlogin()
             }.start()
         } else {
