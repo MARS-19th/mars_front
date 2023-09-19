@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.marsproject.databinding.ActivitySearchPeopleBinding
 
+// 권한 오류 방지
 @SuppressLint("MissingPermission")
 class SearchPeopleActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchPeopleBinding

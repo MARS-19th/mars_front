@@ -26,7 +26,6 @@ import com.kakao.sdk.user.Constants
 import org.json.JSONObject
 import java.net.UnknownServiceException
 import java.util.UUID
-import kotlin.math.log10
 
 
 class MainActivity : AppCompatActivity() {
