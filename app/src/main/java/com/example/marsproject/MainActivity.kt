@@ -2,8 +2,8 @@ package com.example.marsproject
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothManager
 import android.content.Context
+import android.bluetooth.BluetoothManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import com.example.marsproject.databinding.ActivityMainBinding
+import com.kakao.sdk.user.Constants
 import org.json.JSONObject
 import java.net.UnknownServiceException
 import java.util.UUID
@@ -69,7 +70,9 @@ class MainActivity : AppCompatActivity() {
         val savedID = pref.getString("id", "").toString()
         val savedPW = pref.getString("pw", "").toString()
 
-        val LoginThread = Thread {
+        Log.d(Constants.TAG, "로그인 아이디 : $savedID")
+
+        val CheckThread = Thread {
             if (savedID == "" && savedPW == "") {
                 uuid = ParcelUuid.fromString(UUID.randomUUID().toString())
                 Log.e("블루투스", "발급된 uuid: $uuid")
@@ -81,34 +84,7 @@ class MainActivity : AppCompatActivity() {
                 save.putString("uuid", uuid.toString()) // 값 넣기
                 save.apply() // 적용하기
 
-                // 회원가입
-                // 추후에 회원가입 페이지에 사용
-                try {
-                    val outputjson = JSONObject() //json 생성
-                    outputjson.put("id", "test@naver.com") // 아이디
-                    outputjson.put("passwd", "qwer1234") // 비밀번호
-
-                    val jsonObject =
-                        Request().reqpost("http://dmumars.kro.kr/api/setperson", outputjson)
-                    // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
-
-                    // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                } catch (e: UnknownServiceException) {
-                    // API 사용법에 나와있는 모든 오류응답은 여기서 처리
-
-                    if (e.message == "ER_DUP_ENTRY") { /* 중복오류 발생 예외처리구문 */
-                    }
-                    println(e.message)
-                    // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-
-                // 로그인 정보 저장
-                // 추후에 로그인 페이지에 사용
-                saveLogin("test@naver.com", "qwer1234")
-
-                // 추후에 로그인 페이지로 이동 추가
+                // 로그인 페이지로 가도록
                 login = "login"
             } else {
                 try {
@@ -130,6 +106,7 @@ class MainActivity : AppCompatActivity() {
                     // API 사용법에 나와있는 모든 오류응답은 여기서 처리
 
                     if (e.message == "is_new") {
+                        // 설정 페이지로 가도록
                         login = "is_new"
                     }
                     println(e.message)
@@ -139,11 +116,88 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        LoginThread.start()
-        LoginThread.join()
+        CheckThread.start()
+        CheckThread.join()
+        Log.d(Constants.TAG, "로그인 변수 : $login")
 
         if (login == "login") {
-            Toast.makeText(applicationContext, "회원가입과 로그인 완료\n종료 후 재실행", Toast.LENGTH_SHORT).show()
+            val contract = ActivityResultContracts.StartActivityForResult()
+            val callback = object : ActivityResultCallback<ActivityResult> {
+                override fun onActivityResult(result: ActivityResult?) {
+                    if (result?.resultCode == RESULT_OK) { // 로그인을 완료 했을 때
+                        var id = ""
+                        var pw = "qwer1234"
+                        id = result.data?.getStringExtra("id") ?: ""
+                        Log.d(Constants.TAG, "사용자 이메일 : $id")
+                        val LoginThread = Thread {
+                            // 회원가입 & 로그인
+                            try {
+                                val outputjson = JSONObject() //json 생성
+                                outputjson.put("id", id) // 아이디
+                                outputjson.put("passwd", pw) // 비밀번호
+
+                                val jsonObject =
+                                    Request().reqpost("http://dmumars.kro.kr/api/setperson", outputjson)
+                                // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+
+                                // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+                            } catch (e: UnknownServiceException) {
+                                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+
+                                if (e.message == "ER_DUP_ENTRY") { /* 중복오류 발생 예외처리구문 */
+                                }
+                                println(e.message)
+                                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+
+                            // 로그인 정보 저장
+                            // 추후에 로그인 페이지에 사용
+                            saveLogin(id, pw)
+                        }
+                        LoginThread.start()
+                        LoginThread.join()
+                        val NameThread = Thread {
+                            try {
+                                // 로그인 정보 불러오기
+                                val pref = getSharedPreferences("userLogin", 0)
+                                val savedID = pref.getString("id", "").toString()
+                                val savedPW = pref.getString("pw", "").toString()
+
+                                val outputjson = JSONObject() //json 생성
+                                outputjson.put("id", savedID) // 아이디
+                                outputjson.put("passwd", savedPW) // 비밀번호
+
+                                val jsonObject =
+                                    Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
+                                // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+
+                                saveName(jsonObject.getString("user_name"))
+                                // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+                            } catch (e: UnknownServiceException) {
+                                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+
+                                println(e.message)
+                                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+                        NameThread.start()
+                        NameThread.join()
+                        finish() //인텐트 종료
+                        overridePendingTransition(0, 0) //인텐트 효과 없애기
+                        val intent = intent //인텐트
+                        startActivity(intent) //액티비티 열기
+                        overridePendingTransition(0, 0) //인텐트 효과 없애기
+                    }
+                }
+            }
+            launcher = registerForActivityResult(contract, callback)
+            // 로그인 액티비티 시작
+            val intentL = Intent(this, LoginActivity::class.java)
+            launcher?.launch(intentL)
         }
         if (login == "is_new") {
             val contract = ActivityResultContracts.StartActivityForResult()
@@ -259,6 +313,13 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null)
                     .commit()
             }
+            3 -> { // 로그아웃 사용
+                finish() //인텐트 종료
+                overridePendingTransition(0, 0) //인텐트 효과 없애기
+                val intent = intent //인텐트
+                startActivity(intent) //액티비티 열기
+                overridePendingTransition(0, 0) //인텐트 효과 없애기
+            }
         }
     }
 
@@ -271,12 +332,29 @@ class MainActivity : AppCompatActivity() {
         edit.apply() // 적용하기
     }
 
+    // 로그인 정보를 삭제하는 함수
+    fun clearLogin() {
+        val pref = getSharedPreferences("userLogin", MODE_PRIVATE) //shared key 설정
+        val edit = pref.edit() // 수정모드
+        edit.clear() // 삭제하기
+        edit.commit() // 적용하기
+
+    }
+
     // 닉네임 정보를 저장하는 함수
     fun saveName(userName: String) {
         val pref = getSharedPreferences("userName", MODE_PRIVATE) //shared key 설정
         val edit = pref.edit() // 수정모드
         edit.putString("name", userName) // 값 넣기
         edit.apply() // 적용하기
+    }
+
+    fun clearName() {
+        val pref = getSharedPreferences("userName", MODE_PRIVATE) //shared key 설정
+        val edit = pref.edit() // 수정모드
+        edit.clear() // 삭제하기
+        edit.commit() // 적용하기
+
     }
 
     // 닉네임 정보를 가져오는 함수

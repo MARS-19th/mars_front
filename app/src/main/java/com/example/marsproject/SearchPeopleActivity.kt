@@ -1,7 +1,6 @@
 package com.example.marsproject
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.bluetooth.le.ScanCallback
@@ -9,14 +8,10 @@ import android.bluetooth.le.ScanResult
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.os.HandlerCompat
 import com.example.marsproject.databinding.ActivitySearchPeopleBinding
 
 @SuppressLint("MissingPermission")

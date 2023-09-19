@@ -42,7 +42,7 @@ class MainDetailStudyFragment : Fragment() {
 
                     // 클릭 시 유튜브로 연결 리스너
                     var clicklistener1 = View.OnClickListener { p0 ->
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("${jsonObject2.getJSONArray("results").getString(0)}"))
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("${jsonObject2.getJSONArray("results").getJSONObject(0).getString("info_data")}"))
                         startActivity(intent)
                     }
 
