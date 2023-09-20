@@ -66,21 +66,20 @@ class SearchPeopleActivity : AppCompatActivity() {
             super.onScanResult(callbackType, result)
 
             val name = result?.device?.name
-            val uuid = result?.scanRecord?.serviceUuids?.get(0).toString() // 이 uuid를 db에서 스켄 해야함
             val mac = result?.device?.address
+            val uuid = result?.scanRecord?.serviceUuids?.get(0) // 이 uuid를 db에서 스켄 해야함
 
             // 장치 검색 결과 중복 제거 및 uuid null 로 나오는거 제거
-            if (!isdup.contains(mac.toString()) && uuid != "null") {
-                isdup.add(mac.toString())
+            if (!isdup.contains(uuid.toString()) && uuid != null) {
+                isdup.add(uuid.toString())
 
                 // TODO: 이제 여기다 블루투스 장치를 찾을때 마다 api /getbtuserdata/[uuid] 에서 uuid 보내서 유저 정보 얻는거 만들면 됨
                 // mac 주소를 보내고 싶으나 안드로이드 보안 정책상 자기 블루트스 mac 주소를 얻을 수 없음
                 // 그래서 로그인 할 때 랜덤 UUID 를 발급하여 그걸로 장치를 식별 하기로 함
 
-                Log.d("로그", "장치이름 : $name")
-                // Advertiser의 31 바이트 제한으로 장치이름은 보내지 않음 즉 null로 표시
-                Log.d("로그", "mac 주소 : $mac")
-                Log.d("로그", "UUID : $uuid")
+                Log.d("블루투스", "장치이름 : $name")
+                Log.d("블루투스", "mac 주소 : $mac")
+                Log.d("블루투스", "UUID : $uuid")
                 // 일반적인 블루투스장치의 경우 uuid는 null로 뜰꺼임
                 // 앱을 킨 사람은 ble로 uuid를 넣어서 계속 해서 신호를 보니기 때문에 정상적으로 출력 될꺼임
             }
