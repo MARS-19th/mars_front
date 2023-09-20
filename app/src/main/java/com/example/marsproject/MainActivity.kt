@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
     private var login: String = "ok"
     private val PERMISSIONS_REQUEST = 1 // 권한 요청 레벨
 
-
     // 권한 체크가 비동기 이므로 onCreate 에서는 권한 체크만하고 onRequestPermissionsResult 콜백 함수에서 나머지 실행
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,24 +128,29 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
-        Log.d(Constants.TAG, "로그인 변수 : $login")
 
-        if (login == "login") {
-            // 로그인 액티비티 시작
-            val intentL = Intent(this, LoginActivity::class.java)
-            launcher?.launch(intentL)
-        } else if (login == "is_new") {
-            // 닉네임 설정 액티비티 시작
-            val intentN = Intent(this, SettingNameActivity::class.java)
-            intentN.putExtra("email", savedID)
-            launcher?.launch(intentN)
-        } else {
-            // 엑티비티 시작은 비동기 이므로 인텐트 callback 함수에서 ListenerRegistration 메소드 실행
-            ListenerRegistration()
+        Log.d(Constants.TAG, "로그인 변수 : $login")
+        when (login) {
+            "login" -> {
+                // 사용자가 로그아웃 된 상태라면 [LoginActivity] 실행
+                val intentL = Intent(this, LoginActivity::class.java)
+                launcher?.launch(intentL)
+            }
+            "is_new" -> {
+                // 사용자가 로그인 되었지만 닉네임 정보를 입력하지 않으면 [SettingNameActivity] 실행
+                val intentN = Intent(this, SettingNameActivity::class.java)
+                intentN.putExtra("email", savedID)
+                launcher?.launch(intentN)
+            }
+            else -> {
+                // 제대로 로그인 된 상태면 [ListenerRegistration] 함수 실행
+                // 엑티비티 시작은 비동기 이므로 인텐트 callback 함수에서 ListenerRegistration 메소드 실행
+                ListenerRegistration()
+            }
         }
     }
 
-    // 인텐트 callback 처리 (메인 코드에 함수화로 ActivityResultCallback을 함수 안에 선언 불가)
+    // 엑티비티 callback 처리 (메인 코드에 함수화로 ActivityResultCallback을 함수 안에 선언 불가)
     val callback = object : ActivityResultCallback<ActivityResult> {
         override fun onActivityResult(result: ActivityResult?) {
             // callback 함수는 메인쓰레드에서 실행함으로 새로운 쓰레드 생성
@@ -244,12 +248,13 @@ class MainActivity : AppCompatActivity() {
                         changeFragment(MainHomeFragment())
                     }
                 }
+                // ListenerRegistration 실행
                 ListenerRegistration()
             }.start()
         }
     }
 
-    // 리스너 설정 및 기타
+    // 리스너 설정 및 메인 화면 구성
     @SuppressLint("ResourceType")
     fun ListenerRegistration() {
         val menuBottomNavigation = binding.menuBottomNavigation
