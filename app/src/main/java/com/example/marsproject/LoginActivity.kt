@@ -20,7 +20,6 @@ import com.kakao.sdk.user.UserApiClient
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -29,8 +28,6 @@ class LoginActivity : AppCompatActivity() {
         //kakaohashkey 불러오기
         var keyHash = Utility.getKeyHash(this)
         Log.i(ContentValues.TAG, "keyhash : $keyHash")
-
-
 
         binding.kakaoLoginBtn.setOnClickListener {
 

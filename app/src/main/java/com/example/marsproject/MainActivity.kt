@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.os.ParcelUuid
 import android.util.Log
 import android.widget.Toast
@@ -30,12 +31,14 @@ import java.util.UUID
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var uuid: ParcelUuid   //블루투스 장치 식별용 랜덤 값
+    private lateinit var savedID: String // 저장된 아이디
+    private lateinit var savedPW: String // 저장된 비번
     var launcher: ActivityResultLauncher<Intent>? = null
     private var skill: String = ""
     private var login: String = "ok"
     private val PERMISSIONS_REQUEST = 1 // 권한 요청 레벨
 
-    @SuppressLint("ResourceType")
+    // 권한 체크가 비동기 이므로 onCreate 에서는 권한 체크만하고 onRequestPermissionsResult 콜백 함수에서 나머지 실행
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -62,183 +65,198 @@ class MainActivity : AppCompatActivity() {
         if (!checkpermission(this, permissionlist)) {
             requestPermissions(permissionlist, PERMISSIONS_REQUEST)
             // 권한 체크 하고 사용자로 부터 권한 받아오기
+        } else {
+            // 처음 시작 할때는 onRequestPermissionsResult 에서 권한 확인 받고 findlogin 함수가 실행
+            Thread {
+                Looper.prepare()
+                findlogin()
+            }.start()
         }
         /* 권한 확인 끝 */
 
-        // 로그인 정보 불러오기
+        // ActivityCallback 등록
+        val contract = ActivityResultContracts.StartActivityForResult()
+        launcher = registerForActivityResult(contract, callback)
+    }
+
+    // 로그인 정보 불러오는 함수 (사실상 앱에 스타트)
+    fun findlogin() {
         val pref = getSharedPreferences("userLogin", 0)
-        val savedID = pref.getString("id", "").toString()
-        val savedPW = pref.getString("pw", "").toString()
+        savedID = pref.getString("id", "").toString()
+        savedPW = pref.getString("pw", "").toString()
 
         Log.d(Constants.TAG, "로그인 아이디 : $savedID")
 
-        val CheckThread = Thread {
-            if (savedID == "" && savedPW == "") {
-                uuid = ParcelUuid.fromString(UUID.randomUUID().toString())
-                Log.e("블루투스", "발급된 uuid: $uuid")
-                // 최초로그인 시 블루투스를 식별하는 값 발급
-                // TODO: 해당 uuid를 api 에 /setuserbtuuid 넘기는 작업 필요
+        if (savedID == "" && savedPW == "") {
+            uuid = ParcelUuid.fromString(UUID.randomUUID().toString())
+            Log.e("블루투스", "발급된 uuid: $uuid")
+            // 최초로그인 시 블루투스를 식별하는 값 발급
+            // TODO: 해당 uuid를 api 에 /setuserbtuuid 넘기는 작업 필요
 
-                // 로컬에 uuid 저장
-                val save = getSharedPreferences("bt_uuid", MODE_PRIVATE).edit()
-                save.putString("uuid", uuid.toString()) // 값 넣기
-                save.apply() // 적용하기
+            // 로컬에 uuid 저장
+            val save = getSharedPreferences("bt_uuid", MODE_PRIVATE).edit()
+            save.putString("uuid", uuid.toString()) // 값 넣기
+            save.apply() // 적용하기
 
-                // 로그인 페이지로 가도록
-                login = "login"
-            } else {
-                try {
-                    // 로컬에서 저장한 uuid 갔고오기
-                    val getuuid = getSharedPreferences("bt_uuid", 0)
-                    uuid =  ParcelUuid.fromString(getuuid.getString("uuid", "").toString())
-                    Log.e("블루투스", "가져온 UUID: $uuid")
+            // 로그인 페이지로 가도록
+            login = "login"
+        } else {
+            try {
+                // 로컬에서 저장한 uuid 갖고오기
+                val getuuid = getSharedPreferences("bt_uuid", 0)
+                uuid = ParcelUuid.fromString(getuuid.getString("uuid", "").toString())
+                Log.e("블루투스", "가져온 UUID: $uuid")
 
-                    val outputjson = JSONObject() //json 생성
-                    outputjson.put("id", savedID) // 아이디
-                    outputjson.put("passwd", savedPW) // 비밀번호
+                val outputjson = JSONObject() //json 생성
+                outputjson.put("id", savedID) // 아이디
+                outputjson.put("passwd", savedPW) // 비밀번호
 
-                    val jsonObject =
-                        Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
-                    // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+                val jsonObject = Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
+                // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
 
-                    // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                } catch (e: UnknownServiceException) {
-                    // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+            } catch (e: UnknownServiceException) {
+                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
 
-                    if (e.message == "is_new") {
-                        // 설정 페이지로 가도록
-                        login = "is_new"
-                    }
-                    println(e.message)
-                    // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                if (e.message == "is_new") {
+                    // 설정 페이지로 가도록
+                    login = "is_new"
                 }
+                println(e.message)
+                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
-        CheckThread.start()
-        CheckThread.join()
-        Log.d(Constants.TAG, "로그인 변수 : $login")
 
-        if (login == "login") {
-            val contract = ActivityResultContracts.StartActivityForResult()
-            val callback = object : ActivityResultCallback<ActivityResult> {
-                override fun onActivityResult(result: ActivityResult?) {
-                    if (result?.resultCode == RESULT_OK) { // 로그인을 완료 했을 때
+        Log.d(Constants.TAG, "로그인 변수 : $login")
+        when (login) {
+            "login" -> {
+                // 사용자가 로그아웃 된 상태라면 [LoginActivity] 실행
+                val intentL = Intent(this, LoginActivity::class.java)
+                launcher?.launch(intentL)
+            }
+            "is_new" -> {
+                // 사용자가 로그인 되었지만 닉네임 정보를 입력하지 않으면 [SettingNameActivity] 실행
+                val intentN = Intent(this, SettingNameActivity::class.java)
+                intentN.putExtra("email", savedID)
+                launcher?.launch(intentN)
+            }
+            else -> {
+                // 제대로 로그인 된 상태면 [ListenerRegistration] 함수 실행
+                // 엑티비티 시작은 비동기 이므로 인텐트 callback 함수에서 ListenerRegistration 메소드 실행
+                ListenerRegistration()
+            }
+        }
+    }
+
+    // 엑티비티 callback 처리 (메인 코드에 함수화로 ActivityResultCallback을 함수 안에 선언 불가)
+    val callback = object : ActivityResultCallback<ActivityResult> {
+        override fun onActivityResult(result: ActivityResult?) {
+            // callback 함수는 메인쓰레드에서 실행함으로 새로운 쓰레드 생성
+            Thread {
+                Looper.prepare()
+
+                // LoginActivity 에서 넘어온 이후 작업
+                if (login == "login") {
+                    if (result?.resultCode == RESULT_OK) {
                         var id = ""
                         var pw = "qwer1234"
                         id = result.data?.getStringExtra("id") ?: ""
                         Log.d(Constants.TAG, "사용자 이메일 : $id")
-                        val LoginThread = Thread {
-                            // 회원가입 & 로그인
-                            try {
-                                val outputjson = JSONObject() //json 생성
-                                outputjson.put("id", id) // 아이디
-                                outputjson.put("passwd", pw) // 비밀번호
 
-                                val jsonObject =
-                                    Request().reqpost("http://dmumars.kro.kr/api/setperson", outputjson)
-                                // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+                        // 회원가입 & 로그인
+                        try {
+                            val outputjson = JSONObject() //json 생성
+                            outputjson.put("id", id) // 아이디
+                            outputjson.put("passwd", pw) // 비밀번호
 
-                                // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                            } catch (e: UnknownServiceException) {
-                                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                            Request().reqpost("http://dmumars.kro.kr/api/setperson", outputjson)
+                            // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
 
-                                if (e.message == "ER_DUP_ENTRY") { /* 중복오류 발생 예외처리구문 */
-                                }
-                                println(e.message)
-                                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                            } catch (e: Exception) {
-                                e.printStackTrace()
+                            // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+                        } catch (e: UnknownServiceException) {
+                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+
+                            if (e.message == "ER_DUP_ENTRY") { /* 중복오류 발생 예외처리구문 */
                             }
-
-                            // 로그인 정보 저장
-                            // 추후에 로그인 페이지에 사용
-                            saveLogin(id, pw)
+                            println(e.message)
+                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
-                        LoginThread.start()
-                        LoginThread.join()
-                        val NameThread = Thread {
-                            try {
-                                // 로그인 정보 불러오기
-                                val pref = getSharedPreferences("userLogin", 0)
-                                val savedID = pref.getString("id", "").toString()
-                                val savedPW = pref.getString("pw", "").toString()
 
-                                val outputjson = JSONObject() //json 생성
-                                outputjson.put("id", savedID) // 아이디
-                                outputjson.put("passwd", savedPW) // 비밀번호
+                        // 로그인 정보 저장
+                        // 추후에 로그인 페이지에 사용
+                        saveLogin(id, pw)
 
-                                val jsonObject =
-                                    Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
-                                // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+                        // 로그인 정보 불러오기
+                        try {
+                            val pref = getSharedPreferences("userLogin", 0)
+                            savedID = pref.getString("id", "").toString()
+                            savedPW = pref.getString("pw", "").toString()
 
-                                saveName(jsonObject.getString("user_name"))
-                                // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                            } catch (e: UnknownServiceException) {
-                                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                            val outputjson = JSONObject() //json 생성
+                            outputjson.put("id", savedID) // 아이디
+                            outputjson.put("passwd", savedPW) // 비밀번호
 
-                                println(e.message)
-                                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
+                            val jsonObject =
+                                Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
+                            // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+
+                            saveName(jsonObject.getString("user_name"))
+                            // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+                        } catch (e: UnknownServiceException) {
+                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                            println(e.message)
+                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
-                        NameThread.start()
-                        NameThread.join()
-                        finish() //인텐트 종료
-                        overridePendingTransition(0, 0) //인텐트 효과 없애기
-                        val intent = intent //인텐트
-                        startActivity(intent) //액티비티 열기
-                        overridePendingTransition(0, 0) //인텐트 효과 없애기
                     }
+                    finish() //인텐트 종료
+
+                    overridePendingTransition(0, 0) //인텐트 효과 없애기
+                    val intent = intent //인텐트
+                    startActivity(intent) //액티비티 열기
+                    overridePendingTransition(0, 0) //인텐트 효과 없애기
                 }
-            }
-            launcher = registerForActivityResult(contract, callback)
-            // 로그인 액티비티 시작
-            val intentL = Intent(this, LoginActivity::class.java)
-            launcher?.launch(intentL)
-        }
-        if (login == "is_new") {
-            val contract = ActivityResultContracts.StartActivityForResult()
-            val callback = object : ActivityResultCallback<ActivityResult> {
-                override fun onActivityResult(result: ActivityResult?) {
-                    if (result?.resultCode == RESULT_OK) { // 닉네임, 아바타, 목표 설정이 끝났을 때
+
+                // SettingNameActivity 에서 넘어온 이후 작업
+                else if (login == "is_new") {
+                    if (result?.resultCode == RESULT_OK) {  // 닉네임, 아바타, 목표 설정이 끝났을 때
                         // 닉네임 정보 저장하기
-                        val NameThread = Thread {
-                            try {
-                                val outputjson = JSONObject() //json 생성
-                                outputjson.put("id", savedID) // 아이디
-                                outputjson.put("passwd", savedPW) // 비밀번호
+                        try {
+                            val outputjson = JSONObject() //json 생성
+                            outputjson.put("id", savedID) // 아이디
+                            outputjson.put("passwd", savedPW) // 비밀번호
 
-                                val jsonObject =
-                                    Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
-                                // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+                            val jsonObject =
+                                Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
+                            // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
 
-                                saveName(jsonObject.getString("user_name"))
-                                // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                            } catch (e: UnknownServiceException) {
-                                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                            saveName(jsonObject.getString("user_name"))
+                            // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+                        } catch (e: UnknownServiceException) {
+                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
 
-                                println(e.message)
-                                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
+                            println(e.message)
+                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
-                        NameThread.start()
-                        NameThread.join()
                         changeFragment(MainHomeFragment())
                     }
                 }
-            }
-            launcher = registerForActivityResult(contract, callback)
-            // 닉네임 설정 액티비티 시작
-            val intentN = Intent(this, SettingNameActivity::class.java)
-            intentN.putExtra("email", savedID)
-            launcher?.launch(intentN)
+                // ListenerRegistration 실행
+                ListenerRegistration()
+            }.start()
         }
+    }
 
+    // 리스너 설정 및 메인 화면 구성
+    @SuppressLint("ResourceType")
+    fun ListenerRegistration() {
         val menuBottomNavigation = binding.menuBottomNavigation
 
         // 하단 탭 클릭 리스너 설정
@@ -294,18 +312,21 @@ class MainActivity : AppCompatActivity() {
     // 클릭 시 프래그먼트 변경 함수
     @SuppressLint("ResourceType")
     fun clickchangeFragment(index: Int) {
-        when(index) {
+        when (index) {
             1 -> { // 홈 프래그먼트에서 사용
                 supportFragmentManager.popBackStack(null, POP_BACK_STACK_INCLUSIVE)
                 val menuBottomNavigation = binding.menuBottomNavigation
                 menuBottomNavigation.selectedItemId = R.id.menu_objective
-                menuBottomNavigation.itemIconTintList = ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
-                menuBottomNavigation.itemTextColor = ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
+                menuBottomNavigation.itemIconTintList =
+                    ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
+                menuBottomNavigation.itemTextColor =
+                    ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.menu_frame_layout, MainObjectiveFragment())
                     .commit()
             }
+
             2 -> { // 목표 프래그먼트에서 사용
                 supportFragmentManager
                     .beginTransaction()
@@ -313,6 +334,7 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null)
                     .commit()
             }
+
             3 -> { // 로그아웃 사용
                 finish() //인텐트 종료
                 overridePendingTransition(0, 0) //인텐트 효과 없애기
@@ -337,8 +359,7 @@ class MainActivity : AppCompatActivity() {
         val pref = getSharedPreferences("userLogin", MODE_PRIVATE) //shared key 설정
         val edit = pref.edit() // 수정모드
         edit.clear() // 삭제하기
-        edit.commit() // 적용하기
-
+        edit.apply() // 적용하기
     }
 
     // 닉네임 정보를 저장하는 함수
@@ -353,8 +374,7 @@ class MainActivity : AppCompatActivity() {
         val pref = getSharedPreferences("userName", MODE_PRIVATE) //shared key 설정
         val edit = pref.edit() // 수정모드
         edit.clear() // 삭제하기
-        edit.commit() // 적용하기
-
+        edit.apply() // 적용하기
     }
 
     // 닉네임 정보를 가져오는 함수
@@ -373,14 +393,19 @@ class MainActivity : AppCompatActivity() {
         return skill
     }
 
-    // 사용자가 권한을 취소하거나 수락할때 발생하는 이벤트
+    // 사용자가 권한을 수락하면 비로소 여기서 액티비티가 실행됨
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (!grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Thread {
+                Looper.prepare()
+                findlogin()
+            }.start()
+        } else {
             // 하나라도 수락안하면 다시 할수 있게
             requestPermissions(permissions, PERMISSIONS_REQUEST)
             Toast.makeText(this, "권한을 수락해야 합니다!", Toast.LENGTH_SHORT).show()
