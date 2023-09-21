@@ -9,6 +9,7 @@ import android.bluetooth.le.AdvertiseData
 import android.bluetooth.le.AdvertiseSettings
 import android.bluetooth.le.BluetoothLeAdvertiser
 import android.bluetooth.le.BluetoothLeScanner
+import android.bluetooth.le.ScanCallback
 import android.os.Looper
 import android.os.ParcelUuid
 import android.util.Log
@@ -65,16 +66,15 @@ class BluetoothSearch(bluetoothManager: BluetoothManager) {
     }
 
     // 블루투스로 유저 찾기 시작
-    fun startbluetoothSearch(minute: Int): Boolean {
+    fun startbluetoothSearch(scanCallback: ScanCallback, minute: Int): Boolean {
         if (!isScan) {
             // 중복 스캔이 아닌경우
-            val scanval = SearchPeopleActivity().bluetoothSearchCallback
             isScan = true
-            scanner.startScan(scanval)
+            scanner.startScan(scanCallback)
             Log.d("블루투스", "스캔이 시작됨")
 
             mainThreadHandler.postDelayed({
-                scanner.stopScan(scanval)
+                scanner.stopScan(scanCallback)
                 isScan = false
                 Log.d("블루투스", "스캔이 종료됨")
             }, (minute * 60 * 1000).toLong())

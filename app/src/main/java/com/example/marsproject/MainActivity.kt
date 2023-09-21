@@ -62,9 +62,9 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
         }
+        // 권한 체크 하고 사용자로 부터 권한 받아오기
         if (!checkpermission(this, permissionlist)) {
             requestPermissions(permissionlist, PERMISSIONS_REQUEST)
-            // 권한 체크 하고 사용자로 부터 권한 받아오기
         } else {
             // 처음 시작 할때는 onRequestPermissionsResult 에서 권한 확인 받고 findlogin 함수가 실행
             Thread {
@@ -111,19 +111,14 @@ class MainActivity : AppCompatActivity() {
                 outputjson.put("id", savedID) // 아이디
                 outputjson.put("passwd", savedPW) // 비밀번호
 
-                val jsonObject = Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
-                // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
-
-                // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
+                // 아이디 비번으로 유저 데이터 가져오기
+                Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
             } catch (e: UnknownServiceException) {
-                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
-
+                // 아이디 비번만 있고 닉네임 설정같은 것들을 안했을때
                 if (e.message == "is_new") {
                     // 설정 페이지로 가도록
                     login = "is_new"
                 }
-                println(e.message)
-                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -156,6 +151,7 @@ class MainActivity : AppCompatActivity() {
             // callback 함수는 메인쓰레드에서 실행함으로 새로운 쓰레드 생성
             Thread {
                 Looper.prepare()
+                var jsonobject: JSONObject // api에 요청하기위한 jsonobject 객체
 
                 // LoginActivity 에서 넘어온 이후 작업
                 if (login == "login") {
@@ -165,23 +161,14 @@ class MainActivity : AppCompatActivity() {
                         id = result.data?.getStringExtra("id") ?: ""
                         Log.d(Constants.TAG, "사용자 이메일 : $id")
 
-                        // 회원가입 & 로그인
+                        // 회원가입 & 로그인 (ER_DUP_ENTRY 방지를 위한 try-catch)
                         try {
-                            val outputjson = JSONObject() //json 생성
-                            outputjson.put("id", id) // 아이디
-                            outputjson.put("passwd", pw) // 비밀번호
+                            jsonobject = JSONObject() // json 초기화
+                            jsonobject.put("id", id) // 아이디
+                            jsonobject.put("passwd", pw) // 비밀번호
 
-                            Request().reqpost("http://dmumars.kro.kr/api/setperson", outputjson)
-                            // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
-
-                            // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                        } catch (e: UnknownServiceException) {
-                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
-
-                            if (e.message == "ER_DUP_ENTRY") { /* 중복오류 발생 예외처리구문 */
-                            }
-                            println(e.message)
-                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                            //아이디 비번 db에 저장
+                            Request().reqpost("http://dmumars.kro.kr/api/setperson", jsonobject)
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -191,28 +178,19 @@ class MainActivity : AppCompatActivity() {
                         saveLogin(id, pw)
 
                         // 로그인 정보 불러오기
-                        try {
-                            val pref = getSharedPreferences("userLogin", 0)
-                            savedID = pref.getString("id", "").toString()
-                            savedPW = pref.getString("pw", "").toString()
+                        val pref = getSharedPreferences("userLogin", 0)
+                        savedID = pref.getString("id", "").toString()
+                        savedPW = pref.getString("pw", "").toString()
 
-                            val outputjson = JSONObject() //json 생성
-                            outputjson.put("id", savedID) // 아이디
-                            outputjson.put("passwd", savedPW) // 비밀번호
+                        jsonobject = JSONObject() //json 초기화
+                        jsonobject.put("id", savedID) // 아이디
+                        jsonobject.put("passwd", savedPW) // 비밀번호
 
-                            val jsonObject =
-                                Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
-                            // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+                        // 아이디 비번 으로 db에서 회원 정보 얻어오기
+                        val jsonObject = Request().reqpost("http://dmumars.kro.kr/api/login", jsonobject)
 
-                            saveName(jsonObject.getString("user_name"))
-                            // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                        } catch (e: UnknownServiceException) {
-                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
-                            println(e.message)
-                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
+                        // db 에서 얻어온 닉네임을 로컬에 저장
+                        saveName(jsonObject.getString("user_name"))
                     }
                     finish() //인텐트 종료
 
@@ -226,28 +204,30 @@ class MainActivity : AppCompatActivity() {
                 else if (login == "is_new") {
                     if (result?.resultCode == RESULT_OK) {  // 닉네임, 아바타, 목표 설정이 끝났을 때
                         // 닉네임 정보 저장하기
-                        try {
-                            val outputjson = JSONObject() //json 생성
-                            outputjson.put("id", savedID) // 아이디
-                            outputjson.put("passwd", savedPW) // 비밀번호
+                        val outputjson = JSONObject() //json 생성
+                        outputjson.put("id", savedID) // 아이디
+                        outputjson.put("passwd", savedPW) // 비밀번호
 
-                            val jsonObject =
-                                Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
-                            // jsonObject 변수에는 정상응답 json 객체가 저장되어있음
+                        // 아이디 비번 으로 db에서 회원 정보 얻어오기
+                        val jsonObject = Request().reqpost("http://dmumars.kro.kr/api/login", outputjson)
 
-                            saveName(jsonObject.getString("user_name"))
-                            // getter는 자료형 별로 getint getJSONArray 이런것들이 있으니 결과 값에 따라 메소드를 변경해서 쓸것
-                        } catch (e: UnknownServiceException) {
-                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                        // db 에서 얻어온 닉네임을 로컬에 저장
+                        saveName(jsonObject.getString("user_name"))
 
-                            println(e.message)
-                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
+                        // 메인 화면으로 이동
                         changeFragment(MainHomeFragment())
                     }
                 }
+
+                // 발급된 uuid db에 넘겨주기 (성능 문제로 비동기로 처리)
+                Thread {
+                    val outputjson = JSONObject() //json 생성
+                    outputjson.put("user_name", getName()) // 아이디
+                    outputjson.put("bt_uuid", uuid.toString()) // 비밀번호
+
+                    Request().reqpost("http://dmumars.kro.kr/api/setuserbtuuid", outputjson)
+                }.start()
+
                 // ListenerRegistration 실행
                 ListenerRegistration()
             }.start()
