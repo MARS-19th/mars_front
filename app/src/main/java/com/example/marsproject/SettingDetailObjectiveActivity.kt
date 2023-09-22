@@ -8,7 +8,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.marsproject.databinding.ActivitySettingDetailObjectiveBinding
 import org.json.JSONObject
 import java.net.UnknownServiceException
@@ -45,6 +48,19 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
         appearance = intent.getStringExtra("appearance").toString() // 외형
         category = intent.getStringExtra("category").toString() // 카테고리
 
+        val contract = ActivityResultContracts.StartActivityForResult()
+        val callback = object: ActivityResultCallback<ActivityResult> {
+            override fun onActivityResult(result: ActivityResult?) {
+                if(result?.resultCode == RESULT_OK) {
+                    // 완료 결과 보내기
+                    val intentO = Intent()
+                    setResult(RESULT_OK, intentO)
+                    finish()
+                }
+            }
+        }
+        launcher = registerForActivityResult(contract, callback)
+
         // 카테고리 값에 따라 버튼 텍스트, 이미지, 리스너 변경
         if(category == "공부") {
             // 버튼 클릭 시 백그라운드 변경해주는 리스너
@@ -77,7 +93,7 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
 
     // 툴바에 옵션 메뉴 생성
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        binding.toolbar.inflateMenu(com.example.marsproject.R.menu.toolbar_menu2) // 완료 버튼 생성
+        binding.toolbar.inflateMenu(com.example.marsproject.R.menu.toolbar_menu1) // 다음 버튼 생성
         return true
     }
 
@@ -87,92 +103,22 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
             R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
                 finish() // 액티비티 종료
             }
-            com.example.marsproject.R.id.action_ok -> { // 완료 버튼 눌렀을 때
+            com.example.marsproject.R.id.action_next -> { // 다음 버튼 눌렀을 때
                 // 상세 목표를 선택하지 않았을 때
                 if(objective == "") {
                     Toast.makeText(baseContext, "하나를 선택해주세요.", Toast.LENGTH_SHORT).show() // 토스트 메시지 출력
                 } else {
-                    // api를 통해서 db에 저장
-                    Thread {
-                        try {
-                            // 유저 정보 json 생성
-                            val userjson = JSONObject()
-                            userjson.put("user_name", name) // 닉네임
-                            userjson.put("user_id", email) // 아이디
-                            userjson.put("choice_mark", objective) // 목표
-                            userjson.put("profile_local", JSONObject.NULL) // 프로필 사진
-
-                            val jsonUser =
-                                Request().reqpost("http://dmumars.kro.kr/api/setuser", userjson)
-
-                            // 재화 json 생성
-                            val moneyjson = JSONObject()
-                            moneyjson.put("user_name", name) // 닉네임
-                            moneyjson.put("value", 0) // 재화
-
-                            val jsonMoney =
-                                Request().reqpost("http://dmumars.kro.kr/api/setmoney", moneyjson)
-
-                            // 목숨 json 생성
-                            val lifejson = JSONObject()
-                            lifejson.put("user_name", name) // 닉네임
-                            lifejson.put("value", 3) // 목숨
-
-                            val jsonLife =
-                                Request().reqpost("http://dmumars.kro.kr/api/setlife", lifejson)
-
-                            // 레벨 json 생성
-                            val leveljson = JSONObject()
-                            leveljson.put("user_name", name) // 닉네임
-                            leveljson.put("value", 1) // 레벨
-
-                            val jsonLevel =
-                                Request().reqpost("http://dmumars.kro.kr/api/setlevel", leveljson)
-
-                            // 칭호 json 생성
-                            val titlejson = JSONObject()
-                            titlejson.put("user_name", name) // 닉네임
-                            titlejson.put("value", "새싹") // 칭호
-
-                            val jsonTitle =
-                                Request().reqpost("http://dmumars.kro.kr/api/setusertitle", titlejson)
-
-                            // 아바타 json 생성
-                            val avatarjson = JSONObject()
-                            avatarjson.put("user_name", name) // 닉네임
-                            avatarjson.put("type", animal) // 아바타 타입(cat, monkey)
-                            avatarjson.put("look", face) // 표정
-                            avatarjson.put("color", appearance) // 색상
-
-                            val jsonAvatar =
-                                Request().reqpost("http://dmumars.kro.kr/api/setuseravatar", avatarjson)
-
-                            // 프로필 json 생성
-                            val profilejson = JSONObject()
-
-                            profilejson.put("user_name", name) // 닉네임
-                            // 프로필이 비어있을 때
-                            if(profile == "null") {
-                                profilejson.put("file", JSONObject.NULL) // NULL
-                            } else {
-                                profilejson.put("file", profile) // 프로필
-                            }
-
-                            Request().fileupload("http://korseok.kro.kr/api/uploadprofile", profilejson)
-                        } catch (e: UnknownServiceException) {
-                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
-
-                            println(e.message)
-                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }.start()
-
-                    // 완료 결과 보내기
-                    val intentO = Intent()
-                    setResult(RESULT_OK, intentO)
-                    finish()
+                    // 인텐트 생성 후 액티비티 생성
+                    val intentL = Intent(this, SettingLanguageActivity::class.java) // 언어 설정 페이지로 설정
+                    intentL.putExtra("email", email) // 이메일
+                    intentL.putExtra("profile", profile) // 프로필
+                    intentL.putExtra("name", name) // 닉네임
+                    intentL.putExtra("animal", animal) // 동물 종류
+                    intentL.putExtra("face", face) // 표정
+                    intentL.putExtra("appearance", appearance) // 외형
+                    intentL.putExtra("category", category) // 카테고리
+                    intentL.putExtra("objective", objective) // 상세 목표
+                    launcher?.launch(intentL) // 액티비티 생성
                 }
             }
         }
