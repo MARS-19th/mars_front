@@ -63,14 +63,14 @@ class SettingObjectiveActivity : AppCompatActivity() {
             when(p0?.id) {
                 // 공부 버튼 클릭 시
                 com.example.marsproject.R.id.studyButton -> {
-                    binding.studyButton.setBackgroundResource(com.example.marsproject.R.drawable.button_clicked) // 공부 버튼 배경 변경
-                    binding.exerciseButton.setBackgroundResource(com.example.marsproject.R.drawable.button_background) // 운동 버튼 배경 변경
+                    binding.studyButton.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 공부 버튼 배경 변경
+                    binding.exerciseButton.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_background) // 운동 버튼 배경 변경
                     category = "공부" // 값 저장
                 }
                 // 운동 버튼 클릭 시
                 com.example.marsproject.R.id.exerciseButton -> {
-                    binding.studyButton.setBackgroundResource(com.example.marsproject.R.drawable.button_background) // 공부 버튼 배경 변경
-                    binding.exerciseButton.setBackgroundResource(com.example.marsproject.R.drawable.button_clicked) // 운동 버튼 배경 변경
+                    binding.studyButton.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_background) // 공부 버튼 배경 변경
+                    binding.exerciseButton.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 운동 버튼 배경 변경
                     category = "운동" // 값 저장
                 }
             }
