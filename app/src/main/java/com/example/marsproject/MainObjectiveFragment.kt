@@ -16,6 +16,14 @@ class MainObjectiveFragment : Fragment() {
     ): View? {
         binding = FragmentMainObjectiveBinding.inflate(inflater)
 
+        // 버튼 클릭 리스너 지정
+        objectiveButton()
+
+        return binding.root
+    }
+
+    // 상세 목표 버튼 클릭 설정 함수
+    private fun objectiveButton(){
         // 클릭 시 선택한 스킬이 무엇인지 저장하고 해당하는 상세 목표로 이동하는 리스너
         val skillClkListener = View.OnClickListener { p0 ->
             when(p0?.id) {
@@ -50,7 +58,5 @@ class MainObjectiveFragment : Fragment() {
         binding.nodeButton.setOnClickListener(skillClkListener)
         binding.djangoButton.setOnClickListener(skillClkListener)
         binding.springButton.setOnClickListener(skillClkListener)
-
-        return binding.root
     }
 }
