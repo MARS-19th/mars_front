@@ -20,31 +20,32 @@ import com.example.marsproject.databinding.ActivitySettingAvatarBinding
 class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickListener {
     private lateinit var binding: ActivitySettingAvatarBinding
     private var launcher: ActivityResultLauncher<Intent>? = null
-    private lateinit var email: String
-    private lateinit var profile: String
-    private lateinit var name: String
+    private lateinit var email: String // 이메일
+    private lateinit var profile: String // 프로필
+    private lateinit var name: String // 닉네임
 
-    private var animal: String = "cat"
+    private var animal: String = "cat" // 동물 종류 (기본값 - 고양이)
     private var equipmentAdapter: EquipmentAdapter? = null
     private var equipmentItems: MutableList<EquipmentItem>? = null
 
-    private var face: String = "테스트 표정 1"
-    private var appearance: String = "테스트 외형 1"
+    private var face: String = "테스트 표정 1" // 얼굴 (기본값 - 1번째)
+    private var appearance: String = "테스트 외형 1" // 외형 (기본값 - 1번째)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingAvatarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(com.example.marsproject.R.drawable.icon_left_resize)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        // 툴바 설정
+        setSupportActionBar(binding.toolbar) // 툴바 지정
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
+        supportActionBar?.setHomeAsUpIndicator(com.example.marsproject.R.drawable.icon_left_resize) // 뒤로가기 버튼 이미지 설정
+        supportActionBar?.setDisplayShowTitleEnabled(false) // 앱 타이틀 비활성화
 
         // 액티비티 이동하면서 넘어온 값 받아오기
-        email = intent.getStringExtra("email").toString()
-        profile = intent.getStringExtra("profile").toString()
-        name = intent.getStringExtra("name").toString()
+        email = intent.getStringExtra("email").toString() // 이메일
+        profile = intent.getStringExtra("profile").toString() // 프로필
+        name = intent.getStringExtra("name").toString() // 닉네임
 
         val contract = ActivityResultContracts.StartActivityForResult()
         val callback = object: ActivityResultCallback<ActivityResult> {
@@ -59,7 +60,8 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
         }
         launcher = registerForActivityResult(contract, callback)
 
-        binding.avatarImageView.setImageResource(com.example.marsproject.R.drawable.cat_avatar)
+        // 기본 이미지를 고양이 아바타로 설정
+        binding.avatarImage.setImageResource(com.example.marsproject.R.drawable.cat_avatar)
 
         val equipmentLayoutManager: RecyclerView.LayoutManager = GridLayoutManager(this, 3)
         binding.equipmentRecyclerView.layoutManager = equipmentLayoutManager
@@ -105,54 +107,56 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
 
     // 고양이 클릭 아바타 이미지 변경
     fun onCatButtonClick(view: View?) {
-        binding.avatarImageView.setImageResource(com.example.marsproject.R.drawable.cat_avatar)
-        binding.catButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_clicked)
-        binding.monkeyButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_background)
-        animal = "cat"
+        binding.avatarImage.setImageResource(com.example.marsproject.R.drawable.cat_avatar) // 아바타 이미지 변경
+        binding.catButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_clicked) // 고양이 버튼 배경 변경
+        binding.monkeyButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_background) // 원숭이 버튼 배경 변경
+        animal = "cat" // 값 저장
     }
 
     // 원숭이 클릭 아바타 이미지 변경
     fun onMonkeyButtonClick(view: View?) {
-        binding.avatarImageView.setImageResource(com.example.marsproject.R.drawable.monkey_avatar)
-        binding.monkeyButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_clicked)
-        binding.catButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_background)
-        animal = "monkey"
+        binding.avatarImage.setImageResource(com.example.marsproject.R.drawable.monkey_avatar)
+        binding.monkeyButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_clicked) // 원숭이 버튼 배경 변경
+        binding.catButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_background) // 고양이 버튼 배경 변경
+        animal = "monkey" // 값 저장
     }
 
     // 상단 표정 선택
     fun onTopsButtonClick(view: View?) {
-        updateEquipmentItemsForTops()
-        binding.topsButton.setImageResource(com.example.marsproject.R.drawable.icon_face)
-        binding.bottomsButton.setImageResource(com.example.marsproject.R.drawable.icon_color2)
+        updateEquipmentItemsForTops() // 아이템 그리기
+        binding.topsButton.setImageResource(com.example.marsproject.R.drawable.icon_face) // 표정 버튼 배경 변경
+        binding.bottomsButton.setImageResource(com.example.marsproject.R.drawable.icon_color2) // 외형 버튼 배경 변경
     }
 
     // 하단 외형 선택
     fun onBottomsButtonClick(view: View?) {
-        updateEquipmentItemsForBottoms()
-        binding.topsButton.setImageResource(com.example.marsproject.R.drawable.icon_face2)
-        binding.bottomsButton.setImageResource(com.example.marsproject.R.drawable.icon_color)
+        updateEquipmentItemsForBottoms() // 아이템 그리기
+        binding.topsButton.setImageResource(com.example.marsproject.R.drawable.icon_face2) // 표정 버튼 배경 변경
+        binding.bottomsButton.setImageResource(com.example.marsproject.R.drawable.icon_color) // 외형 버튼 배경 변경
     }
 
+    // 툴바에 옵션 메뉴 생성
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        binding.toolbar.inflateMenu(com.example.marsproject.R.menu.toolbar_menu1)
+        binding.toolbar.inflateMenu(com.example.marsproject.R.menu.toolbar_menu1) // 다음 버튼 생성
         return true
     }
 
+    // 옵션 메뉴 클릭 함수
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
             R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
-                finish()
+                finish() // 액티비티 종료
             }
             com.example.marsproject.R.id.action_next -> { // 다음 버튼 눌렀을 때
-                // 목표 설정 액티비티 시작
-                val intentO = Intent(this, SettingObjectiveActivity::class.java)
-                intentO.putExtra("email", email)
-                intentO.putExtra("profile", profile)
-                intentO.putExtra("name", name)
-                intentO.putExtra("animal", animal)
+                // 인텐트 생성 후 액티비티 생성
+                val intentO = Intent(this, SettingObjectiveActivity::class.java) // 목표 설정 페이지로 설정
+                intentO.putExtra("email", email) // 이메일
+                intentO.putExtra("profile", profile) // 프로필
+                intentO.putExtra("name", name) // 닉네임
+                intentO.putExtra("animal", animal) // 동물 종류
                 intentO.putExtra("face", face) // 선택한 표정 값
                 intentO.putExtra("appearance", appearance) // 선택한 외형 값
-                launcher?.launch(intentO)
+                launcher?.launch(intentO) // 액티비티 생성
             }
         }
         return super.onOptionsItemSelected(item)

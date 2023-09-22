@@ -17,7 +17,7 @@
 
     <!-- 아바타 이미지 -->
     <ImageView
-        android:id="@+id/avatarImageView"
+        android:id="@+id/avatarImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/cat_avatar"
@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:orientation="horizontal"
+        android:visibility="invisible"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="2dp">
 
