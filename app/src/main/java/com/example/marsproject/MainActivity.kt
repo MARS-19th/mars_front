@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // 블루투스 사용시 위치 및 블루투스 권한허용을 해야함
         val permissionlist: Array<String>
@@ -286,10 +287,7 @@ class MainActivity : AppCompatActivity() {
         BluetoothSearch(bluetoothManager).BluetoothDiscoverable(uuid)
 
         // 초기 화면 홈으로 설정
-        runOnUiThread {
-            setContentView(binding.root)
-            menuBottomNavigation.selectedItemId = R.id.menu_home
-        }
+        menuBottomNavigation.selectedItemId = R.id.menu_home
     }
 
     // 프래그먼트 변경 함수
