@@ -7,7 +7,7 @@
     tools:context=".MainMypageFragment">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/logout"
+        android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/search_button_background"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/store"
+        android:id="@+id/storeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/search_button_background"
@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logout"
+        app:layout_constraintTop_toBottomOf="@+id/logoutButton"
         app:layout_constraintVertical_bias="0.136" />
 
 

@@ -59,7 +59,7 @@
         app:layout_constraintGuide_percent="0.88" />
 
     <TextView
-        android:id="@+id/titleName"
+        android:id="@+id/titleText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fontFamily="@font/pretendardbold"
@@ -111,7 +111,7 @@
         app:layout_constraintGuide_percent="0.76" />
 
     <TextView
-        android:id="@+id/userName"
+        android:id="@+id/userNameText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fontFamily="@font/pretendardbold"
@@ -124,7 +124,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
     <TextView
-        android:id="@+id/userId"
+        android:id="@+id/userIdText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fontFamily="@font/pretendardregular"
@@ -137,7 +137,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/profileImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/profileimage"
@@ -272,7 +272,7 @@
         app:layout_constraintGuide_percent="0.889" />
 
     <TextView
-        android:id="@+id/objectiveName"
+        android:id="@+id/objectiveText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fontFamily="@font/pretendardbold"
@@ -329,7 +329,7 @@
         app:layout_constraintGuide_percent="0.94" />
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/goalImage"
         android:layout_width="60dp"
         android:layout_height="0dp"
         android:src="@drawable/fish"

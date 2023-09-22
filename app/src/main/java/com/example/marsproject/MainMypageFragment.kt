@@ -17,18 +17,19 @@ class MainMypageFragment : Fragment() {
     ): View? {
         binding = FragmentMainMypageBinding.inflate(inflater)
 
-        // 클릭 시 로그아웃 리스너
-        binding.logout.setOnClickListener{
-            (activity as MainActivity).clearLogin()
-            (activity as MainActivity).clearName()
-            (activity as MainActivity).clickchangeFragment(3)
+        // 클릭 시 로그아웃 및 화면 전환 리스너
+        binding.logoutButton.setOnClickListener{
+            (activity as MainActivity).clearLogin() // 로그인 정보 삭제
+            (activity as MainActivity).clearName() // 닉네임 정보 삭제
+            (activity as MainActivity).clickchangeFragment(3) // 홈 프래그먼트로 전환
         }
 
         // 클릭 시 상점으로 이동 리스너
-        binding.store.setOnClickListener {
+        binding.storeButton.setOnClickListener {
             activity?.let{
-                val intent = Intent(context, StoreActivity::class.java)
-                startActivity(intent)
+                // 인텐트 생성 후 액티비티 생성
+                val intent = Intent(context, StoreActivity::class.java) // 상점 페이지로 설정
+                startActivity(intent) // 액티비티 생성
             }
         }
 

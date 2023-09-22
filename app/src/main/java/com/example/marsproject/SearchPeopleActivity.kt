@@ -27,13 +27,15 @@ class SearchPeopleActivity : AppCompatActivity() {
         binding = ActivitySearchPeopleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.icon_left_resize)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        // 툴바 설정
+        setSupportActionBar(binding.toolbar) // 툴바 지정
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.icon_left_resize) // 뒤로가기 버튼 이미지 설정
+        supportActionBar?.setDisplayShowTitleEnabled(false) // 앱 타이틀 비활성화
 
         bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothsearch = BluetoothSearch(bluetoothManager)
+
         // 사용자 찾기 버튼 클릭 리스너
         binding.searchButton.setOnClickListener {
             if (!bluetoothsearch.bluetoothAdapter.isEnabled) {
@@ -52,15 +54,15 @@ class SearchPeopleActivity : AppCompatActivity() {
 
     // 블루투스가 활성화 되어있지 않을때 사용자로 부터 요청을 받음
     val resultLaunch = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            // 사용자가 블루투스 사용을 허용 했을때
-            if (result.resultCode == -1) {
-                // 2분동안 다른 블루투스 장치를 찾음
-                if (bluetoothsearch.startbluetoothSearch(bluetoothSearchCallback, 2)) {
-                    Toast.makeText(applicationContext, "다른 플레이어를 찾는중....", Toast.LENGTH_SHORT)
-                        .show()
-                }
+        // 사용자가 블루투스 사용을 허용 했을때
+        if (result.resultCode == -1) {
+            // 2분동안 다른 블루투스 장치를 찾음
+            if (bluetoothsearch.startbluetoothSearch(bluetoothSearchCallback, 2)) {
+                Toast.makeText(applicationContext, "다른 플레이어를 찾는중....", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
+    }
 
     val bluetoothSearchCallback = object : ScanCallback() {
         private val isdup = ArrayList<String>() // 장치 중복 제거용 ArrayList
@@ -110,10 +112,11 @@ class SearchPeopleActivity : AppCompatActivity() {
         }
     }
 
+    // 옵션 메뉴 클릭 함수
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item?.itemId) {
             android.R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
-                finish()
+                finish() // 액티비티 종료
             }
         }
         return super.onOptionsItemSelected(item)

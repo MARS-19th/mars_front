@@ -77,7 +77,7 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
 
     // 툴바에 옵션 메뉴 생성
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        binding.toolbar.inflateMenu(com.example.marsproject.R.menu.toolbar_menu1) // 다음 버튼 생성
+        binding.toolbar.inflateMenu(com.example.marsproject.R.menu.toolbar_menu2) // 완료 버튼 생성
         return true
     }
 
@@ -87,7 +87,7 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
             R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
                 finish() // 액티비티 종료
             }
-            com.example.marsproject.R.id.action_ok -> { // 다음 버튼 눌렀을 때
+            com.example.marsproject.R.id.action_ok -> { // 완료 버튼 눌렀을 때
                 // 상세 목표를 선택하지 않았을 때
                 if(objective == "") {
                     Toast.makeText(baseContext, "하나를 선택해주세요.", Toast.LENGTH_SHORT).show() // 토스트 메시지 출력

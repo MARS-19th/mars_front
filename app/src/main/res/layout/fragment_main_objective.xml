@@ -35,7 +35,7 @@
         app:layout_constraintGuide_percent="0.11" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/titleText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fontFamily="@font/pretendardbold"

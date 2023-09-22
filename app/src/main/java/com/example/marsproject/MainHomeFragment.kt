@@ -14,15 +14,15 @@ import java.net.UnknownServiceException
 class MainHomeFragment : Fragment() {
     private lateinit var binding: FragmentMainHomeBinding
     private lateinit var savedname: String
-    private var name: String = "닉네임"
-    private var id: String = "아이디"
-    private var objective: String = "목표"
-    private var title: String = "칭호"
-    private lateinit var profile: String
-    private var life: Int = 0
-    private lateinit var money: String
-    private lateinit var level: String
-    private var progress: Double = 0.0
+    private var name: String = "닉네임" // 닉네임
+    private var id: String = "아이디" // 아이디
+    private var objective: String = "목표" // 상세 목표
+    private var title: String = "칭호" // 칭호
+    private lateinit var profile: String // 프로필
+    private var life: Int = 0 // 목숨
+    private lateinit var money: String // 재화
+    private lateinit var level: String // 레벨
+    private var progress: Double = 0.0 // 진행률
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,19 +33,19 @@ class MainHomeFragment : Fragment() {
         // 닉네임 정보 불러오기
         savedname = (activity as MainActivity).getName()
 
+        // 유저 데이터 불러오는 쓰레드 생성
         val HomeThread = Thread {
             try {
                 val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuserdata/${savedname}") //get요청
 
-                name = jsonObject.getString("user_name")
-                id = jsonObject.getString("user_id")
-                objective = jsonObject.getString("choice_mark")
-                title = jsonObject.getString("user_title")
-                profile = jsonObject.getString("profile_local")
-                life = jsonObject.getInt("life")
-                money = jsonObject.getInt("money").toString()
-                level = jsonObject.getInt("level").toString()
-                // /getdetailmark 부분 파싱 results에서 JSONArray 뽑고 JSONArray[0] 에 mark_id = 3
+                name = jsonObject.getString("user_name") // 닉네임
+                id = jsonObject.getString("user_id") // 아이디
+                objective = jsonObject.getString("choice_mark") // 상세 목표
+                title = jsonObject.getString("user_title") // 칭호
+                profile = jsonObject.getString("profile_local") // 프로필
+                life = jsonObject.getInt("life") // 목숨
+                money = jsonObject.getInt("money").toString() // 재화
+                level = jsonObject.getInt("level").toString() // 레벨
             } catch (e: UnknownServiceException) {
                 // API 사용법에 나와있는 모든 오류응답은 여기서 처리
                 println(e.message)
@@ -54,38 +54,15 @@ class MainHomeFragment : Fragment() {
                 e.printStackTrace()
             }
         }
-        HomeThread.start()
-        HomeThread.join()
+        HomeThread.start() // 쓰레드 시작
+        HomeThread.join() // 쓰레드 종료될 때까지 대기
 
-        binding.titleName.text = title
-        binding.userName.text = name
-        binding.userId.text = id
-        binding.objectiveName.text = objective
-        when(life) {
-            3 -> {
-                binding.lifeImage1.visibility = View.VISIBLE
-                binding.lifeImage2.visibility = View.VISIBLE
-                binding.lifeImage3.visibility = View.VISIBLE
-            }
-            2 -> {
-                binding.lifeImage1.visibility = View.VISIBLE
-                binding.lifeImage2.visibility = View.VISIBLE
-                binding.lifeImage3.visibility = View.INVISIBLE
-            }
-            1 -> {
-                binding.lifeImage1.visibility = View.VISIBLE
-                binding.lifeImage2.visibility = View.INVISIBLE
-                binding.lifeImage3.visibility = View.INVISIBLE
-            }
-        }
-
+        // 목표 진행률 불러오는 쓰레드 생성
         val progressThread = Thread {
             try {
                 val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuserskill/${savedname}") //get요청
 
-                progress = jsonObject.getJSONArray("results").length() * 12.5
-
-                // /getdetailmark 부분 파싱 results에서 JSONArray 뽑고 JSONArray[0] 에 mark_id = 3
+                progress = jsonObject.getJSONArray("results").length() * 12.5 // 완료한 목표의 수만큼 증가
             } catch (e: UnknownServiceException) {
                 // API 사용법에 나와있는 모든 오류응답은 여기서 처리
                 println(e.message)
@@ -94,27 +71,57 @@ class MainHomeFragment : Fragment() {
                 e.printStackTrace()
             }
         }
-        progressThread.start()
-        progressThread.join()
+        progressThread.start() // 쓰레드 시작
+        progressThread.join() // 쓰레드 종료될 때까지 대기
 
-        binding.progressBar.progress = progress.toInt()
+        // 유저 데이터 변경
+        changeUserData(title, name, id, objective, life, progress.toInt())
 
-        // 클릭 시 내 주변 사람 찾기로 이동 리스너
+        // 클릭 시 다른 사용자 찾기 액티비티로 이동하는 리스너
         binding.bluetoothImage.setOnClickListener {
             activity?.let{
-                val intent = Intent(context, SearchPeopleActivity::class.java)
-                startActivity(intent)
+                // 인텐트 생성 후 액티비티 생성
+                val intent = Intent(context, SearchPeopleActivity::class.java) // 다른 사용자 찾기 페이지로 설정
+                startActivity(intent) // 액티비티 생성
             }
         }
 
-        // 클릭 시 목표 탭으로 이동 리스너
-        binding.objectiveName.setOnClickListener{
-            (activity as MainActivity).clickchangeFragment(1)
+        // 클릭 시 목표 프래그먼트로 전환하는 리스너
+        binding.objectiveText.setOnClickListener{
+            (activity as MainActivity).clickchangeFragment(1) // 목표 프래그먼트로 전환
         }
         binding.progressBar.setOnClickListener{
-            (activity as MainActivity).clickchangeFragment(1)
+            (activity as MainActivity).clickchangeFragment(1) // 목표 프래그먼트로 전환
         }
 
         return binding.root
+    }
+
+    // 유저 데이터 변경해주는 함수
+    private fun changeUserData(title: String, name: String, id: String, objective: String, life: Int, progress: Int) {
+        binding.titleText.text = title // 칭호 텍스트 변경
+        binding.userNameText.text = name // 닉네임 텍스트 변경
+        binding.userIdText.text = id // 회원 아이디 텍스트 변경
+        binding.objectiveText.text = objective // 상세 목표 텍스트 변경
+
+        // 목숨 수에 따른 이미지 활성화
+        when(life) {
+            3 -> {
+                binding.lifeImage1.visibility = View.VISIBLE // 활성화
+                binding.lifeImage2.visibility = View.VISIBLE // 활성화
+                binding.lifeImage3.visibility = View.VISIBLE // 활성화
+            }
+            2 -> {
+                binding.lifeImage1.visibility = View.VISIBLE // 활성화
+                binding.lifeImage2.visibility = View.VISIBLE // 활성화
+                binding.lifeImage3.visibility = View.INVISIBLE // 비활성화
+            }
+            1 -> {
+                binding.lifeImage1.visibility = View.VISIBLE // 활성화
+                binding.lifeImage2.visibility = View.INVISIBLE // 비활성화
+                binding.lifeImage3.visibility = View.INVISIBLE // 비활성화
+            }
+        }
+        binding.progressBar.progress = progress // 목표 진행률 변경
     }
 }
