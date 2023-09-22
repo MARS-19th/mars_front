@@ -57,7 +57,7 @@
         android:text="목표를 선택해주세요!"
         android:textSize="22sp"
         android:textColor="@color/black"
-        android:fontFamily="@font/pretendardbold"
+        android:fontFamily="@font/pretendardextrabold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
