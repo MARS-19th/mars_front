@@ -3,7 +3,7 @@
     <item
         android:drawable="@drawable/programming"
         android:width="80dp"
-        android:height="80dp"
+        android:height="100dp"
         android:bottom="10dp"
         />
 </layer-list>
