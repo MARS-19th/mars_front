@@ -182,22 +182,32 @@ class MainActivity : AppCompatActivity() {
                         savedID = pref.getString("id", "").toString()
                         savedPW = pref.getString("pw", "").toString()
 
-                        jsonobject = JSONObject() //json 초기화
-                        jsonobject.put("id", savedID) // 아이디
-                        jsonobject.put("passwd", savedPW) // 비밀번호
+                        try {
+                            jsonobject = JSONObject() //json 초기화
+                            jsonobject.put("id", savedID) // 아이디
+                            jsonobject.put("passwd", savedPW) // 비밀번호
 
-                        // 아이디 비번 으로 db에서 회원 정보 얻어오기
-                        val jsonObject = Request().reqpost("http://dmumars.kro.kr/api/login", jsonobject)
+                            // 아이디 비번 으로 db에서 회원 정보 얻어오기
+                            val jsonObject = Request().reqpost("http://dmumars.kro.kr/api/login", jsonobject)
 
-                        // db 에서 얻어온 닉네임을 로컬에 저장
-                        saveName(jsonObject.getString("user_name"))
+                            // db 에서 얻어온 닉네임을 로컬에 저장
+                            saveName(jsonObject.getString("user_name"))
+                        } catch (e: Exception) {
+                            if (e.message == "is_new") {
+                                // 처음 로그인한 사람이 신규유저인 경우 초기 설정을 해야하는경우
+                                // 인텐트를 초기화 해서 login 변수룰 is_new로 받을 수 있게 제귀함
+
+                                finish() //인텐트 종료
+                                overridePendingTransition(0, 0) //인텐트 효과 없애기
+                                val intent = intent //인텐트
+                                startActivity(intent) //액티비티 열기
+                                overridePendingTransition(0, 0) //인텐트 효과 없애기
+                                return@Thread
+                            } else {
+                                e.printStackTrace()
+                            }
+                        }
                     }
-                    finish() //인텐트 종료
-
-                    overridePendingTransition(0, 0) //인텐트 효과 없애기
-                    val intent = intent //인텐트
-                    startActivity(intent) //액티비티 열기
-                    overridePendingTransition(0, 0) //인텐트 효과 없애기
                 }
 
                 // SettingNameActivity 에서 넘어온 이후 작업
