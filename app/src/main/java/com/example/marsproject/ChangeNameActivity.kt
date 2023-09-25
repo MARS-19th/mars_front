@@ -1,6 +1,5 @@
 package com.example.marsproject
 
-import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +7,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.marsproject.databinding.ActivityChangeNameBinding
@@ -86,34 +84,40 @@ class ChangeNameActivity : AppCompatActivity() {
                 return@setOnClickListener // 리스너 종료
             }
 
-            val name = binding.editName.text.toString() // 닉네임 저장
+            val dlg = MyDialog(this) // 커스텀 다이얼로그 객체 저장
+            // 예 버튼 클릭 시 실행
+            dlg.setOnOKClickedListener{
+                val name = binding.editName.text.toString() // 닉네임 저장
 
-            // 닉네임 변경 쓰레드 생성
-            val changeThread = Thread {
-                try {
-                    // 기존 닉네임과 바꿀 닉네임을 보내서 변경
-                    val changenamejson = JSONObject() //json 생성
-                    changenamejson.put("curname", savedname) // 기존 닉네임
-                    changenamejson.put("newname", name) // 바꿀 닉네임
+                // 닉네임 변경 쓰레드 생성
+                val changeThread = Thread {
+                    try {
+                        // 기존 닉네임과 바꿀 닉네임을 보내서 변경
+                        val changenamejson = JSONObject() //json 생성
+                        changenamejson.put("curname", savedname) // 기존 닉네임
+                        changenamejson.put("newname", name) // 바꿀 닉네임
 
-                    // 닉네임 변경
-                    Request().reqpost("http://dmumars.kro.kr/api/setname", changenamejson)
+                        // 닉네임 변경
+                        Request().reqpost("http://dmumars.kro.kr/api/setname", changenamejson)
 
-                } catch (e: UnknownServiceException) {
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                    } catch (e: UnknownServiceException) {
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
+                changeThread.start() // 쓰레드 실행
+                changeThread.join() // 쓰레드 종료될 때까지 대기
+
+                clearName() // 기존 닉네임 정보 삭제
+                saveName(name) // 바뀐 닉네임 정보 저장
+
+                // 완료 결과 보내기
+                val intent = Intent()
+                setResult(RESULT_OK, intent)
+                finish() // 액티비티 종료
             }
-            changeThread.start() // 쓰레드 실행
-            changeThread.join() // 쓰레드 종료될 때까지 대기
+            dlg.show("닉네임을 변경하시겠습니까?") // 다이얼로그 내용에 담을 텍스트
 
-            clearName() // 기존 닉네임 정보 삭제
-            saveName(name) // 바뀐 닉네임 정보 저장
-
-            // 완료 결과 보내기
-            val intent = Intent()
-            setResult(RESULT_OK, intent)
-            finish() // 액티비티 종료
         }
     }
 
