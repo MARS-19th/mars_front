@@ -77,15 +77,6 @@ class MainHomeFragment : Fragment() {
         // 유저 데이터 변경
         changeUserData(title, name, id, objective, life, progress.toInt())
 
-        // 클릭 시 다른 사용자 찾기 액티비티로 이동하는 리스너
-        binding.bluetoothImage.setOnClickListener {
-            activity?.let{
-                // 인텐트 생성 후 액티비티 생성
-                val intent = Intent(context, SearchPeopleActivity::class.java) // 다른 사용자 찾기 페이지로 설정
-                startActivity(intent) // 액티비티 생성
-            }
-        }
-
         // 클릭 시 목표 프래그먼트로 전환하는 리스너
         binding.objectiveText.setOnClickListener{
             (activity as MainActivity).clickchangeFragment(1) // 목표 프래그먼트로 전환
