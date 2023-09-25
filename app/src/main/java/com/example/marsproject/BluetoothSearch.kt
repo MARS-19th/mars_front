@@ -74,15 +74,26 @@ class BluetoothSearch(bluetoothManager: BluetoothManager) {
             Log.d("블루투스", "스캔이 시작됨")
 
             mainThreadHandler.postDelayed({
-                scanner.stopScan(scanCallback)
-                isScan = false
-                Log.d("블루투스", "스캔이 종료됨")
+                if (isScan) {
+                    scanner.stopScan(scanCallback)
+                    isScan = false
+                    Log.d("블루투스", "스캔이 종료됨")
+                }
             }, (minute * 60 * 1000).toLong())
 
             return true
         } else {
             // 중복 스캔일 경우
             return false
+        }
+    }
+
+    // 블루투스 유저 찾기 강제 종료
+    fun stopbluetoothSearch(scanCallback: ScanCallback) {
+        if (isScan) {
+            scanner.stopScan(scanCallback)
+            isScan = true
+            Log.d("블루투스", "스캔이 종료됨")
         }
     }
 }
