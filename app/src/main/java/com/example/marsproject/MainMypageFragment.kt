@@ -109,70 +109,80 @@ class MainMypageFragment : Fragment() {
 
         // 클릭 시 로그아웃 및 화면 전환 리스너
         binding.logoutLayout.setOnClickListener{
-            // 카카오 계정 연동 해제
-            UserApiClient.instance.logout { err ->
-                if (err == null) {
-                    Log.d(ContentValues.TAG, "로그아웃 성공")
+            val dlg = MyDialog(context as AppCompatActivity) // 커스텀 다이얼로그 객체 저장
+            // 예 버튼 클릭 시 실행
+            dlg.setOnOKClickedListener{
+                // 카카오 계정 연동 해제
+                UserApiClient.instance.logout { err ->
+                    if (err == null) {
+                        Log.d(ContentValues.TAG, "로그아웃 성공")
+                    }
+                    else {
+                        Log.d(ContentValues.TAG, "로그아웃 실패")
+                    }
                 }
-                else {
-                    Log.d(ContentValues.TAG, "로그아웃 실패")
-                }
-            }
 
-            (activity as MainActivity).clearLogin() // 로그인 정보 삭제
-            (activity as MainActivity).clearName() // 닉네임 정보 삭제
-            (activity as MainActivity).clickchangeFragment(3) // 홈 프래그먼트로 전환
+                (activity as MainActivity).clearLogin() // 로그인 정보 삭제
+                (activity as MainActivity).clearName() // 닉네임 정보 삭제
+                (activity as MainActivity).clickchangeFragment(3) // 홈 프래그먼트로 전환
+            }
+            dlg.show("로그아웃 하시겠습니까?") // 다이얼로그 내용에 담을 텍스트
         }
 
         // 클릭 시 회원탈퇴 및 화면 전환 리스너
         binding.deleteLayout.setOnClickListener{
-            // 회원탈퇴 쓰레드 생성
-            val delThread = Thread {
-                try {
-                    // 닉네임으로 아이디, 비번 가져오기
-                    val idpwjson = JSONObject() //json 생성
-                    idpwjson.put("user_name", savedname) // 닉네임
+            val dlg = MyDialog(context as AppCompatActivity) // 커스텀 다이얼로그 객체 저장
+            // 예 버튼 클릭 시 실행
+            dlg.setOnOKClickedListener{
+                // 회원탈퇴 쓰레드 생성
+                val delThread = Thread {
+                    try {
+                        // 닉네임으로 아이디, 비번 가져오기
+                        val idpwjson = JSONObject() //json 생성
+                        idpwjson.put("user_name", savedname) // 닉네임
 
-                    // 닉네임으로 아이디, 비번 가져오기
-                    val jsonidpw = Request().reqpost("http://dmumars.kro.kr/api/getuseridpd", idpwjson)
+                        // 닉네임으로 아이디, 비번 가져오기
+                        val jsonidpw = Request().reqpost("http://dmumars.kro.kr/api/getuseridpd", idpwjson)
 
-                    // 받아온 아이디 저장
-                    val id = jsonidpw.getString("id")
-                    val pw = jsonidpw.getString("passwd")
+                        // 받아온 아이디 저장
+                        val id = jsonidpw.getString("id")
+                        val pw = jsonidpw.getString("passwd")
 
-                    // 아이디, 비번으로 회원탈퇴
-                    val deljson = JSONObject() //json 생성
-                    deljson.put("id", id) // 아이디
-                    deljson.put("passwd", pw) // 패스워드
+                        // 아이디, 비번으로 회원탈퇴
+                        val deljson = JSONObject() //json 생성
+                        deljson.put("id", id) // 아이디
+                        deljson.put("passwd", pw) // 패스워드
 
-                    // 닉네임으로 아이디, 비번 가져오기
-                    Request().reqpost("http://dmumars.kro.kr/api/deluser", deljson)
+                        // 닉네임으로 아이디, 비번 가져오기
+                        Request().reqpost("http://dmumars.kro.kr/api/deluser", deljson)
 
-                } catch (e: UnknownServiceException) {
-                    // 해당 유저가 없을 때
-                    if (e.message == "empty") {
-                        Log.e(ContentValues.TAG, "회원탈퇴 유저 찾기 실패")
+                    } catch (e: UnknownServiceException) {
+                        // 해당 유저가 없을 때
+                        if (e.message == "empty") {
+                            Log.e(ContentValues.TAG, "회원탈퇴 유저 찾기 실패")
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
                 }
-            }
-            delThread.start() // 쓰레드 실행
-            delThread.join() // 쓰레드 종료될 때까지 대기
+                delThread.start() // 쓰레드 실행
+                delThread.join() // 쓰레드 종료될 때까지 대기
 
-            // 카카오 계정 연동 해제
-            UserApiClient.instance.logout { err ->
-                if (err == null) {
-                    Log.d(ContentValues.TAG, "로그아웃 성공")
+                // 카카오 계정 연동 해제
+                UserApiClient.instance.logout { err ->
+                    if (err == null) {
+                        Log.d(ContentValues.TAG, "로그아웃 성공")
+                    }
+                    else {
+                        Log.d(ContentValues.TAG, "로그아웃 실패")
+                    }
                 }
-                else {
-                    Log.d(ContentValues.TAG, "로그아웃 실패")
-                }
-            }
 
-            (activity as MainActivity).clearLogin() // 로그인 정보 삭제
-            (activity as MainActivity).clearName() // 닉네임 정보 삭제
-            (activity as MainActivity).clickchangeFragment(3) // 홈 프래그먼트로 전환
+                (activity as MainActivity).clearLogin() // 로그인 정보 삭제
+                (activity as MainActivity).clearName() // 닉네임 정보 삭제
+                (activity as MainActivity).clickchangeFragment(3) // 홈 프래그먼트로 전환
+            }
+            dlg.show("회원탈퇴 하시겠습니까?") // 다이얼로그 내용에 담을 텍스트
         }
     }
 }
