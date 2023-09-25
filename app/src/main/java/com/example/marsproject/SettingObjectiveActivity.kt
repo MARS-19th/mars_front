@@ -72,8 +72,8 @@ class SettingObjectiveActivity : AppCompatActivity() {
                 com.example.marsproject.R.id.studyView,
                 com.example.marsproject.R.id.studyImage,
                 com.example.marsproject.R.id.studyText-> {
-                    binding.studyView.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 공부 배경 변경
-                    binding.exerciseView.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_background) // 운동 배경 변경
+                    binding.studyView.setBackgroundResource(com.example.marsproject.R.drawable.objective_clicked) // 공부 배경 변경
+                    binding.exerciseView.setBackgroundResource(com.example.marsproject.R.drawable.objective_background) // 운동 배경 변경
                     binding.studyText.setTextColor(Color.parseColor("#FF8F2F")) // 공부 텍스트 색상 변경
                     binding.exerciseText.setTextColor(Color.parseColor("#000000")) // 운동 텍스트 색상 변경
                     category = "공부" // 값 저장
@@ -82,8 +82,8 @@ class SettingObjectiveActivity : AppCompatActivity() {
                 com.example.marsproject.R.id.exerciseView,
                 com.example.marsproject.R.id.exerciseImage,
                 com.example.marsproject.R.id.exerciseText -> {
-                    binding.studyView.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_background) // 공부 배경 변경
-                    binding.exerciseView.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 운동 배경 변경
+                    binding.studyView.setBackgroundResource(com.example.marsproject.R.drawable.objective_background) // 공부 배경 변경
+                    binding.exerciseView.setBackgroundResource(com.example.marsproject.R.drawable.objective_clicked) // 운동 배경 변경
                     binding.studyText.setTextColor(Color.parseColor("#000000")) // 공부 텍스트 색상 변경
                     binding.exerciseText.setTextColor(Color.parseColor("#FF8F2F")) // 운동 텍스트 색상 변경
                     category = "운동" // 값 저장

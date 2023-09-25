@@ -39,7 +39,6 @@ class MainObjectiveFragment : Fragment() {
                 R.id.jspButton -> (activity as MainActivity).setSkill("jsp") // 저장
                 R.id.reactButton -> (activity as MainActivity).setSkill("react") // 저장
                 R.id.nodeButton -> (activity as MainActivity).setSkill("node") // 저장
-                R.id.djangoButton -> (activity as MainActivity).setSkill("django") // 저장
                 R.id.springButton -> (activity as MainActivity).setSkill("spring") // 저장
             }
             (activity as MainActivity).clickchangeFragment(2) // 이동
@@ -56,7 +55,6 @@ class MainObjectiveFragment : Fragment() {
         binding.jspButton.setOnClickListener(skillClkListener)
         binding.reactButton.setOnClickListener(skillClkListener)
         binding.nodeButton.setOnClickListener(skillClkListener)
-        binding.djangoButton.setOnClickListener(skillClkListener)
         binding.springButton.setOnClickListener(skillClkListener)
     }
 }

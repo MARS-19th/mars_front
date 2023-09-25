@@ -14,8 +14,6 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.marsproject.databinding.ActivitySettingDetailObjectiveBinding
-import org.json.JSONObject
-import java.net.UnknownServiceException
 
 class SettingDetailObjectiveActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingDetailObjectiveBinding
@@ -77,7 +75,7 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
                     com.example.marsproject.R.id.objectiveView1,
                     com.example.marsproject.R.id.objectiveImage1,
                     com.example.marsproject.R.id.objectiveText1 -> {
-                        binding.objectiveView1.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 배경 변경
+                        binding.objectiveView1.setBackgroundResource(com.example.marsproject.R.drawable.objective_clicked) // 배경 변경
                         binding.objectiveText1.setTextColor(Color.parseColor("#FF8F2F")) // 텍스트 색상 변경
                         objective = "프로그래밍" // 값 저장
                     }
@@ -96,7 +94,7 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
                     com.example.marsproject.R.id.objectiveView1,
                     com.example.marsproject.R.id.objectiveImage1,
                     com.example.marsproject.R.id.objectiveText1 -> {
-                        binding.objectiveView1.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 버튼 배경 변경
+                        binding.objectiveView1.setBackgroundResource(com.example.marsproject.R.drawable.objective_clicked) // 버튼 배경 변경
                         binding.objectiveText1.setTextColor(Color.parseColor("#FF8F2F")) // 버튼 텍스트 색상 변경
                         objective = "등산" // 값 저장
                     }

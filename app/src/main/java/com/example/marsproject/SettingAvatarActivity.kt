@@ -125,8 +125,8 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
     // 상단 표정 선택
     fun onTopsButtonClick(view: View?) {
         updateEquipmentItemsForTops() // 아이템 그리기
-        binding.topsButton.setImageResource(com.example.marsproject.R.drawable.icon_face) // 표정 버튼 배경 변경
-        binding.bottomsButton.setImageResource(com.example.marsproject.R.drawable.icon_color2) // 외형 버튼 배경 변경
+        binding.topsButton.setImageResource(com.example.marsproject.R.drawable.avatar_face_ok) // 표정 버튼 배경 변경
+        binding.bottomsButton.setImageResource(com.example.marsproject.R.drawable.avatar_color_no) // 외형 버튼 배경 변경
         binding.topsView.setBackgroundColor(Color.parseColor("#FF9C46")) // 표정 밑줄 색상 변경
         binding.bottomsView.setBackgroundColor(Color.parseColor("#DDDDDD")) // 표정 밑줄 색상 변경
     }
@@ -134,8 +134,8 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
     // 하단 외형 선택
     fun onBottomsButtonClick(view: View?) {
         updateEquipmentItemsForBottoms() // 아이템 그리기
-        binding.topsButton.setImageResource(com.example.marsproject.R.drawable.icon_face2) // 표정 버튼 배경 변경
-        binding.bottomsButton.setImageResource(com.example.marsproject.R.drawable.icon_color) // 외형 버튼 배경 변경
+        binding.topsButton.setImageResource(com.example.marsproject.R.drawable.avatar_face_no) // 표정 버튼 배경 변경
+        binding.bottomsButton.setImageResource(com.example.marsproject.R.drawable.avatar_color_ok) // 외형 버튼 배경 변경
         binding.topsView.setBackgroundColor(Color.parseColor("#DDDDDD")) // 표정 밑줄 색상 변경
         binding.bottomsView.setBackgroundColor(Color.parseColor("#FF9C46")) // 표정 밑줄 색상 변경
     }
