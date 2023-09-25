@@ -2,6 +2,7 @@ package com.example.marsproject
 
 import android.R
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -35,7 +36,7 @@ class SettingObjectiveActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar) // 툴바 지정
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
         supportActionBar?.setHomeAsUpIndicator(com.example.marsproject.R.drawable.icon_left_resize) // 뒤로가기 버튼 이미지 설정
-        supportActionBar?.setDisplayShowTitleEnabled(false) // 앱 타이틀 비활성화
+        supportActionBar?.title = "목표 선택" // 타이틀 지정
 
         // 액티비티 이동하면서 넘어온 값 받아오기
         email = intent.getStringExtra("email").toString() // 이메일
@@ -58,26 +59,44 @@ class SettingObjectiveActivity : AppCompatActivity() {
         }
         launcher = registerForActivityResult(contract, callback)
 
-        // 버튼 클릭 시 백그라운드 변경해주는 리스너
+        // 목표 클릭 리스너 설정
+        objectiveButtonClickListener()
+    }
+
+    // 목표 클릭 리스너 설정
+    private fun objectiveButtonClickListener(){
+        // 클릭 시 백그라운드 변경해주는 리스너
         val clkListener = View.OnClickListener { p0 ->
             when(p0?.id) {
-                // 공부 버튼 클릭 시
-                com.example.marsproject.R.id.studyButton -> {
-                    binding.studyButton.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 공부 버튼 배경 변경
-                    binding.exerciseButton.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_background) // 운동 버튼 배경 변경
+                // 공부 목표 클릭 시
+                com.example.marsproject.R.id.studyView,
+                com.example.marsproject.R.id.studyImage,
+                com.example.marsproject.R.id.studyText-> {
+                    binding.studyView.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 공부 배경 변경
+                    binding.exerciseView.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_background) // 운동 배경 변경
+                    binding.studyText.setTextColor(Color.parseColor("#FF8F2F")) // 공부 텍스트 색상 변경
+                    binding.exerciseText.setTextColor(Color.parseColor("#000000")) // 운동 텍스트 색상 변경
                     category = "공부" // 값 저장
                 }
-                // 운동 버튼 클릭 시
-                com.example.marsproject.R.id.exerciseButton -> {
-                    binding.studyButton.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_background) // 공부 버튼 배경 변경
-                    binding.exerciseButton.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 운동 버튼 배경 변경
+                // 운동 목표 클릭 시
+                com.example.marsproject.R.id.exerciseView,
+                com.example.marsproject.R.id.exerciseImage,
+                com.example.marsproject.R.id.exerciseText -> {
+                    binding.studyView.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_background) // 공부 배경 변경
+                    binding.exerciseView.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 운동 배경 변경
+                    binding.studyText.setTextColor(Color.parseColor("#000000")) // 공부 텍스트 색상 변경
+                    binding.exerciseText.setTextColor(Color.parseColor("#FF8F2F")) // 운동 텍스트 색상 변경
                     category = "운동" // 값 저장
                 }
             }
         }
         // 클릭 리스너 지정
-        binding.studyButton.setOnClickListener(clkListener)
-        binding.exerciseButton.setOnClickListener(clkListener)
+        binding.studyView.setOnClickListener(clkListener)
+        binding.studyImage.setOnClickListener(clkListener)
+        binding.studyText.setOnClickListener(clkListener)
+        binding.exerciseView.setOnClickListener(clkListener)
+        binding.exerciseImage.setOnClickListener(clkListener)
+        binding.exerciseText.setOnClickListener(clkListener)
     }
 
     // 툴바에 옵션 메뉴 생성
@@ -94,19 +113,22 @@ class SettingObjectiveActivity : AppCompatActivity() {
             }
             com.example.marsproject.R.id.action_next -> { // 다음 버튼 눌렀을 때
                 // 카테고리를 선택하지 않았을 때
-                if(category == "") {
-                    Toast.makeText(baseContext, "하나를 선택해주세요.", Toast.LENGTH_SHORT).show() // 토스트 메시지 출력
-                } else {
-                    // 인텐트 생성 후 액티비티 생성
-                    val intentD = Intent(this, SettingDetailObjectiveActivity::class.java) // 상세 목표 설정 페이지로 설정
-                    intentD.putExtra("email", email) // 이메일
-                    intentD.putExtra("profile", profile) // 프로필
-                    intentD.putExtra("name", name) // 닉네임
-                    intentD.putExtra("animal", animal) // 동물 종류
-                    intentD.putExtra("face", face) // 표정
-                    intentD.putExtra("appearance", appearance) // 외형
-                    intentD.putExtra("category", category) // 카테고리
-                    launcher?.launch(intentD) // 액티비티 생성
+                when (category) {
+                    "" -> Toast.makeText(baseContext, "하나를 선택해주세요.", Toast.LENGTH_SHORT).show() // 토스트 메시지 출력
+                    "운동" -> Toast.makeText(baseContext, "서비스 개발중입니다.", Toast.LENGTH_SHORT).show() // 토스트 메시지 출력
+                    else -> {
+                        // 인텐트 생성 후 액티비티 생성
+                        val intentD =
+                            Intent(this, SettingDetailObjectiveActivity::class.java) // 상세 목표 설정 페이지로 설정
+                        intentD.putExtra("email", email) // 이메일
+                        intentD.putExtra("profile", profile) // 프로필
+                        intentD.putExtra("name", name) // 닉네임
+                        intentD.putExtra("animal", animal) // 동물 종류
+                        intentD.putExtra("face", face) // 표정
+                        intentD.putExtra("appearance", appearance) // 외형
+                        intentD.putExtra("category", category) // 카테고리
+                        launcher?.launch(intentD) // 액티비티 생성
+                    }
                 }
             }
         }

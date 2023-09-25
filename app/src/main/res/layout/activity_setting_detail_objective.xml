@@ -10,6 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -131,26 +132,79 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.75" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/objectiveButton1"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.18" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.37" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.15" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.3" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.37" />
+
+        <View
+            android:id="@+id/objectiveView1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/objective_button_background"
-            android:fontFamily="@font/pretendardbold"
-            android:text="프로그래밍"
-            android:textSize="14sp"
-            android:textColor="@color/black"
-            android:drawableBottom="@drawable/programming_resize"
             app:layout_constraintBottom_toTopOf="@+id/guideline6"
             app:layout_constraintEnd_toStartOf="@+id/guideline9"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
+        <ImageView
+            android:id="@+id/objectiveImage1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline14"
+            app:layout_constraintEnd_toStartOf="@+id/guideline12"
+            app:layout_constraintStart_toStartOf="@+id/guideline11"
+            app:layout_constraintTop_toTopOf="@+id/guideline13"
+            app:srcCompat="@drawable/programming" />
+
+        <TextView
+            android:id="@+id/objectiveText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendardbold"
+            android:text="프로그래밍"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline15"
+            app:layout_constraintEnd_toStartOf="@+id/guideline9"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/guideline14" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/repairButton1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/repair_background"
+            android:background="@drawable/objective_button_background"
             android:fontFamily="@font/pretendardbold"
             android:text="곧 컨텐츠가\n추가될 예정입니다."
             android:textSize="14sp"
@@ -169,7 +223,7 @@
             android:id="@+id/repairButton2"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/repair_background"
+            android:background="@drawable/objective_button_background"
             android:fontFamily="@font/pretendardbold"
             android:text="곧 컨텐츠가\n추가될 예정입니다."
             android:textSize="14sp"
@@ -186,7 +240,7 @@
             android:id="@+id/repairButton3"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/repair_background"
+            android:background="@drawable/objective_button_background"
             android:fontFamily="@font/pretendardbold"
             android:text="곧 컨텐츠가\n추가될 예정입니다."
             android:textSize="14sp"

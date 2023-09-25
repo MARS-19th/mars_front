@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".SettingNameActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline19"
         android:layout_width="wrap_content"
@@ -36,50 +44,48 @@
 
     <ImageView
         android:id="@+id/profileBackground"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:background="@drawable/profile_background"
         app:layout_constraintBottom_toTopOf="@+id/guideline20"
         app:layout_constraintEnd_toStartOf="@+id/guideline22"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline21"
-        app:layout_constraintTop_toTopOf="@+id/guideline19"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/guideline19"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline35"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
+        app:layout_constraintGuide_percent="0.24" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline36"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="0.36" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline37"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.39" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline38"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.6" />
+        app:layout_constraintGuide_percent="0.61" />
 
     <ImageView
         android:id="@+id/userImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         app:srcCompat="@drawable/user_edit"
-        app:layout_constraintDimensionRatio="1:1"
+        app:tint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline36"
         app:layout_constraintEnd_toStartOf="@+id/guideline38"
         app:layout_constraintStart_toStartOf="@+id/guideline37"
@@ -111,21 +117,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.75" />
+        app:layout_constraintGuide_percent="0.8" />
 
     <EditText
         android:id="@+id/editName"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:inputType="text"
+        android:background="@drawable/edittext_background"
         android:fontFamily="@font/pretendardbold"
         android:hint="닉네임을 입력하세요"
-        android:textColorHint="@color/black"
+        android:inputType="text"
         android:textAlignment="center"
+        android:textColor="#FF9C46"
+        android:textColorHint="#C1C3C7"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline24"
-        app:layout_constraintEnd_toStartOf="@+id/guideline26"
-        app:layout_constraintStart_toStartOf="@+id/guideline25"
+        app:layout_constraintEnd_toStartOf="@+id/guideline30"
+        app:layout_constraintStart_toStartOf="@+id/guideline29"
         app:layout_constraintTop_toTopOf="@+id/guideline23" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -174,7 +182,7 @@
             android:fontFamily="@font/pretendardregular"
             android:text="* 한글 2~6자 입력가능"
             android:textSize="13sp"
-            android:textColor="#221803"
+            android:textColor="#FF9C46"
             android:layout_marginRight="15dp" />
 
         <TextView
@@ -184,7 +192,7 @@
             android:fontFamily="@font/pretendardregular"
             android:text="* 중복확인"
             android:textSize="13sp"
-            android:textColor="#221803" />
+            android:textColor="#FF9C46" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
@@ -219,14 +227,14 @@
         android:id="@+id/startButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@drawable/search_button_background"
         android:fontFamily="@font/pretendardbold"
         android:text="스텝업 시작하기"
+        android:textColor="@color/white"
         android:textSize="18sp"
-        android:textColor="@color/black"
-        android:background="@drawable/search_button_background"
         app:layout_constraintBottom_toTopOf="@+id/guideline32"
-        app:layout_constraintEnd_toStartOf="@+id/guideline34"
-        app:layout_constraintStart_toStartOf="@+id/guideline33"
+        app:layout_constraintEnd_toStartOf="@+id/guideline30"
+        app:layout_constraintStart_toStartOf="@+id/guideline29"
         app:layout_constraintTop_toTopOf="@+id/guideline31" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

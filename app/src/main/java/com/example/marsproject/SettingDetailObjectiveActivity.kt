@@ -2,6 +2,7 @@ package com.example.marsproject
 
 import android.R
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -37,7 +38,7 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar) // 툴바 지정
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
         supportActionBar?.setHomeAsUpIndicator(com.example.marsproject.R.drawable.icon_left_resize) // 뒤로가기 버튼 이미지 설정
-        supportActionBar?.setDisplayShowTitleEnabled(false) // 앱 타이틀 비활성화
+        supportActionBar?.title = "목표 선택" // 타이틀 지정
 
         // 액티비티 이동하면서 넘어온 값 받아오기
         email = intent.getStringExtra("email").toString() // 이메일
@@ -61,33 +62,50 @@ class SettingDetailObjectiveActivity : AppCompatActivity() {
         }
         launcher = registerForActivityResult(contract, callback)
 
-        // 카테고리 값에 따라 버튼 텍스트, 이미지, 리스너 변경
+        // 상세 목표 클릭 리스너 설정
+        detailObjectiveButtonClickListener()
+
+    }
+
+    // 상세 목표 클릭 리스너 설정
+    private fun detailObjectiveButtonClickListener() {
+        // 카테고리 값에 따라 텍스트, 이미지, 리스너 변경
         if(category == "공부") {
-            // 버튼 클릭 시 백그라운드 변경해주는 리스너
+            // 클릭 시 백그라운드 변경해주는 리스너
             val clkListener = View.OnClickListener { p0 ->
                 when(p0?.id) {
-                    com.example.marsproject.R.id.objectiveButton1 -> {
-                        binding.objectiveButton1.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 버튼 배경 변경
+                    com.example.marsproject.R.id.objectiveView1,
+                    com.example.marsproject.R.id.objectiveImage1,
+                    com.example.marsproject.R.id.objectiveText1 -> {
+                        binding.objectiveView1.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 배경 변경
+                        binding.objectiveText1.setTextColor(Color.parseColor("#FF8F2F")) // 텍스트 색상 변경
                         objective = "프로그래밍" // 값 저장
                     }
                 }
             }
             // 클릭 리스너 지정
-            binding.objectiveButton1.setOnClickListener(clkListener)
+            binding.objectiveView1.setOnClickListener(clkListener)
+            binding.objectiveImage1.setOnClickListener(clkListener)
+            binding.objectiveText1.setOnClickListener(clkListener)
         } else {
-            binding.objectiveButton1.text = "등산" // 버튼 텍스트 변경
-            binding.objectiveButton1.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, com.example.marsproject.R.drawable.climb_resize) // 등산 이미지로 변경
+            binding.objectiveText1.text = "등산" // 버튼 텍스트 변경
+            binding.objectiveImage1.setImageResource(com.example.marsproject.R.drawable.climb) // 등산 이미지로 변경
             // 버튼 클릭 시 백그라운드 변경해주는 리스너
             val clkListener = View.OnClickListener { p0 ->
                 when(p0?.id) {
-                    com.example.marsproject.R.id.objectiveButton1 -> {
-                        binding.objectiveButton1.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 버튼 배경 변경
+                    com.example.marsproject.R.id.objectiveView1,
+                    com.example.marsproject.R.id.objectiveImage1,
+                    com.example.marsproject.R.id.objectiveText1 -> {
+                        binding.objectiveView1.setBackgroundResource(com.example.marsproject.R.drawable.objective_button_clicked) // 버튼 배경 변경
+                        binding.objectiveText1.setTextColor(Color.parseColor("#FF8F2F")) // 버튼 텍스트 색상 변경
                         objective = "등산" // 값 저장
                     }
                 }
             }
             // 클릭 리스너 지정
-            binding.objectiveButton1.setOnClickListener(clkListener)
+            binding.objectiveView1.setOnClickListener(clkListener)
+            binding.objectiveImage1.setOnClickListener(clkListener)
+            binding.objectiveText1.setOnClickListener(clkListener)
         }
     }
 

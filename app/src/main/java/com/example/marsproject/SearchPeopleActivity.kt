@@ -31,7 +31,7 @@ class SearchPeopleActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar) // 툴바 지정
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
         supportActionBar?.setHomeAsUpIndicator(R.drawable.icon_left_resize) // 뒤로가기 버튼 이미지 설정
-        supportActionBar?.setDisplayShowTitleEnabled(false) // 앱 타이틀 비활성화
+        supportActionBar?.title = "주변 친구 찾기" // 타이틀 지정
 
         bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothsearch = BluetoothSearch(bluetoothManager)

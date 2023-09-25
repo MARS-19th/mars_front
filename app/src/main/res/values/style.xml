@@ -6,4 +6,10 @@
     <style name="CalendarViewTheme" parent="Theme.AppCompat.Light">
         <item name="android:textColorPrimary">#000000</item>
     </style>
+
+    <!-- 툴바 폰트 적용 -->
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/pretendardextrabold</item>
+    </style>
 </resources>

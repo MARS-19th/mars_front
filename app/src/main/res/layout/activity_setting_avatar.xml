@@ -11,6 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -33,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:orientation="horizontal"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="2dp">
 
@@ -55,20 +56,6 @@
             android:onClick="onCatButtonClick"
             android:layout_marginLeft="10dp"
             android:background="@drawable/avatar_button_clicked" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:orientation="horizontal">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="@android:color/black" />
 
     </LinearLayout>
 
@@ -100,6 +87,28 @@
             android:background="@android:color/transparent" /> <!-- 배경을 투명으로 설정 -->
 
         <!-- 여기에 더 많은 버튼을 추가하면, 버튼의 개수에 따라 자동으로 너비가 조정됩니다. -->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/topsView"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
+            android:background="#FF9C46" />
+
+        <View
+            android:id="@+id/bottomsView"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
+            android:background="#DDDDDD" />
 
     </LinearLayout>
 

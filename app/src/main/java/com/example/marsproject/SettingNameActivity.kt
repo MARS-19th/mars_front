@@ -139,7 +139,7 @@ class SettingNameActivity : AppCompatActivity() {
         val regex = "^[가-힣a-zA-Z0-9]*$".toRegex() // 표현식(완성된 한글, 영문, 숫자)
         // 길이가 4 ~ 12이며 표현식에 어긋나지 않을 때
         return if (length in 4..12 && regex.matches(name)) {
-            binding.guideText1.setTextColor(Color.parseColor("#00ff00")) // 안내 문구 초록색으로 변경
+            binding.guideText1.setTextColor(Color.parseColor("#FF9C46")) // 안내 문구 주황색으로 변경
             binding.guideText1.text = "v 한글 2~6자 입력가능" // 안내 문구 텍스트 변경
             true
         } else {
@@ -175,7 +175,7 @@ class SettingNameActivity : AppCompatActivity() {
 
         // 닉네임이 중복이 아닐 때
         return if (result == "true") {
-            binding.guideText2.setTextColor(Color.parseColor("#00ff00")) // 안내 문구 초록색으로 변경
+            binding.guideText2.setTextColor(Color.parseColor("#FF9C46")) // 안내 문구 주황색으로 변경
             binding.guideText2.text = "v 중복확인" // 안내 문구 텍스트 변경
             true
         } else {

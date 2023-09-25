@@ -38,7 +38,7 @@ class SettingLanguageActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar) // 툴바 지정
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
         supportActionBar?.setHomeAsUpIndicator(com.example.marsproject.R.drawable.icon_left_resize) // 뒤로가기 버튼 이미지 설정
-        supportActionBar?.setDisplayShowTitleEnabled(false) // 앱 타이틀 비활성화
+        supportActionBar?.title = "언어 선택" // 타이틀 지정
 
         // 액티비티 이동하면서 넘어온 값 받아오기
         email = intent.getStringExtra("email").toString() // 이메일

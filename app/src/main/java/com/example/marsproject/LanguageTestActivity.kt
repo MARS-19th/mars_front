@@ -2,10 +2,13 @@ package com.example.marsproject
 
 import android.R
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import com.example.marsproject.databinding.ActivityLanguageTestBinding
 import org.json.JSONObject
@@ -32,7 +35,7 @@ class LanguageTestActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar) // 툴바 지정
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
         supportActionBar?.setHomeAsUpIndicator(com.example.marsproject.R.drawable.icon_left_resize) // 뒤로가기 버튼 이미지 설정
-        supportActionBar?.setDisplayShowTitleEnabled(false) // 앱 타이틀 비활성화
+        supportActionBar?.title = "언어 테스트" // 타이틀 지정
 
         // 액티비티 이동하면서 넘어온 값 받아오기
         email = intent.getStringExtra("email").toString() // 이메일
@@ -62,6 +65,82 @@ class LanguageTestActivity : AppCompatActivity() {
             }
         }
 
+        // 답 버튼 클릭 리스너 설정
+        answerButtonClickListener()
+
+    }
+
+    // 선택한 버튼은 색상 활성화
+    private fun selectButton(view: View, no: TextView, text: TextView) {
+        view.setBackgroundResource(com.example.marsproject.R.drawable.test_button_clicked) // 뷰 색상 변경
+        no.setTextColor(Color.parseColor("#FF8F2F")) // 번호 색상 변경
+        text.setTextColor(Color.parseColor("#FF8F2F")) // 답 색상 변경
+    }
+
+    // 선택하지 않은 버튼은 색상 비활성화
+    private fun noselectButton(view: View, no: TextView, text: TextView) {
+        view.setBackgroundResource(com.example.marsproject.R.drawable.test_button_background) // 뷰 색상 변경
+        no.setTextColor(Color.parseColor("#808897")) // 번호 색상 변경
+        text.setTextColor(Color.parseColor("#000000")) // 답 색상 변경
+    }
+
+    // 답 버튼 클릭 리스너 설정해주는 함수
+    private fun answerButtonClickListener() {
+        // 답 버튼 클릭 시 색상 변경, 값 저장해주는 리스너
+        val clklistener = View.OnClickListener {
+            when(it.id) {
+                com.example.marsproject.R.id.answerViewA,
+                com.example.marsproject.R.id.answerNoA,
+                com.example.marsproject.R.id.answerTextA -> {
+                    selectButton(binding.answerViewA, binding.answerNoA, binding.answerTextA) // 색상 활성화
+                    noselectButton(binding.answerViewB, binding.answerNoB, binding.answerTextB) // 색상 비활성화
+                    noselectButton(binding.answerViewC, binding.answerNoC, binding.answerTextC) // 색상 비활성화
+                    noselectButton(binding.answerViewD, binding.answerNoD, binding.answerTextD) // 색상 비활성화
+                    answer = "A" // 값 저장
+                }
+                com.example.marsproject.R.id.answerViewB,
+                com.example.marsproject.R.id.answerNoB,
+                com.example.marsproject.R.id.answerTextB -> {
+                    noselectButton(binding.answerViewA, binding.answerNoA, binding.answerTextA) // 색상 비활성화
+                    selectButton(binding.answerViewB, binding.answerNoB, binding.answerTextB) // 색상 활성화
+                    noselectButton(binding.answerViewC, binding.answerNoC, binding.answerTextC) // 색상 비활성화
+                    noselectButton(binding.answerViewD, binding.answerNoD, binding.answerTextD) // 색상 비활성화
+                    answer = "B" // 값 저장
+                }
+                com.example.marsproject.R.id.answerViewC,
+                com.example.marsproject.R.id.answerNoC,
+                com.example.marsproject.R.id.answerTextC -> {
+                    noselectButton(binding.answerViewA, binding.answerNoA, binding.answerTextA) // 색상 비활성화
+                    noselectButton(binding.answerViewB, binding.answerNoB, binding.answerTextB) // 색상 비활성화
+                    selectButton(binding.answerViewC, binding.answerNoC, binding.answerTextC) // 색상 활성화
+                    noselectButton(binding.answerViewD, binding.answerNoD, binding.answerTextD) // 색상 비활성화
+                    answer = "C" // 값 저장
+                }
+                com.example.marsproject.R.id.answerViewD,
+                com.example.marsproject.R.id.answerNoD,
+                com.example.marsproject.R.id.answerTextD -> {
+                    noselectButton(binding.answerViewA, binding.answerNoA, binding.answerTextA) // 색상 비활성화
+                    noselectButton(binding.answerViewB, binding.answerNoB, binding.answerTextB) // 색상 비활성화
+                    noselectButton(binding.answerViewC, binding.answerNoC, binding.answerTextC) // 색상 비활성화
+                    selectButton(binding.answerViewD, binding.answerNoD, binding.answerTextD) // 색상 활성화
+                    answer = "D" // 값 저장
+                }
+            }
+        }
+
+        // 리스너 지정
+        binding.answerViewA.setOnClickListener(clklistener)
+        binding.answerNoA.setOnClickListener(clklistener)
+        binding.answerTextA.setOnClickListener(clklistener)
+        binding.answerViewB.setOnClickListener(clklistener)
+        binding.answerNoB.setOnClickListener(clklistener)
+        binding.answerTextB.setOnClickListener(clklistener)
+        binding.answerViewC.setOnClickListener(clklistener)
+        binding.answerNoC.setOnClickListener(clklistener)
+        binding.answerTextC.setOnClickListener(clklistener)
+        binding.answerViewD.setOnClickListener(clklistener)
+        binding.answerNoD.setOnClickListener(clklistener)
+        binding.answerTextD.setOnClickListener(clklistener)
     }
 
     // 툴바에 옵션 메뉴 생성
@@ -78,7 +157,7 @@ class LanguageTestActivity : AppCompatActivity() {
             }
             com.example.marsproject.R.id.action_ok -> { // 완료 버튼 눌렀을 때
                 // 답을 선택하지 않았을 때
-                if(objective == "") {
+                if(answer == "") {
                     Toast.makeText(baseContext, "하나를 선택해주세요.", Toast.LENGTH_SHORT).show() // 토스트 메시지 출력
                 } else {
                     // DB에 데이터 저장하는 쓰레드 실행

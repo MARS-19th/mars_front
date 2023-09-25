@@ -3,6 +3,7 @@ package com.example.marsproject
 import android.R
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -40,7 +41,7 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
         setSupportActionBar(binding.toolbar) // 툴바 지정
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
         supportActionBar?.setHomeAsUpIndicator(com.example.marsproject.R.drawable.icon_left_resize) // 뒤로가기 버튼 이미지 설정
-        supportActionBar?.setDisplayShowTitleEnabled(false) // 앱 타이틀 비활성화
+        supportActionBar?.title = "아바타 설정" // 타이틀 지정
 
         // 액티비티 이동하면서 넘어온 값 받아오기
         email = intent.getStringExtra("email").toString() // 이메일
@@ -126,6 +127,8 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
         updateEquipmentItemsForTops() // 아이템 그리기
         binding.topsButton.setImageResource(com.example.marsproject.R.drawable.icon_face) // 표정 버튼 배경 변경
         binding.bottomsButton.setImageResource(com.example.marsproject.R.drawable.icon_color2) // 외형 버튼 배경 변경
+        binding.topsView.setBackgroundColor(Color.parseColor("#FF9C46")) // 표정 밑줄 색상 변경
+        binding.bottomsView.setBackgroundColor(Color.parseColor("#DDDDDD")) // 표정 밑줄 색상 변경
     }
 
     // 하단 외형 선택
@@ -133,6 +136,8 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
         updateEquipmentItemsForBottoms() // 아이템 그리기
         binding.topsButton.setImageResource(com.example.marsproject.R.drawable.icon_face2) // 표정 버튼 배경 변경
         binding.bottomsButton.setImageResource(com.example.marsproject.R.drawable.icon_color) // 외형 버튼 배경 변경
+        binding.topsView.setBackgroundColor(Color.parseColor("#DDDDDD")) // 표정 밑줄 색상 변경
+        binding.bottomsView.setBackgroundColor(Color.parseColor("#FF9C46")) // 표정 밑줄 색상 변경
     }
 
     // 툴바에 옵션 메뉴 생성
