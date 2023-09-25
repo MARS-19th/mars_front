@@ -291,7 +291,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 프래그먼트 변경 함수
-    private fun changeFragment(fragment: Fragment) {
+    fun changeFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack(null, POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager
             .beginTransaction()
@@ -303,14 +303,14 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("ResourceType")
     fun clickchangeFragment(index: Int) {
         when (index) {
-            1 -> { // 홈 프래그먼트에서 사용
+            1 -> { // 홈 프래그먼트에서 사용 (목표 또는 진행률 클릭 시 화면 전환)
                 supportFragmentManager.popBackStack(null, POP_BACK_STACK_INCLUSIVE)
-                val menuBottomNavigation = binding.menuBottomNavigation
-                menuBottomNavigation.selectedItemId = R.id.menu_objective
+                val menuBottomNavigation = binding.menuBottomNavigation // 바텀 네비게이션뷰 객체 저장
+                menuBottomNavigation.selectedItemId = R.id.menu_objective // 선택 아이템을 목표로 변경
                 menuBottomNavigation.itemIconTintList =
-                    ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
+                    ContextCompat.getColorStateList(this, R.drawable.menu_item_color) // 색상 변경
                 menuBottomNavigation.itemTextColor =
-                    ContextCompat.getColorStateList(this, R.drawable.menu_item_color)
+                    ContextCompat.getColorStateList(this, R.drawable.menu_item_color) // 색상 변경
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.menu_frame_layout, MainObjectiveFragment())
@@ -331,6 +331,20 @@ class MainActivity : AppCompatActivity() {
                 val intent = intent //인텐트
                 startActivity(intent) //액티비티 열기
                 overridePendingTransition(0, 0) //인텐트 효과 없애기
+            }
+
+            4 -> { // 마이페이지 프래그먼트에서 사용 (닉네임 변경 후 화면 새로고침)
+                supportFragmentManager.popBackStack(null, POP_BACK_STACK_INCLUSIVE)
+                val menuBottomNavigation = binding.menuBottomNavigation // 바텀 네비게이션뷰 객체 저장
+                menuBottomNavigation.selectedItemId = R.id.menu_home // 선택 아이템을 홈으로 변경
+                menuBottomNavigation.itemIconTintList =
+                    ContextCompat.getColorStateList(this, R.drawable.menu_item_color) // 색상 변경
+                menuBottomNavigation.itemTextColor =
+                    ContextCompat.getColorStateList(this, R.drawable.menu_item_color) // 색상 변경
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.menu_frame_layout, MainHomeFragment())
+                    .commit()
             }
         }
     }

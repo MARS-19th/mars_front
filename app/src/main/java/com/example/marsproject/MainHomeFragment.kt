@@ -13,7 +13,7 @@ import java.net.UnknownServiceException
 
 class MainHomeFragment : Fragment() {
     private lateinit var binding: FragmentMainHomeBinding
-    private lateinit var savedname: String
+    private lateinit var savedname: String // 저장된 닉네임
     private var name: String = "닉네임" // 닉네임
     private var id: String = "아이디" // 아이디
     private var objective: String = "목표" // 상세 목표
