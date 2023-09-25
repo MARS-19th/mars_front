@@ -21,7 +21,7 @@ class MainMypageFragment : Fragment() {
         binding = FragmentMainMypageBinding.inflate(inflater)
 
         // 클릭 시 로그아웃 및 화면 전환 리스너
-        binding.logoutButton.setOnClickListener{
+        binding.logoutLayout.setOnClickListener{
             // 카카오 계정 연동 해제
             UserApiClient.instance.logout { err ->
                 if (err == null) {
@@ -37,14 +37,14 @@ class MainMypageFragment : Fragment() {
             (activity as MainActivity).clickchangeFragment(3) // 홈 프래그먼트로 전환
         }
 
-        // 클릭 시 상점으로 이동 리스너
-        binding.storeButton.setOnClickListener {
-            activity?.let{
-                // 인텐트 생성 후 액티비티 생성
-                val intent = Intent(context, StoreActivity::class.java) // 상점 페이지로 설정
-                startActivity(intent) // 액티비티 생성
-            }
-        }
+//        // 클릭 시 상점으로 이동 리스너
+//        binding.titleLayout.setOnClickListener {
+//            activity?.let{
+//                // 인텐트 생성 후 액티비티 생성
+//                val intent = Intent(context, StoreActivity::class.java) // 상점 페이지로 설정
+//                startActivity(intent) // 액티비티 생성
+//            }
+//        }
 
         return binding.root
     }
