@@ -11,25 +11,33 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         app:contentInsetRight="20dp"
+        android:theme="@style/ToolbarTheme"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" >
-        <TextView
-            android:id="@+id/userMoney"
-            android:fontFamily="@font/pretendardbold"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_gravity="end"
-            android:layout_marginLeft="6dp"
-            android:textSize="16sp"
-            android:text="1,004" />
-        <ImageView
-            android:id="@+id/moneyImage"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_gravity="end"
-            android:src="@drawable/icon_money"/>
+            android:layout_height="wrap_content"
+            android:background="@drawable/coin_background"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="end">
+            <ImageView
+                android:id="@+id/moneyImage"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/icon_money"/>
+            <TextView
+                android:id="@+id/userMoney"
+                android:fontFamily="@font/pretendardbold"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="-4dp"
+                android:layout_marginLeft="6dp"
+                android:textSize="16sp"
+                android:text="1,004" />
+        </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.Guideline
@@ -84,66 +92,88 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.471" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#AEAEAE"
-        app:layout_constraintBottom_toTopOf="@+id/guideline6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.54" />
-
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#EDEDED"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline6" >
+        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        app:layout_constraintVertical_bias="0.0">
 
-        <ImageView
-            android:id="@+id/storeImage1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingVertical="10dp"
-            android:src="@drawable/icon_store1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/storeImage2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingVertical="10dp"
-            android:src="@drawable/icon_store2" />
+            <ImageView
+                android:id="@+id/headImage"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:paddingVertical="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_store1" />
 
-        <ImageView
-            android:id="@+id/storeImage3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingVertical="10dp"
-            android:src="@drawable/icon_store3" />
+            <ImageView
+                android:id="@+id/bodyImage"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:paddingVertical="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_store2" />
 
-        <ImageView
-            android:id="@+id/storeImage4"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingVertical="10dp"
-            android:src="@drawable/icon_store4" />
+            <ImageView
+                android:id="@+id/etcImage"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:paddingVertical="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_store3" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/headView"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_weight="1"
+                android:background="#FF9C46" />
+
+            <View
+                android:id="@+id/bodyView"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_weight="1"
+                android:background="#DDDDDD" />
+
+            <View
+                android:id="@+id/etcView"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_weight="1"
+                android:background="#DDDDDD" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
