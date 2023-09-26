@@ -169,12 +169,12 @@ class MainMypageFragment : Fragment() {
                 delThread.join() // 쓰레드 종료될 때까지 대기
 
                 // 카카오 계정 연동 해제
-                UserApiClient.instance.logout { err ->
+                UserApiClient.instance.unlink { err ->
                     if (err == null) {
-                        Log.d(ContentValues.TAG, "로그아웃 성공")
+                        Log.d(ContentValues.TAG, "연동해제 성공")
                     }
                     else {
-                        Log.d(ContentValues.TAG, "로그아웃 실패")
+                        Log.d(ContentValues.TAG, "연동해제 실패")
                     }
                 }
 

@@ -1,19 +1,14 @@
 package com.example.marsproject
 
-
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.marsproject.databinding.ActivityLoginBinding
-import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 
@@ -26,8 +21,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //kakaohashkey 불러오기
-        var keyHash = Utility.getKeyHash(this)
-        Log.i(ContentValues.TAG, "keyhash : $keyHash")
+        val keyHash = Utility.getKeyHash(this)
+        Log.i(TAG, "keyhash : $keyHash")
 
         binding.kakaoLoginBtn.setOnClickListener {
 
@@ -110,6 +105,4 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
-    override fun onBackPressed() {}
 }
