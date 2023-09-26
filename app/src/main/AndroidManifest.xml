@@ -33,9 +33,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".DialogCustom"
-            android:exported="false" />
-        <activity
             android:name=".ChangeTitleActivity"
             android:exported="false" />
         <activity
