@@ -388,7 +388,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/searchLayout"
+                    android:id="@+id/friendLayout"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginBottom="15dp">
@@ -439,7 +439,7 @@
                         <ImageView
                             android:layout_width="35dp"
                             android:layout_height="35dp"
-                            app:srcCompat="@drawable/mypage_search"
+                            app:srcCompat="@drawable/mypage_friend"
                             app:layout_constraintBottom_toBottomOf="@id/guideline26"
                             app:layout_constraintEnd_toEndOf="@id/guideline28"
                             app:layout_constraintStart_toStartOf="@id/guideline27"
@@ -452,7 +452,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="4"
                         android:fontFamily="@font/pretendardbold"
-                        android:text="주변 친구 찾기"
+                        android:text="친구"
                         android:textColor="#515459"
                         android:textSize="22sp"
                         android:gravity="center_vertical"
