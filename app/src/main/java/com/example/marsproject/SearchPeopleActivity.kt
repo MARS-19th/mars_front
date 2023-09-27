@@ -11,9 +11,15 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.marsproject.databinding.ActivitySearchPeopleBinding
+import org.w3c.dom.Text
 import java.net.UnknownServiceException
 
 // 권한 오류 방지
@@ -22,6 +28,10 @@ class SearchPeopleActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchPeopleBinding
     private lateinit var bluetoothManager: BluetoothManager
     private lateinit var bluetoothsearch: BluetoothSearch
+
+    private lateinit var statusTextView: TextView
+    private lateinit var findUser: ImageView
+    private lateinit var fadeInAnimation: Animation
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchPeopleBinding.inflate(layoutInflater)
@@ -36,18 +46,22 @@ class SearchPeopleActivity : AppCompatActivity() {
         bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothsearch = BluetoothSearch(bluetoothManager)
 
+        statusTextView = binding.searchingText
+        fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+
+        // 애니메이션을 텍스트 뷰에 적용
+        statusTextView.startAnimation(fadeInAnimation)
+        statusTextView.visibility = TextView.VISIBLE
+
         // 사용자 찾기 버튼 클릭 리스너
-        binding.searchButton.setOnClickListener {
-            if (!bluetoothsearch.bluetoothAdapter.isEnabled) {
-                // 블루투스 활성화 안될때 활성화 시키기
-                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                resultLaunch.launch(enableBtIntent) // 이 함수를 사용하면 resultLaunch 메소드가 실행됨
-            } else {
-                // 2분동안 다른 블루투스 장치를 찾음
-                if (bluetoothsearch.startbluetoothSearch(bluetoothSearchCallback, 2)) {
-                    Toast.makeText(applicationContext, "다른 플레이어를 찾는중....", Toast.LENGTH_SHORT)
-                        .show()
-                }
+
+        if (!bluetoothsearch.bluetoothAdapter.isEnabled) {
+            // 블루투스 활성화 안될때 활성화 시키기
+            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            resultLaunch.launch(enableBtIntent) // 이 함수를 사용하면 resultLaunch 메소드가 실행됨
+        } else {
+            // 2분동안 다른 블루투스 장치를 찾음
+            if (bluetoothsearch.startbluetoothSearch(bluetoothSearchCallback, 2)) {
             }
         }
     }
@@ -58,8 +72,13 @@ class SearchPeopleActivity : AppCompatActivity() {
         if (result.resultCode == -1) {
             // 2분동안 다른 블루투스 장치를 찾음
             if (bluetoothsearch.startbluetoothSearch(bluetoothSearchCallback, 2)) {
-                Toast.makeText(applicationContext, "다른 플레이어를 찾는중....", Toast.LENGTH_SHORT)
-                    .show()
+                statusTextView = binding.searchingText
+                fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+
+                // 애니메이션을 텍스트 뷰에 적용
+                statusTextView.startAnimation(fadeInAnimation)
+                statusTextView.visibility = TextView.VISIBLE
+
             }
         }
     }
@@ -98,8 +117,13 @@ class SearchPeopleActivity : AppCompatActivity() {
 
                     // Thread 안에서 수행할때 오류가 나는 코드들을 runOnUiThread 로 감싸서 수행
                     runOnUiThread {
-                        val messge = "사용자를 찾았습니다!\n닉네임: $name"
-                        Toast.makeText(applicationContext, messge, Toast.LENGTH_SHORT).show()
+                        findUser = binding.friend1
+                        findUser.startAnimation(fadeInAnimation) // 이미지 뷰에 애니메이션 적용
+
+                        // 애니메이션을 텍스트 뷰에 적용
+                        findUser.startAnimation(fadeInAnimation)
+                        findUser.visibility = ImageView.VISIBLE
+
                     }
                 } catch (e: UnknownServiceException) {
                     Log.d("블루투스", "해당 uuid는 앱 사용자가 아님")
