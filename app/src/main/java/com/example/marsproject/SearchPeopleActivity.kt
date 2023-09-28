@@ -19,8 +19,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.marsproject.databinding.ActivitySearchPeopleBinding
+import com.kakao.sdk.user.UserApiClient
 import org.w3c.dom.Text
 import java.net.UnknownServiceException
+import kotlin.random.Random
 
 // 권한 오류 방지
 @SuppressLint("MissingPermission")
@@ -51,7 +53,13 @@ class SearchPeopleActivity : AppCompatActivity() {
 
         // 애니메이션을 텍스트 뷰에 적용
         statusTextView.startAnimation(fadeInAnimation)
+
+        statusTextView.setOnClickListener{
+
+        }
+
         statusTextView.visibility = TextView.VISIBLE
+
 
         // 사용자 찾기 버튼 클릭 리스너
 
@@ -120,9 +128,31 @@ class SearchPeopleActivity : AppCompatActivity() {
                         findUser = binding.friend1
                         findUser.startAnimation(fadeInAnimation) // 이미지 뷰에 애니메이션 적용
 
-                        // 애니메이션을 텍스트 뷰에 적용
-                        findUser.startAnimation(fadeInAnimation)
+                        val screenWidth = 409
+                        val screenHeight = 673
+
+                        val randomX = (0..screenWidth).random()
+                        val randomY = (0..screenHeight).random()
+
+                        findUser.x = randomX.toFloat()
+                        findUser.y = randomY.toFloat()
+
                         findUser.visibility = ImageView.VISIBLE
+
+                        //찾은 사용자 다이얼로그로 보여주기
+                        findUser.setOnClickListener{
+                            UserApiClient.instance.me { user, error ->
+                                if(user != null){
+
+                                    val dialog = FriendDialog("${user.id}")
+                                    //알림창이 띄워져있는 동안 배경 클릭 막기
+                                    dialog.isCancelable = false
+                                    dialog.show(supportFragmentManager, "FriendDialog")
+                                }
+                            }
+                        }
+
+
 
                     }
                 } catch (e: UnknownServiceException) {
@@ -136,10 +166,14 @@ class SearchPeopleActivity : AppCompatActivity() {
         }
     }
 
+
+
+
     // 옵션 메뉴 클릭 함수
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item?.itemId) {
             android.R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
+                bluetoothsearch.stopbluetoothSearch(bluetoothSearchCallback)
                 finish() // 액티비티 종료
             }
         }
