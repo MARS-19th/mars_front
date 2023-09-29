@@ -85,7 +85,7 @@ class MainMypageFragment : Fragment() {
 
         // 클릭 시 닉네임 변경으로 이동 리스너
         binding.nameLayout.setOnClickListener {
-            val intent = Intent(context, ChangeNameActivity::class.java)
+            val intent = Intent(context, ChangeNameActivity::class.java) // 닉네임 변경 페이지로 설정
             launcher?.launch(intent)
         }
 
