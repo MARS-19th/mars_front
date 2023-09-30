@@ -126,6 +126,8 @@ class MainMypageFragment : Fragment() {
                 (activity as MainActivity).clearName() // 닉네임 정보 삭제
                 (activity as MainActivity).clickchangeFragment(3) // 홈 프래그먼트로 전환
             }
+            // 아니오 버튼 클릭 시 실행
+            dlg.setOnNOClickedListener {}
             dlg.show("로그아웃 하시겠습니까?") // 다이얼로그 내용에 담을 텍스트
         }
 
@@ -182,6 +184,8 @@ class MainMypageFragment : Fragment() {
                 (activity as MainActivity).clearName() // 닉네임 정보 삭제
                 (activity as MainActivity).clickchangeFragment(3) // 홈 프래그먼트로 전환
             }
+            // 아니오 버튼 클릭 시 실행
+            dlg.setOnNOClickedListener {}
             dlg.show("회원탈퇴 하시겠습니까?") // 다이얼로그 내용에 담을 텍스트
         }
     }

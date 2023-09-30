@@ -12,7 +12,8 @@ class MyDialog(private val context : AppCompatActivity) {
     private lateinit var binding : ActivityDialogCustomBinding
     private val dlg = Dialog(context) // 부모 액티비티의 context 가 들어감
 
-    private lateinit var listener : MyDialogOKClickedListener
+    private lateinit var oklistener : MyDialogOKClickedListener
+    private lateinit var nolistener : MyDialogNOClickedListener
 
     fun show(content : String) {
         binding = ActivityDialogCustomBinding.inflate(context.layoutInflater)
@@ -27,12 +28,13 @@ class MyDialog(private val context : AppCompatActivity) {
 
         // 예 버튼 클릭 리스너
         binding.okButton.setOnClickListener {
-            listener.onOKClicked("확인을 눌렀습니다.") // 예 버튼을 눌렀다는 함수
+            oklistener.onOKClicked("예를 눌렀습니다.") // 예 버튼을 눌렀다는 함수
             dlg.dismiss()
         }
 
         // 아니오 버튼 클릭 리스너
         binding.noButton.setOnClickListener {
+            nolistener.onNOClicked("아니오를 눌렀습니다.") // 아니오 버튼을 눌렀다는 함수
             dlg.dismiss()
         }
 
@@ -41,7 +43,7 @@ class MyDialog(private val context : AppCompatActivity) {
 
     // 부모 액티비티에서 예 버튼 클릭 시 호출되는 함수
     fun setOnOKClickedListener(listener: (String) -> Unit) {
-        this.listener = object: MyDialogOKClickedListener {
+        this.oklistener = object: MyDialogOKClickedListener {
             override fun onOKClicked(content: String) {
                 listener(content)
             }
@@ -50,6 +52,19 @@ class MyDialog(private val context : AppCompatActivity) {
 
     interface MyDialogOKClickedListener {
         fun onOKClicked(content : String)
+    }
+
+    // 부모 액티비티에서 아니오 버튼 클릭 시 호출되는 함수
+    fun setOnNOClickedListener(listener: (String) -> Unit) {
+        this.nolistener = object: MyDialogNOClickedListener {
+            override fun onNOClicked(content: String) {
+                listener(content)
+            }
+        }
+    }
+
+    interface MyDialogNOClickedListener {
+        fun onNOClicked(content : String)
     }
 
 }
