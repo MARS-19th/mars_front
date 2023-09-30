@@ -1,5 +1,6 @@
 package com.example.marsproject
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,6 +25,15 @@ class MainObjectiveFragment : Fragment() {
 
     // 상세 목표 버튼 클릭 설정 함수
     private fun objectiveButton(){
+        // 클릭 시 일일 목표로 이동하는 리스너
+        binding.dailyObjectiveLayout.setOnClickListener{
+            activity?.let{
+                // 인텐트 생성 후 액티비티 생성
+                val intent = Intent(context, DailyObjectiveActivity::class.java) // 일일 목표 페이지로 설정
+                startActivity(intent) // 액티비티 생성
+            }
+        }
+
         // 클릭 시 선택한 스킬이 무엇인지 저장하고 해당하는 상세 목표로 이동하는 리스너
         val skillClkListener = View.OnClickListener { p0 ->
             when(p0?.id) {
