@@ -3,10 +3,15 @@ package com.example.marsproject
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
 import com.example.marsproject.databinding.ActivityChangeTitleBinding
 
 class ChangeTitleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChangeTitleBinding
+    private lateinit var fViews: List<View> // "f1"부터 "f6"까지
+    private lateinit var bViews: List<View> // "b1"부터 "b6"까지
+    private var isBackgroundChanged = false // 배경 상태를 추적하는 변수
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,20 +19,66 @@ class ChangeTitleActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // 툴바 설정
-        setSupportActionBar(binding.toolbar) // 툴바 지정
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.icon_left_resize) // 뒤로가기 버튼 이미지 설정
-        supportActionBar?.title = "내 칭호" // 타이틀 지정
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.icon_left_resize)
+        supportActionBar?.title = "내 칭호"
 
+        // f 초기화
+        fViews = listOf(
+            findViewById(R.id.f1),
+            findViewById(R.id.f2),
+            findViewById(R.id.f3),
+            findViewById(R.id.f4),
+            findViewById(R.id.f5),
+            findViewById(R.id.f6)
+        )
+
+        // b 초기화
+        bViews = listOf(
+            findViewById(R.id.b1),
+            findViewById(R.id.b2),
+            findViewById(R.id.b3),
+            findViewById(R.id.b4),
+            findViewById(R.id.b5),
+            findViewById(R.id.b6)
+        )
+
+        // f
+        fViews.forEach { fView ->
+            fView.setOnClickListener {
+                toggleBackground(fView)
+            }
+        }
+
+        // b
+        bViews.forEach { bView ->
+            bView.setOnClickListener {
+                toggleBackground(bView)
+            }
+        }
+    }
+
+    private fun toggleBackground(view: View) {
+        if (isBackgroundChanged) {
+            // 배경 복원
+            view.setBackgroundResource(R.drawable.act_btn)
+        } else {
+            // 배경 변경
+            view.setBackgroundResource(R.drawable.act_btn_click)
+        }
+        // 배경 상태를 토글
+        isBackgroundChanged = !isBackgroundChanged
     }
 
     // 옵션 메뉴 클릭 함수
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item?.itemId) {
-            android.R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
-                finish() // 액티비티 종료
+            android.R.id.home -> {
+                finish()
             }
         }
         return super.onOptionsItemSelected(item)
     }
 }
+
