@@ -151,6 +151,11 @@ class MainObjectiveFragment : Fragment() {
             } catch (e: UnknownServiceException) {
                 // API 사용법에 나와있는 모든 오류응답은 여기서 처리
                 println(e.message)
+                if(e.message == "empty") {
+                    binding.javascriptButton.setOnClickListener{
+                        Toast.makeText(context, "위 4개의 스킬을 클리어하셔야합니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
                 // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
             } catch (e: Exception) {
                 e.printStackTrace()
