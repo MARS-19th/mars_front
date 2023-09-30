@@ -85,6 +85,7 @@ class MainDetailStudyFragment : Fragment() {
         toolbar.setNavigationOnClickListener{ // 뒤로가기 아이콘 클릭 리스너
             (activity as MainActivity).clickchangeFragment(1) // 뒤로 이동하는 함수
         }
+        toolbar.title = "출석 체크 및 강의 듣기" // 타이틀 설정
 
         // 클릭 시 완료로 변경
         val clicklistener2 = View.OnClickListener { p0 ->
