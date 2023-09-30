@@ -35,6 +35,14 @@ class MainObjectiveFragment : Fragment() {
         // 버튼 클릭 리스너 지정
         objectiveButton()
 
+        // 스킬트리 설정 함수
+        skilltree()
+
+        return binding.root
+    }
+
+    // 스킬트리 설정 함수
+    private fun skilltree(){
         // 스킬트리 진행 상황 불러오기
         val skillThread = Thread {
             try {
@@ -49,52 +57,97 @@ class MainObjectiveFragment : Fragment() {
 
                 // javascript까지 클리어 했을 때 frontend, backend 표시
                 if (jsonObject.getJSONArray("results").length() >= 5) {
-                    changeVisibleLine(binding.choiceline1) // 프론트엔드, 백엔드 중간 선 활성화
-                    changeVisibleLine(binding.frontendline1) // 프론트엔드 선 활성화
-                    changeVisibleLine(binding.frontendline2) // 프론트엔드 선 활성화
-                    changeVisibleButton(binding.frontendButton) // 프론트엔드 버튼 활성화
-                    changeVisibleLine(binding.backendline1) // 백엔드 선 활성화
-                    changeVisibleLine(binding.backendline2) // 백엔드 선 활성화
-                    changeVisibleButton(binding.backendButton) // 백엔드 버튼 활성화
+                    changeVisibleLine(binding.choiceline1) // 프론트엔드, 백엔드 중간 선 활성화로 변경
+                    changeVisibleLine(binding.frontendline1) // 프론트엔드 선 활성화로 변경
+                    changeVisibleLine(binding.frontendline2) // 프론트엔드 선 활성화로 변경
+                    changeVisibleButton(binding.frontendButton) // 프론트엔드 버튼 활성화로 변경
+                    changeVisibleLine(binding.backendline1) // 백엔드 선 활성화로 변경
+                    changeVisibleLine(binding.backendline2) // 백엔드 선 활성화로 변경
+                    changeVisibleButton(binding.backendButton) // 백엔드 버튼 활성화로 변경
                 }
 
+                var choice = "" // 프론트엔드인지 백엔드인지 저장
                 for(i in 0 until jsonObject.getJSONArray("results").length()) {
                     // 클리어한 스킬들 클리어로 변경
                     when(jsonObject.getJSONArray("results").getString(i)) {
-                        "html" -> changeClearButton(binding.htmlButton)
-                        "css" -> changeClearButton(binding.cssButton)
-                        "java" -> changeClearButton(binding.javaButton)
-                        "python" -> changeClearButton(binding.pythonButton)
-                        "js" -> changeClearButton(binding.javascriptButton)
+                        "html" -> changeClearButton(binding.htmlButton) // html 버튼 클리어로 변경
+                        "css" -> changeClearButton(binding.cssButton) // css 버튼 클리어로 변경
+                        "java" -> changeClearButton(binding.javaButton) // java 버튼 클리어로 변경
+                        "python" -> changeClearButton(binding.pythonButton) // python 버튼 클리어로 변경
+                        "js" -> changeClearButton(binding.javascriptButton) // javascript 버튼 클리어로 변경
                         "frontend" -> {
-                            changeClearButton(binding.frontendButton)
-                            binding.frontendButton.isClickable = false
-                            changeInvisibleButton(binding.backendButton)
-                            binding.backendButton.isClickable = false
-                            changeInvisibleLine(binding.backendline1)
-                            changeInvisibleLine(binding.backendline2)
-                            changeVisibleLine(binding.frontexamline)
-                            changeVisibleButton(binding.frontexamButton)
-                            changeInvisibleLine(binding.backexamline)
-                            changeInvisibleButton(binding.backexamButton)
-                            binding.backexamButton.isClickable = false
+                            choice = "frontend" // frontend 저장
+                            changeClearButton(binding.frontendButton) // frontend 버튼 클리어로 변경
+                            binding.frontendButton.isClickable = false // frontend 버튼 클릭 비활성화로 변경
+                            changeInvisibleButton(binding.backendButton) // backend 버튼 비활성화로 변경
+                            binding.backendButton.isClickable = false // backend 버튼 클릭 비활성화로 변경
+                            changeInvisibleLine(binding.backendline1) // backend 선 비활성화로 변경
+                            changeInvisibleLine(binding.backendline2) // backend 선 비활성화로 변경
+                            changeVisibleLine(binding.frontexamline) // frontexam 선 활성화로 변경
+                            changeVisibleButton(binding.frontexamButton) // frontexam 버튼 활성화로 변경
+                            changeInvisibleLine(binding.backexamline) // backexam 선 비활성화로 변경
+                            changeInvisibleButton(binding.backexamButton) // backexam 버튼 비활성화로 변경
+                            binding.backexamButton.isClickable = false // backexam 버튼 클릭 비활성화로 변경
                         }
                         "backend" -> {
-                            changeClearButton(binding.backendButton)
-                            binding.backendButton.isClickable = false
-                            changeInvisibleButton(binding.frontendButton)
-                            binding.frontendButton.isClickable = false
-                            changeInvisibleLine(binding.frontendline1)
-                            changeInvisibleLine(binding.frontendline2)
-                            changeVisibleLine(binding.backexamline)
-                            changeVisibleButton(binding.backexamButton)
-                            changeInvisibleLine(binding.frontexamline)
-                            changeInvisibleButton(binding.frontexamButton)
-                            binding.frontexamButton.isClickable = false
+                            choice = "backend" // backend 저장
+                            changeClearButton(binding.backendButton)  // backend 버튼 클리어로 변경
+                            binding.backendButton.isClickable = false // backend 버튼 클릭 비활성화로 변경
+                            changeInvisibleButton(binding.frontendButton) // frontend 버튼 비활성화로 변경
+                            binding.frontendButton.isClickable = false // frontend 버튼 클릭 비활성화로 변경
+                            changeInvisibleLine(binding.frontendline1) // frontend 선 비활성화로 변경
+                            changeInvisibleLine(binding.frontendline2) // frontend 선 비활성화로 변경
+                            changeVisibleLine(binding.backexamline) // backexam 선 활성화로 변경
+                            changeVisibleButton(binding.backexamButton) // backexam 버튼 활성화로 변경
+                            changeInvisibleLine(binding.frontexamline) // frontexam 선 비활성화로 변경
+                            changeInvisibleButton(binding.frontexamButton) // frontexam 버튼 비활성화로 변경
+                            binding.frontexamButton.isClickable = false // frontexam 버튼 클릭 비활성화로 변경
                         }
+                        "중간시험" -> {
+                            if(choice == "frontend") {
+                                changeClearButton(binding.frontexamButton) // frontexam 버튼 클리어로 변경
+                                changeVisibleLine(binding.choiceline2) // JSP, React 중간 선 활성화로 변경
+                                changeVisibleLine(binding.jspline1) // JSP 선 활성화로 변경
+                                changeVisibleLine(binding.jspline2) // JSP 선 활성화로 변경
+                                changeVisibleButton(binding.jspButton) // JSP 버튼 활성화로 변경
+                                changeVisibleLine(binding.reactline1) // React 선 활성화로 변경
+                                changeVisibleLine(binding.reactline2) // React 선 활성화로 변경
+                                changeVisibleButton(binding.reactButton) // React 버튼 활성화로 변경
+                                changeInvisibleLine(binding.choiceline3) // Node, Spring 중간 선 비활성화로 변경
+                                changeInvisibleLine(binding.nodeline1) // Node 선 비활성화로 변경
+                                changeInvisibleLine(binding.nodeline2) // Node 선 비활성화로 변경
+                                changeInvisibleButton(binding.nodeButton) // Node 버튼 비활성화로 변경
+                                binding.nodeButton.isClickable = false // Node 버튼 클릭 비활성화로 변경
+                                changeInvisibleLine(binding.springline1) // Spring 선 비활성화로 변경
+                                changeInvisibleLine(binding.springline2) // Spring 선 비활성화로 변경
+                                changeInvisibleButton(binding.springButton) // Spring 버튼 비활성화로 변경
+                                binding.springButton.isClickable = false // Spring 버튼 클릭 비활성화로 변경
+                            } else {
+                                changeClearButton(binding.backexamButton) // backexam 버튼 클리어로 변경
+                                changeVisibleLine(binding.choiceline3) // Node, Spring 중간 선 활성화로 변경
+                                changeVisibleLine(binding.nodeline1) // Node 선 활성화로 변경
+                                changeVisibleLine(binding.nodeline2) // Node 선 활성화로 변경
+                                changeVisibleButton(binding.nodeButton) // Node 버튼 활성화로 변경
+                                changeVisibleLine(binding.springline1) // Spring 선 활성화로 변경
+                                changeVisibleLine(binding.springline2) // Spring 선 활성화로 변경
+                                changeVisibleButton(binding.springButton) // Spring 버튼 활성화로 변경
+                                changeInvisibleLine(binding.choiceline2) // JSP, React 중간 선 비활성화로 변경
+                                changeInvisibleLine(binding.jspline1) // JSP 선 비활성화로 변경
+                                changeInvisibleLine(binding.jspline2) // JSP 선 비활성화로 변경
+                                changeInvisibleButton(binding.jspButton) // JSP 버튼 비활성화로 변경
+                                binding.jspButton.isClickable = false // JSP 버튼 클릭 비활성화로 변경
+                                changeInvisibleLine(binding.reactline1) // React 선 비활성화로 변경
+                                changeInvisibleLine(binding.reactline2) // React 선 비활성화로 변경
+                                changeInvisibleButton(binding.reactButton) // React 버튼 비활성화로 변경
+                                binding.reactButton.isClickable = false // React 버튼 클릭 비활성화로 변경
+                            }
+                        }
+                        "jsp" -> changeClearButton(binding.jspButton) // jsp 버튼 클리어로 변경
+                        "react" -> changeClearButton(binding.reactButton) // react 버튼 클리어로 변경
+                        "spring" -> changeClearButton(binding.springButton) // spring 버튼 클리어로 변경
+                        "node" -> changeClearButton(binding.nodeButton) // node 버튼 클리어로 변경
                     }
                 }
-
             } catch (e: UnknownServiceException) {
                 // API 사용법에 나와있는 모든 오류응답은 여기서 처리
                 println(e.message)
@@ -105,8 +158,6 @@ class MainObjectiveFragment : Fragment() {
         }
         skillThread.start() // 쓰레드 시작
         skillThread.join() // 쓰레드 종료될 때까지 대기
-
-        return binding.root
     }
 
     // 스킬트리 선 활성화
@@ -216,6 +267,8 @@ class MainObjectiveFragment : Fragment() {
                 // 화면 새로고침
                 (activity as MainActivity).clickchangeFragment(1)
             }
+            // 아니오 버튼 클릭 시 실행
+            dlg.setOnNOClickedListener{}
 
             // 클릭한 버튼에 따른 메시지 변경
             if (choice == "frontend") {
@@ -257,7 +310,32 @@ class MainObjectiveFragment : Fragment() {
             // 아니오 버튼 클릭 시 실행
             dlg.setOnNOClickedListener {
                 // 추후 삭제
-                Toast.makeText(context, "앱에서 시험보겠습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "앱에서 시험보기 추가예정",Toast.LENGTH_SHORT).show()
+                // 임시로 시험 통과 시 스킬 추가하는것 작성
+                // 선택한 스킬을 추가하는 쓰레드 생성
+                val choiceThread = Thread {
+                    try {
+                        // 스킬 추가
+                        val addskilljson = JSONObject() // json 생성
+                        addskilljson.put("user_name", savedname) // 사용자 닉네임
+                        addskilljson.put("skill", "중간시험") // 추가할 스킬
+
+                        // 스킬 추가
+                        Request().reqpost("http://dmumars.kro.kr/api/setuserskill", addskilljson)
+
+                    } catch (e: UnknownServiceException) {
+                        // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                        println(e.message)
+                        // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                choiceThread.start() // 쓰레드 실행
+                choiceThread.join() // 쓰레드 종료될 때까지 대기
+
+                // 화면 새로고침
+                (activity as MainActivity).clickchangeFragment(1)
 
                 // 클릭한 버튼에 따른 시험 변경
                 if (choice == "frontend") {
