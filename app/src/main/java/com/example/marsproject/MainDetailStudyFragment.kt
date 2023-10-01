@@ -27,13 +27,23 @@ class MainDetailStudyFragment : Fragment() {
         // 선택한 스킬이 무엇인지 가져오기
         skill = (activity as MainActivity).getSkill()
 
+        // 타이틀을 선택한 스킬로 변경
+        if(skill == "js") {
+            binding.skillTitle.text = "Javascript"
+        } else {
+            binding.skillTitle.text = skill
+        }
+
         // 닉네임 정보 불러오기
         savedname = (activity as MainActivity).getName()
+
+        // 클릭 시 뒤로 이동하는 함수
+        binding.backImage.setOnClickListener{(activity as MainActivity).clickchangeFragment(1)}
 
         // 강의 불러오기
         val skillThread = Thread {
             try {
-                val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getdetailmark/${skill}") //get요청
+                val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getdetailmark/${skill.lowercase()}") //get요청
 
                 // 스킬의 강의 수만큼 for문 실행
                 for(i in 0 until jsonObject.getJSONArray("results").length()) {
@@ -78,14 +88,6 @@ class MainDetailStudyFragment : Fragment() {
         }
         skillThread.start()
         skillThread.join()
-
-        // 툴바
-        val toolbar: Toolbar = binding.toolbar
-        toolbar.setNavigationIcon(R.drawable.icon_left_resize) // 뒤로가기 아이콘 생성
-        toolbar.setNavigationOnClickListener{ // 뒤로가기 아이콘 클릭 리스너
-            (activity as MainActivity).clickchangeFragment(1) // 뒤로 이동하는 함수
-        }
-        toolbar.title = "출석 체크 및 강의 듣기" // 타이틀 설정
 
         // 클릭 시 완료로 변경
         val clicklistener2 = View.OnClickListener { p0 ->

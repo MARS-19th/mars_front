@@ -6,14 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".MainDetailStudyFragment">
 
-    <androidx.appcompat.widget.Toolbar
+    <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
         android:theme="@style/ToolbarTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" >
+
+        <ImageView
+            android:id="@+id/backImage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/icon_left_resize"
+            android:paddingHorizontal="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="출석 체크 및 강의 듣기"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
@@ -44,11 +64,11 @@
         app:layout_constraintGuide_percent="0.17" />
 
     <TextView
-        android:id="@+id/goal_rate"
+        android:id="@+id/skillTitle"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fontFamily="@font/pretendardbold"
-        android:text="목표 달성률"
+        android:text="Language"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
