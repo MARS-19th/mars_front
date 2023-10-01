@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SendMessageActivity">
+
+  <androidx.appcompat.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_width="0dp"
+      android:layout_height="?attr/actionBarSize"
+      android:theme="@style/ToolbarTheme"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.0" />
+
+  <ImageView
+      android:id="@+id/imageView10"
+      android:layout_width="171dp"
+      android:layout_height="200dp"
+      app:layout_constraintBottom_toTopOf="@+id/guideline91"
+      app:layout_constraintEnd_toStartOf="@+id/guideline74"
+      app:layout_constraintStart_toStartOf="@+id/guideline73"
+      app:layout_constraintTop_toTopOf="@+id/guideline70"
+      app:srcCompat="@drawable/cat_avatar" />
+
+  <TextView
+      android:id="@+id/textView5"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:fontFamily="@font/pretendardbold"
+      android:text="공부의 신"
+      android:textColor="#939393"
+      app:layout_constraintBottom_toTopOf="@+id/guideline77"
+      app:layout_constraintEnd_toStartOf="@+id/guideline75"
+      app:layout_constraintStart_toEndOf="@+id/titleImage"
+      app:layout_constraintTop_toTopOf="@+id/guideline83" />
+
+  <ImageView
+      android:id="@+id/titleImage"
+      android:layout_width="22dp"
+      android:layout_height="18dp"
+      android:src="@drawable/icon_medal"
+      app:layout_constraintBottom_toTopOf="@+id/guideline77"
+      app:layout_constraintEnd_toStartOf="@+id/guideline86"
+      app:layout_constraintStart_toStartOf="@+id/guideline76"
+      app:layout_constraintTop_toTopOf="@+id/guideline83" />
+
+  <TextView
+      android:id="@+id/textView6"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:fontFamily="@font/pretendardbold"
+      android:text="#친구 코드"
+      android:textColor="#C9CBCE"
+      app:layout_constraintBottom_toTopOf="@+id/guideline82"
+      app:layout_constraintEnd_toStartOf="@+id/guideline75"
+      app:layout_constraintStart_toStartOf="@+id/guideline76"
+      app:layout_constraintTop_toTopOf="@+id/guideline77" />
+
+  <TextView
+      android:id="@+id/textView4"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:fontFamily="@font/pretendardbold"
+      android:text="마스 수호냥"
+      android:textColor="@color/black"
+      android:textSize="25sp"
+      app:layout_constraintBottom_toTopOf="@+id/guideline83"
+      app:layout_constraintEnd_toStartOf="@+id/guideline73"
+      app:layout_constraintStart_toStartOf="@+id/guideline72"
+      app:layout_constraintTop_toTopOf="@+id/guideline71" />
+
+  <View
+      android:id="@+id/view2"
+      android:layout_width="350dp"
+      android:layout_height="5px"
+      android:background="#DEE0E4"
+      app:layout_constraintBottom_toTopOf="@+id/guideline92"
+      app:layout_constraintEnd_toStartOf="@+id/guideline94"
+      app:layout_constraintStart_toStartOf="@+id/guideline93"
+      app:layout_constraintTop_toTopOf="@+id/guideline91" />
+
+  <ImageView
+      android:id="@+id/send_msg_2"
+      android:layout_width="140dp"
+      android:layout_height="140dp"
+      app:layout_constraintBottom_toTopOf="@+id/guideline98"
+      app:layout_constraintEnd_toStartOf="@+id/guideline74"
+      app:layout_constraintStart_toStartOf="@+id/guideline100"
+      app:layout_constraintTop_toTopOf="@+id/guideline97"
+      app:srcCompat="@drawable/send_msg_icon2" />
+
+  <ImageView
+      android:id="@+id/send_msg_1"
+      android:layout_width="140dp"
+      android:layout_height="140dp"
+      app:layout_constraintBottom_toTopOf="@+id/guideline98"
+      app:layout_constraintEnd_toStartOf="@+id/guideline100"
+      app:layout_constraintStart_toStartOf="@+id/guideline101"
+      app:layout_constraintTop_toTopOf="@+id/guideline97"
+      app:srcCompat="@drawable/send_msg_icon1" />
+
+  <ImageView
+      android:id="@+id/send_msg_4"
+      android:layout_width="140dp"
+      android:layout_height="140dp"
+      app:layout_constraintBottom_toTopOf="@+id/guideline99"
+      app:layout_constraintEnd_toStartOf="@+id/guideline74"
+      app:layout_constraintStart_toStartOf="@+id/guideline100"
+      app:layout_constraintTop_toTopOf="@+id/guideline98"
+      app:srcCompat="@drawable/send_msg_icon4" />
+
+  <ImageView
+      android:id="@+id/send_msg_3"
+      android:layout_width="140dp"
+      android:layout_height="140dp"
+      app:layout_constraintBottom_toTopOf="@+id/guideline99"
+      app:layout_constraintEnd_toStartOf="@+id/guideline100"
+      app:layout_constraintStart_toStartOf="@+id/guideline101"
+      app:layout_constraintTop_toTopOf="@+id/guideline98"
+      app:srcCompat="@drawable/send_msg_icon3" />
+
+  <TextView
+      android:id="@+id/textView3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:fontFamily="@font/pretendardbold"
+      android:text="지금 친구에게 알림을 보내보세요!"
+      android:textColor="@color/black"
+      android:textSize="16sp"
+      app:layout_constraintBottom_toTopOf="@+id/guideline95"
+      app:layout_constraintEnd_toStartOf="@+id/guideline96"
+      app:layout_constraintStart_toStartOf="@+id/guideline72"
+      app:layout_constraintTop_toTopOf="@+id/guideline92"
+      app:layout_constraintVertical_bias="0.47" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline70"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="67dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline71"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="134dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline72"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="71dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline73"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="187dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline74"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="362dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline75"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="168dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline76"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="92dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline77"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="197dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline82"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="224dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline83"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="171dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline86"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="115dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline91"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="275dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline92"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="308dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline93"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="22dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline94"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="380dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline95"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="348dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline96"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="335dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline97"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="370dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline98"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="525dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline99"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="673dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline100"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="205dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline101"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="47dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
