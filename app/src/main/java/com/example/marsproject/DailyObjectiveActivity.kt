@@ -38,7 +38,7 @@ class DailyObjectiveActivity : AppCompatActivity() {
         val dailyThread = Thread {
             try {
                 // 일일 목표 불러오기
-                val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuserdatemark/${savedname}")
+                val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuserdatemark/${savedname}/day")
 
                 // 일일 목표 개수 저장
                 count = jsonObject.getJSONArray("results").length()
@@ -156,6 +156,9 @@ class DailyObjectiveActivity : AppCompatActivity() {
 
                 // 어댑터와 리사이클러뷰 갱신
                 objectiveAdapter.notifyDataSetChanged()
+
+                // 토스트 메시지 출력
+                Toast.makeText(applicationContext, "등록된 목표는 24시간 이후에 삭제됩니다", Toast.LENGTH_SHORT).show()
             }
             dlg.show("목표 등록") // 다이얼로그 내용에 담을 텍스트
         }
