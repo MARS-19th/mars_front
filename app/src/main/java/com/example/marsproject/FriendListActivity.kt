@@ -18,8 +18,6 @@ class FriendListActivity : AppCompatActivity() {
     private var friendList = mutableListOf<String>() // 친구 목록을 저장할 리스트
     private var friendRequestList = mutableListOf<String>() // 친구 신청 목록을 저장할 리스트
 
-    private val VIEW_TYPE_FRIEND = 0
-    private val VIEW_TYPE_FRIEND_REQUEST = 1
 
     // 검색해야 되는 유저의 데이터를 가져오기 위해 사용하는 변수
     private var name: String = "닉네임" // 닉네임
