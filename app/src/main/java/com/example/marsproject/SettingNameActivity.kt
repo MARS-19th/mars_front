@@ -2,7 +2,6 @@ package com.example.marsproject
 
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -23,14 +22,6 @@ class SettingNameActivity : AppCompatActivity() {
     private var launcher: ActivityResultLauncher<Intent>? = null
     private lateinit var email: String // 이메일
     private var checkName: String = "" // 닉네임 유효성 검사 체크 변수
-    private var selectedImageUri: Uri? = null // 선택한 이미지 uri 변수
-
-    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        if (uri != null) {
-            binding.userImage.setImageURI(uri)
-            selectedImageUri = uri
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +38,6 @@ class SettingNameActivity : AppCompatActivity() {
                     val intentM = Intent()
                     setResult(RESULT_OK, intentM)
                     finish()
-                } else {
                 }
             }
         }
@@ -67,12 +57,15 @@ class SettingNameActivity : AppCompatActivity() {
         binding.editName.addTextChangedListener(object : TextWatcher {
             // 작성하고 있을 때
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
             // 입력이 끝났을 때
             override fun afterTextChanged(p0: Editable?) {}
+
             // 입력란에 변화가 있을 때
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val charset = "euc-kr" // 인코딩 설정
-                val length = binding.editName.text.toString().toByteArray(charset(charset)).size // 한글은 2 영문, 숫자는 1
+                val length = binding.editName.text.toString()
+                    .toByteArray(charset(charset)).size // 한글은 2 영문, 숫자는 1
 
                 // 최대 길이 입력했을 때
                 if (length == 12) {
@@ -94,36 +87,25 @@ class SettingNameActivity : AppCompatActivity() {
             // 사용 불가능한 닉네임일 때
             if (!checkName1()) {
                 checkName2() // 닉네임이 중복인지 체크
-                Toast.makeText(applicationContext, "이 이름은 사용할 수 없습니다.", Toast.LENGTH_SHORT).show() // 토스트 메시지 출력
+                Toast.makeText(applicationContext, "이 이름은 사용할 수 없습니다.", Toast.LENGTH_SHORT)
+                    .show() // 토스트 메시지 출력
                 return@setOnClickListener // 리스너 종료
             }
             // 닉네임이 중복일 때
             if (!checkName2()) {
                 checkName1() // 사용 가능한 닉네임인지 체크
-                Toast.makeText(applicationContext, "이 이름은 현재 사용중입니다.", Toast.LENGTH_SHORT).show() // 토스트 메시지 출력
+                Toast.makeText(applicationContext, "이 이름은 현재 사용중입니다.", Toast.LENGTH_SHORT)
+                    .show() // 토스트 메시지 출력
                 return@setOnClickListener // 리스너 종료
             }
-
             val name = binding.editName.text.toString() // 닉네임 저장
-            val profile = selectedImageUri?.toString() ?: "null" // 프로필 이미지 저장
 
             // 인텐트 생성 후 액티비티 생성
             val intentA = Intent(this, SettingAvatarActivity::class.java) // 아바타 설정 페이지로 설정
             intentA.putExtra("email", email) // 값 저장
-            intentA.putExtra("profile", profile) // 값 저장
             intentA.putExtra("name", name) // 값 저장
             launcher?.launch(intentA) // 액티비티 생성
         }
-
-        // 프로필 이미지 클릭 리스너
-        binding.userImage.setOnClickListener {
-            openGallery()
-        }
-    }
-
-    // 갤러리 여는 함수
-    private fun openGallery() {
-        galleryLauncher.launch("image/*")
     }
 
     // 뒤로가기 비활성화
@@ -161,7 +143,8 @@ class SettingNameActivity : AppCompatActivity() {
                 outputjson.put("user_name", name) // 닉네임
 
                 // 닉네임 중복 체크하기
-                val jsonObject = Request().reqpost("http://dmumars.kro.kr/api/checkname", outputjson)
+                val jsonObject =
+                    Request().reqpost("http://dmumars.kro.kr/api/checkname", outputjson)
                 // 중복이 아니면 true 저장
                 result = jsonObject.getString("results")
             } catch (e: UnknownServiceException) {

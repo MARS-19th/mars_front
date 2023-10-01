@@ -1,13 +1,19 @@
 package com.example.marsproject
 
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -16,14 +22,48 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.marsproject.databinding.FragmentMainMypageBinding
 import com.kakao.sdk.user.UserApiClient
 import org.json.JSONObject
+import java.io.File
+import java.net.HttpURLConnection
+import java.net.URL
 import java.net.UnknownServiceException
 
 class MainMypageFragment : Fragment() {
     private lateinit var binding: FragmentMainMypageBinding
     private var launcher: ActivityResultLauncher<Intent>? = null
-    private lateinit var savedname: String // 저장된 닉네임
-    private var name: String = "닉네임" // 닉네임
-    private var id: String = "아이디" // 아이디
+    private var savedName: String = "닉네임" // 닉네임
+    private var savedID: String = "아이디" // 아이디
+
+    // 프사 선택 후 앱으로 돌아올때 콜백
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == AppCompatActivity.RESULT_OK) {
+            // 실제 파일 경로 얻기
+            val data = it.data?.data
+            val selectedImagePath =  absolutelyPath(data!!, activity?.applicationContext!!)
+
+            Thread {
+                try {
+                    // 프사 json 생성
+                    val profilejson =  JSONObject()
+                    profilejson.put("user_name", savedName)
+
+                    // 파일 보내기
+                    Request().fileupload("http://dmumars.kro.kr/api/uploadprofile", profilejson, File(selectedImagePath))
+
+                    // 가저온 이미지로 프사 변경 변경하기
+                    val bitmap = BitmapFactory.decodeFile(selectedImagePath)
+                    activity?.runOnUiThread {
+                        binding.userImage.setImageBitmap(bitmap)
+                        Toast.makeText(activity?.applicationContext!!, "프로필 사진 업로드 완료!", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    activity?.runOnUiThread {
+                        Toast.makeText(activity?.applicationContext!!, "프로필 사진을 업로드 하는 중에 문제가 생겼습니다!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }.start()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,29 +82,30 @@ class MainMypageFragment : Fragment() {
         launcher = registerForActivityResult(contract, callback)
 
         // 닉네임 정보 불러오기
-        savedname = (activity as MainActivity).getName()
-
-        // 유저 데이터 불러오는 쓰레드 생성
-        val MypageThread = Thread {
-            try {
-                val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuserdata/${savedname}") //get요청
-
-                name = jsonObject.getString("user_name") // 닉네임
-                id = jsonObject.getString("user_id") // 아이디
-            } catch (e: UnknownServiceException) {
-                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
-                println(e.message)
-                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        MypageThread.start() // 쓰레드 시작
-        MypageThread.join() // 쓰레드 종료될 때까지 대기
+        val pref = (activity as MainActivity).getSharedPreferences("userLogin", 0)
+        savedID = pref.getString("id", "").toString()
+        savedName = (activity as MainActivity).getName()
 
         // 유저 데이터 변경
-        binding.userNameText.text = name
-        binding.userIdText.text = id
+        binding.userNameText.text = savedName
+        binding.userIdText.text = savedID
+
+        // 사용자 프사 갖고오기
+        var bitmap: Bitmap ?= null
+        val profile = Thread {
+            // 닉네임으로 api 프사 이미지 요청
+            val url = URL("http://dmumars.kro.kr/api/getprofile/${savedName}")
+            val http = url.openConnection() as HttpURLConnection
+
+            // 이미지 읽기
+            val imgstream = http.inputStream
+            bitmap = BitmapFactory.decodeStream(imgstream)
+        }
+        profile.start()
+        profile.join()
+
+        // 프로필 사진을 이미지뷰에 적용
+        binding.userImage.setImageBitmap(bitmap)
 
         // 항목별 페이지로 이동하는 클릭 리스너 설정
         setMoveClickListener()
@@ -74,6 +115,14 @@ class MainMypageFragment : Fragment() {
 
     // 페이지로 이동하는 클릭 리스너 설정
     private fun setMoveClickListener() {
+        // 프로필 이미지 클릭시 프사 변경 하는 리스너
+        binding.profileBackground.setOnClickListener {
+            // 갤러리 Intent 실행
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            galleryLauncher.launch(intent)
+        }
+
         // 클릭 시 내 칭호로 이동 리스너
         binding.titleLayout.setOnClickListener {
             activity?.let{
@@ -141,7 +190,7 @@ class MainMypageFragment : Fragment() {
                     try {
                         // 닉네임으로 아이디, 비번 가져오기
                         val idpwjson = JSONObject() //json 생성
-                        idpwjson.put("user_name", savedname) // 닉네임
+                        idpwjson.put("user_name", savedName) // 닉네임
 
                         // 닉네임으로 아이디, 비번 가져오기
                         val jsonidpw = Request().reqpost("http://dmumars.kro.kr/api/getuseridpd", idpwjson)
@@ -188,5 +237,17 @@ class MainMypageFragment : Fragment() {
             dlg.setOnNOClickedListener {}
             dlg.show("회원탈퇴 하시겠습니까?") // 다이얼로그 내용에 담을 텍스트
         }
+    }
+
+    // 절대경로로 파일경로 반환 하는 함수
+    private fun absolutelyPath(path: Uri?, context: Context): String {
+        val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        val c = context.contentResolver.query(path!!, proj, null, null, null)
+        val index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c?.moveToFirst()
+        val result = c?.getString(index!!)
+        c?.close()
+
+        return result!!
     }
 }
