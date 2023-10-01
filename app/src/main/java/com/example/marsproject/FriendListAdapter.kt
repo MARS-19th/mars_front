@@ -32,7 +32,7 @@ class FriendListAdapter(private val friendList: List<String>) :
         private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
 
         fun bind(friendInfo: String) {
-            // friendInfo는 "닉네임|칭호|프로필_이미지_URL"와 같은 형식입니다.
+            // friendInfo는 "닉네임|칭호|프로필_이미지_URL"와 같은 형식
             val parts = friendInfo.split("|")
 
             // 닉네임, 칭호, 프로필 이미지 URL 추출
@@ -40,7 +40,7 @@ class FriendListAdapter(private val friendList: List<String>) :
             val title = parts[1]
             val profileImageUrl = parts[2]
 
-            // 추출한 데이터를 뷰에 설정
+            // 추출한 데이터를 뷰에 넣기
             nicknameTextView.text = nickname
             titleTextView.text = title
 
