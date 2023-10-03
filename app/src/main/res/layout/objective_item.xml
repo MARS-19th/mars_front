@@ -22,7 +22,7 @@
         android:layout_marginRight="8dp"
         android:button="@null"
         android:checked="false"
-        android:enabled="false"
+        android:clickable="false"
         android:background="@drawable/custom_checkbox" />
 
     <TextView

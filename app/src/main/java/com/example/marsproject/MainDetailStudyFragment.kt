@@ -1,9 +1,11 @@
 package com.example.marsproject
 
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,8 +14,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.marginBottom
 import com.example.marsproject.databinding.FragmentMainDetailStudyBinding
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.net.UnknownServiceException
 
@@ -81,10 +88,7 @@ class MainDetailStudyFragment : Fragment() {
                         val progressThread = Thread {
                             try {
                                 val userObject = Request().reqget(
-                                    "http://dmumars.kro.kr/api/getusermark/${savedname}/${skill.lowercase()}/${
-                                        lectureObject.getJSONArray("results").getJSONObject(i)
-                                            .getInt("mark_id")
-                                    }"
+                                    "http://dmumars.kro.kr/api/getusermark/${savedname}/${skill.lowercase()}/${i + 1}"
                                 ) //get요청
 
                                 progress = userObject.getJSONArray("results").getJSONObject(0)
@@ -119,8 +123,10 @@ class MainDetailStudyFragment : Fragment() {
                         val dlg = LectureDialogCustom(context as AppCompatActivity) // 커스텀 다이얼로그 객체 저장
                         // 예 버튼 클릭 시 실행
                         dlg.setOnOKClickedListener{
+                            runBlocking {async{delay(1000)}} // 1초 대기
+
                             // 유저의 강의 진행도 저장 쓰레드 생성
-                            val changeThread = Thread {
+                            val saveThread = Thread {
                                 try {
                                     // 닉네임과 강의 번호와 진행도 담아서 보내기
                                     val saveDatajson = JSONObject() //json 생성
@@ -136,12 +142,126 @@ class MainDetailStudyFragment : Fragment() {
                                     e.printStackTrace()
                                 }
                             }
-                            changeThread.start() // 쓰레드 실행
-                            changeThread.join() // 쓰레드 종료될 때까지 대기
+                            saveThread.start() // 쓰레드 실행
+                            saveThread.join() // 쓰레드 종료될 때까지 대기
+
+                            // 화면 새로고침
+                            (activity as MainActivity).clickchangeFragment(2)
                         }
                         dlg.show(lectureName, lectureLink, progress) // 다이얼로그 내용에 담을 텍스트
                     }
                 }
+
+                // 들은 강의의 수를 저장
+                var count = 0
+
+                // 스킬의 강의 수만큼 for문 실행
+                for(i in 0 until lectureObject.getJSONArray("results").length()) {
+                    var progress = 0 // 유저의 해당 강의 진행도
+                    // 유저의 해당 강의 진행도를 가져오는 쓰레드 생성
+                    val progressThread = Thread {
+                        try {
+                            val userObject = Request().reqget(
+                                "http://dmumars.kro.kr/api/getusermark/${savedname}/${skill.lowercase()}/${i + 1}"
+                            ) //get요청
+
+                            progress = userObject.getJSONArray("results").getJSONObject(0)
+                                .getInt("progress")
+                        } catch (e: UnknownServiceException) {
+                            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                            println(e.message)
+                            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장 된 상태 만약 {err: "type_err"} 인데 e.getMessage() 는 type_err만 반환
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                    progressThread.start() // 쓰레드 실행
+                    progressThread.join() // 쓰레드 종료될 때까지 대기
+                    if(progress == 100) {
+                        itemList[i].setBackgroundResource(R.drawable.circle_clear)
+                        count++
+                    }
+
+                    // 안내 말풍선 텍스트 변경
+                    if (count == 14) {
+                        binding.signText.text = "클리어"
+                    } else {
+                        binding.signText.text = "${count + 1}일차"
+                    }
+
+                    // 안내 말풍선 위치 조정
+                    val constraints = ConstraintSet()
+                    constraints.clone(binding.constraintLayout)
+                    constraints.connect(
+                        binding.signLayout.id,
+                        ConstraintSet.BOTTOM,
+                        itemList[count].id,
+                        ConstraintSet.BOTTOM
+                    )
+                    if(count == 14) {
+                        constraints.connect(
+                            binding.signLayout.id,
+                            ConstraintSet.BOTTOM,
+                            itemList[count].id,
+                            ConstraintSet.BOTTOM,
+                            convertDpToPixel(70f, context as AppCompatActivity)
+                        )
+                    }
+                    constraints.connect(
+                        binding.signLayout.id,
+                        ConstraintSet.END,
+                        itemList[count].id,
+                        ConstraintSet.END
+                    )
+                    constraints.connect(
+                        binding.signLayout.id,
+                        ConstraintSet.START,
+                        itemList[count].id,
+                        ConstraintSet.START
+                    )
+                    constraints.applyTo(binding.constraintLayout)
+                }
+
+                // 스킬의 강의 수만큼 for문 실행
+                for(i in count + 1 until 15) {
+                    itemList[i].setOnClickListener{
+                        Toast.makeText(context, "이전 강의를 시청하세요", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                // 모든 강의를 들었을 때 해당 스킬 클리어 처리
+                if (count == 14) {
+                    binding.studyView15.setOnClickListener {
+                        // 유저의 해당 스킬 클리어 처리 쓰레드 생성
+                        val saveThread = Thread {
+                            try {
+                                // 닉네임과 스킬 이 담아서 보내기
+                                val saveDatajson = JSONObject() //json 생성
+                                saveDatajson.put("user_name", savedname) // 유저 닉네임
+                                saveDatajson.put("skill", skill.lowercase()) // 스킬 이름
+
+                                // 유저의 해당 스킬 클리어 처리
+                                Request().reqpost("http://dmumars.kro.kr/api/setuserskill", saveDatajson)
+
+                            } catch (e: UnknownServiceException) {
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+                        saveThread.start() // 쓰레드 실행
+                        saveThread.join() // 쓰레드 종료될 때까지 대기
+
+                        // 칭호 부여
+
+                        // 토스트 메시지 출력
+                        if(skill == "js") {
+                            Toast.makeText(context, "JavaScript 스킬을 마스터하셨습니다.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "$skill 스킬을 마스터하셨습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
             } catch (e: UnknownServiceException) {
                 // API 사용법에 나와있는 모든 오류응답은 여기서 처리
                 println(e.message)
@@ -150,34 +270,15 @@ class MainDetailStudyFragment : Fragment() {
                 e.printStackTrace()
             }
         }
-        skillThread.start()
-        skillThread.join()
-//
-//        // 클릭 시 완료로 변경
-//        val clicklistener2 = View.OnClickListener { p0 ->
-//            when(p0?.id) {
-//                R.id.completeButton1 -> {
-//                    if(binding.completeButton1.text.toString() == "완료") {
-//                        Toast.makeText(context, "xxxx년 xx월 xx일 완료", Toast.LENGTH_SHORT).show()
-//                    } else {
-//                        binding.completeButton1.text = "완료"
-//                        binding.completeButton1.setBackgroundResource(R.drawable.main_detail_btn_complete)
-//                    }
-//                }
-//                R.id.completeButton2 -> {
-//                    if(binding.completeButton2.text.toString() == "완료") {
-//                        Toast.makeText(context, "xxxx년 xx월 xx일 완료", Toast.LENGTH_SHORT).show()
-//                    } else {
-//                        binding.completeButton2.text = "완료"
-//                        binding.completeButton2.setBackgroundResource(R.drawable.main_detail_btn_complete)
-//                    }
-//                }
-//            }
-//        }
-//
-//        binding.completeButton1.setOnClickListener(clicklistener2)
-//        binding.completeButton2.setOnClickListener(clicklistener2)
+        skillThread.start() // 쓰레드 실행
+        skillThread.join() // 쓰레드 종료될 때까지 대기
 
         return binding.root
+    }
+
+    // dp를 픽셀로 변환
+    private fun convertDpToPixel(dp: Float, context: Context): Int {
+        return (dp * (context.resources
+            .displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
     }
 }
