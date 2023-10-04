@@ -18,7 +18,6 @@ class FriendListActivity : AppCompatActivity() {
     private var friendList = mutableListOf<String>() // 친구 목록을 저장할 리스트
     private var friendRequestList = mutableListOf<String>() // 친구 신청 목록을 저장할 리스트
 
-
     // 검색해야 되는 유저의 데이터를 가져오기 위해 사용하는 변수
     private var name: String = "닉네임" // 닉네임
     private var id: String = "아이디" // 아이디
@@ -99,7 +98,7 @@ class FriendListActivity : AppCompatActivity() {
         // 검색 결과가 없으면 false를 반환
         // 실제 데이터 검색 및 추가 로직을 구현
 
-        // 예제: 검색할 URL을 생성
+        // 검색할 URL을 생성
         val searchUrl = "http://dmumars.kro.kr/api/getuserdata/$friendCode"
 
         // 검색할 URL로 요청을 보내고 결과를 처리하는 코드를 추가
@@ -141,9 +140,8 @@ class FriendListActivity : AppCompatActivity() {
     }
 
     private fun addInitialFriends() {
-        // 초기 친구 목록을 추가합니다. 이 부분을 실제 데이터로 대체하세요.
+        // 초기 친구 목록을 추가합니다. 해당 유저 친구 목록 불러오는 쓰레드 생성
 
-        // 해당 유저 친구 목록 불러오는 쓰레드 생성
         val HomeThread = Thread {
             try {
                 val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getfriend/${getName()}") // GET 요청

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="@drawable/friend_item_linear"
     android:padding="16dp">
 
     <ImageView
@@ -35,5 +36,13 @@
             android:textSize="14sp" />
 
     </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/someButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/minus"
+        android:layout_gravity="center_vertical"
+        android:text="버튼" />
 
 </LinearLayout>
