@@ -7,7 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.marsproject.databinding.FragmentMainMypageBinding
 import com.kakao.sdk.user.UserApiClient
 import org.json.JSONObject
-import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.UnknownServiceException
@@ -36,23 +35,27 @@ class MainMypageFragment : Fragment() {
     // 프사 선택 후 앱으로 돌아올때 콜백
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == AppCompatActivity.RESULT_OK) {
-            // 실제 파일 경로 얻기
-            val data = it.data?.data
-            val selectedImagePath =  absolutelyPath(data!!, activity?.applicationContext!!)
+            // 파일 uri 값 얻기
+            val data = it.data?.data!!
 
             Thread {
                 try {
+                    //파일 이름 얻기
+                    val filename =  getFilename(data, activity?.applicationContext!!)
+
+                    // 가져온 파일을 inputStream으로 리턴
+                    val fileInputStream = activity?.contentResolver?.openInputStream(data)!!
+
                     // 프사 json 생성
                     val profilejson =  JSONObject()
                     profilejson.put("user_name", savedName)
 
                     // 파일 보내기
-                    Request().fileupload("http://dmumars.kro.kr/api/uploadprofile", profilejson, File(selectedImagePath))
+                    Request().fileupload("http://dmumars.kro.kr/api/uploadprofile", profilejson, filename, fileInputStream)
 
                     // 가저온 이미지로 프사 변경 변경하기
-                    val bitmap = BitmapFactory.decodeFile(selectedImagePath)
                     activity?.runOnUiThread {
-                        binding.userImage.setImageBitmap(bitmap)
+                        binding.userImage.setImageURI(data)
                         Toast.makeText(activity?.applicationContext!!, "프로필 사진 업로드 완료!", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
@@ -239,11 +242,10 @@ class MainMypageFragment : Fragment() {
         }
     }
 
-    // 절대경로로 파일경로 반환 하는 함수
-    private fun absolutelyPath(path: Uri?, context: Context): String {
-        val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-        val c = context.contentResolver.query(path!!, proj, null, null, null)
-        val index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+    // 파일 이름 얻기
+    private fun getFilename(path: Uri?, context: Context): String {
+        val c = context.contentResolver.query(path!!, null, null, null, null)
+        val index = c?.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME)
         c?.moveToFirst()
         val result = c?.getString(index!!)
         c?.close()
