@@ -66,7 +66,7 @@ class ChangeTitleActivity : AppCompatActivity() {
         }
 
         if (selectedView == view) {
-            // 같은 뷰를 다시 클릭하면 선택 해제
+            // 같은 뷰를 다시 클릭하면 선택 해제d
             selectedView = null
         } else {
             // 다른 뷰를 클릭하면 배경 변경
