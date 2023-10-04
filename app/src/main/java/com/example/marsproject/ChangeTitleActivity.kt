@@ -11,7 +11,7 @@ class ChangeTitleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChangeTitleBinding
     private lateinit var fViews: List<View> // "f1"부터 "f6"까지
     private lateinit var bViews: List<View> // "b1"부터 "b6"까지
-    private var isBackgroundChanged = false // 배경 상태를 추적하는 변수
+    private var selectedView: View? = null // 선택된 뷰를 추적하는 변수
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,15 +60,19 @@ class ChangeTitleActivity : AppCompatActivity() {
     }
 
     private fun toggleBackground(view: View) {
-        if (isBackgroundChanged) {
-            // 배경 복원
-            view.setBackgroundResource(R.drawable.act_btn)
-        } else {
-            // 배경 변경
-            view.setBackgroundResource(R.drawable.act_btn_click)
+        if (selectedView != null) {
+            // 이전에 선택된 뷰가 있으면 배경을 복원
+            selectedView?.setBackgroundResource(R.drawable.act_btn)
         }
-        // 배경 상태를 토글
-        isBackgroundChanged = !isBackgroundChanged
+
+        if (selectedView == view) {
+            // 같은 뷰를 다시 클릭하면 선택 해제
+            selectedView = null
+        } else {
+            // 다른 뷰를 클릭하면 배경 변경
+            view.setBackgroundResource(R.drawable.act_btn_click)
+            selectedView = view
+        }
     }
 
     // 옵션 메뉴 클릭 함수
@@ -81,4 +85,3 @@ class ChangeTitleActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 }
-
