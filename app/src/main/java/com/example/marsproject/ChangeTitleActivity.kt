@@ -17,7 +17,6 @@ import java.net.UnknownServiceException
 class ChangeTitleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChangeTitleBinding
     private var selectedView: View? = null // 선택된 뷰를 추적하는 변수
-    val name = "fdsfsdf" // 사용자 이름 가져오기
     private var text: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +47,6 @@ class ChangeTitleActivity : AppCompatActivity() {
 
         val f6 = findViewById<View>(R.id.f6)
         val tf6 = findViewById<TextView>(R.id.t_f6)
-
 
 
         f1.setOnClickListener {
@@ -122,23 +120,18 @@ class ChangeTitleActivity : AppCompatActivity() {
         }
     }
 
-    // 옵션 메뉴 클릭 함수
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item?.itemId) {
-            android.R.id.home -> {
-                finish()
-            }
-        }
-        return super.onOptionsItemSelected(item)
+    fun getName(): String {
+        val pref = getSharedPreferences("userName", 0)
+        return pref.getString("name", "").toString()
     }
-
+    //http://dmumars.kro.kr/api/usergettitle/${getName()}
     fun sendSelectedTitleToServer(value: String) {
         val titleThread = Thread {
             try {
                 Log.d("d",value)
                 val outputjson = JSONObject() // JSON 생성
-                outputjson.put("user_name", name) // 사용자 이름
-                outputjson.put("value", value)  // value 값
+                outputjson.put("user_name", getName()) // 사용자 이름
+                outputjson.put("value", value.replace("\n", " "))  // value 값
 
                 // 서버로 데이터를 전송하고 응답을 받는 코드
                 val jsonObject = Request().reqpost("http://dmumars.kro.kr/api/setusertitle", outputjson)
@@ -154,5 +147,14 @@ class ChangeTitleActivity : AppCompatActivity() {
         }
         titleThread.start() // 쓰레드 시작
         titleThread.join() // 쓰레드 종료될 때까지 대기
+    }
+    // 옵션 메뉴 클릭 함수
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
