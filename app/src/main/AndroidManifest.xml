@@ -36,6 +36,9 @@
             android:name=".SendMessageActivity"
             android:exported="false" />
         <activity
+            android:name=".FriendListActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChangeTitleActivity"
             android:exported="false" />
         <activity

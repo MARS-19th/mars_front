@@ -141,13 +141,11 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guidelin11"
                 app:layout_constraintTop_toTopOf="@+id/guideline9"
-                app:layout_constraintVertical_bias="1.0">
+                android:orientation="vertical" >
 
                 <LinearLayout
                     android:id="@+id/titleLayout"
@@ -158,7 +156,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_weight="1" >
 
                         <View
                             android:layout_width="match_parent"
@@ -201,11 +199,11 @@
                         <ImageView
                             android:layout_width="35dp"
                             android:layout_height="35dp"
+                            app:srcCompat="@drawable/mypage_title"
                             app:layout_constraintBottom_toBottomOf="@id/guideline14"
                             app:layout_constraintEnd_toEndOf="@id/guideline16"
                             app:layout_constraintStart_toStartOf="@id/guideline15"
-                            app:layout_constraintTop_toTopOf="@id/guideline13"
-                            app:srcCompat="@drawable/mypage_title" />
+                            app:layout_constraintTop_toTopOf="@id/guideline13" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -214,18 +212,18 @@
                         android:layout_height="match_parent"
                         android:layout_weight="4"
                         android:fontFamily="@font/pretendardbold"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="15dp"
                         android:text="내 칭호"
                         android:textColor="#515459"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"/>
 
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="wrap_content"
+                        app:tint="#95ffffff"
                         android:tintMode="src_over"
-                        app:srcCompat="@drawable/icon_right"
-                        app:tint="#95ffffff" />
+                        app:srcCompat="@drawable/icon_right" />
 
                 </LinearLayout>
 
@@ -238,7 +236,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_weight="1" >
 
                         <View
                             android:layout_width="match_parent"
@@ -281,11 +279,11 @@
                         <ImageView
                             android:layout_width="35dp"
                             android:layout_height="35dp"
+                            app:srcCompat="@drawable/mypage_pencil"
                             app:layout_constraintBottom_toBottomOf="@id/guideline18"
                             app:layout_constraintEnd_toEndOf="@id/guideline20"
                             app:layout_constraintStart_toStartOf="@id/guideline19"
-                            app:layout_constraintTop_toTopOf="@id/guideline17"
-                            app:srcCompat="@drawable/mypage_pencil" />
+                            app:layout_constraintTop_toTopOf="@id/guideline17" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -294,18 +292,18 @@
                         android:layout_height="match_parent"
                         android:layout_weight="4"
                         android:fontFamily="@font/pretendardbold"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="15dp"
                         android:text="닉네임 변경"
                         android:textColor="#515459"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"/>
 
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="wrap_content"
+                        app:tint="#95ffffff"
                         android:tintMode="src_over"
-                        app:srcCompat="@drawable/icon_right"
-                        app:tint="#95ffffff" />
+                        app:srcCompat="@drawable/icon_right" />
 
                 </LinearLayout>
 
@@ -318,7 +316,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_weight="1" >
 
                         <View
                             android:layout_width="match_parent"
@@ -361,11 +359,11 @@
                         <ImageView
                             android:layout_width="35dp"
                             android:layout_height="35dp"
+                            app:srcCompat="@drawable/mypage_store"
                             app:layout_constraintBottom_toBottomOf="@id/guideline22"
                             app:layout_constraintEnd_toEndOf="@id/guideline24"
                             app:layout_constraintStart_toStartOf="@id/guideline23"
-                            app:layout_constraintTop_toTopOf="@id/guideline21"
-                            app:srcCompat="@drawable/mypage_store" />
+                            app:layout_constraintTop_toTopOf="@id/guideline21" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -374,18 +372,18 @@
                         android:layout_height="match_parent"
                         android:layout_weight="4"
                         android:fontFamily="@font/pretendardbold"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="15dp"
                         android:text="상점"
                         android:textColor="#515459"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"/>
 
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="wrap_content"
+                        app:tint="#95ffffff"
                         android:tintMode="src_over"
-                        app:srcCompat="@drawable/icon_right"
-                        app:tint="#95ffffff" />
+                        app:srcCompat="@drawable/icon_right" />
 
                 </LinearLayout>
 
@@ -441,8 +439,7 @@
                         <ImageView
                             android:layout_width="35dp"
                             android:layout_height="35dp"
-                            android:alpha="0.5"
-                            app:srcCompat="@drawable/mypage_friend"
+                            app:srcCompat="@drawable/mypage_search"
                             app:layout_constraintBottom_toBottomOf="@id/guideline26"
                             app:layout_constraintEnd_toEndOf="@id/guideline28"
                             app:layout_constraintStart_toStartOf="@id/guideline27"
@@ -455,7 +452,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="4"
                         android:fontFamily="@font/pretendardbold"
-                        android:text="친구"
+                        android:text="주변 친구 찾기"
                         android:textColor="#515459"
                         android:textSize="22sp"
                         android:gravity="center_vertical"
@@ -470,7 +467,6 @@
 
                 </LinearLayout>
 
-
                 <LinearLayout
                     android:id="@+id/logoutLayout"
                     android:layout_width="match_parent"
@@ -480,7 +476,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_weight="1" >
 
                         <View
                             android:layout_width="match_parent"
@@ -523,11 +519,11 @@
                         <ImageView
                             android:layout_width="35dp"
                             android:layout_height="35dp"
+                            app:srcCompat="@drawable/mypage_logout"
                             app:layout_constraintBottom_toBottomOf="@id/guideline30"
                             app:layout_constraintEnd_toEndOf="@id/guideline32"
                             app:layout_constraintStart_toStartOf="@id/guideline31"
-                            app:layout_constraintTop_toTopOf="@id/guideline29"
-                            app:srcCompat="@drawable/mypage_logout" />
+                            app:layout_constraintTop_toTopOf="@id/guideline29" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -536,18 +532,18 @@
                         android:layout_height="match_parent"
                         android:layout_weight="4"
                         android:fontFamily="@font/pretendardbold"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="15dp"
                         android:text="로그아웃"
                         android:textColor="#515459"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"/>
 
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="wrap_content"
+                        app:tint="#95ffffff"
                         android:tintMode="src_over"
-                        app:srcCompat="@drawable/icon_right"
-                        app:tint="#95ffffff" />
+                        app:srcCompat="@drawable/icon_right" />
 
                 </LinearLayout>
 
@@ -560,7 +556,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_weight="1" >
 
                         <View
                             android:layout_width="match_parent"
@@ -603,11 +599,11 @@
                         <ImageView
                             android:layout_width="35dp"
                             android:layout_height="35dp"
+                            app:srcCompat="@drawable/mypage_delete"
                             app:layout_constraintBottom_toBottomOf="@id/guideline34"
                             app:layout_constraintEnd_toEndOf="@id/guideline36"
                             app:layout_constraintStart_toStartOf="@id/guideline35"
-                            app:layout_constraintTop_toTopOf="@id/guideline33"
-                            app:srcCompat="@drawable/mypage_delete" />
+                            app:layout_constraintTop_toTopOf="@id/guideline33" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -616,18 +612,18 @@
                         android:layout_height="match_parent"
                         android:layout_weight="4"
                         android:fontFamily="@font/pretendardbold"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="15dp"
                         android:text="회원탈퇴"
                         android:textColor="#515459"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"/>
 
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="wrap_content"
+                        app:tint="#95ffffff"
                         android:tintMode="src_over"
-                        app:srcCompat="@drawable/icon_right"
-                        app:tint="#95ffffff" />
+                        app:srcCompat="@drawable/icon_right" />
 
                 </LinearLayout>
             </LinearLayout>

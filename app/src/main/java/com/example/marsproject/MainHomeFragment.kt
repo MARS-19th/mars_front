@@ -85,15 +85,6 @@ class MainHomeFragment : Fragment() {
             (activity as MainActivity).clickchangeFragment(1) // 목표 프래그먼트로 전환
         }
 
-        // 클릭 시 주변 친구 찾기로 이동하는 리스너
-        binding.searchPeople.setOnClickListener {
-            activity?.let{
-                // 인텐트 생성 후 액티비티 생성
-                val intent = Intent(context, SearchPeopleActivity::class.java) // 주변 친구 찾기 페이지로 설정
-                startActivity(intent) // 액티비티 생성
-            }
-        }
-
         return binding.root
     }
 
@@ -124,5 +115,4 @@ class MainHomeFragment : Fragment() {
         }
         binding.progressBar.progress = progress // 목표 진행률 변경
     }
-
 }
