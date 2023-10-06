@@ -6,20 +6,27 @@ import android.bluetooth.BluetoothManager
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.DialogFragment
+import com.example.marsproject.databinding.ActivityFriendDialogBinding
 import com.example.marsproject.databinding.ActivitySearchPeopleBinding
 import com.kakao.sdk.user.UserApiClient
+import org.json.JSONObject
 import org.w3c.dom.Text
 import java.net.UnknownServiceException
 import kotlin.random.Random
@@ -91,6 +98,7 @@ class SearchPeopleActivity : AppCompatActivity() {
         }
     }
 
+
     val bluetoothSearchCallback = object : ScanCallback() {
         private val isdup = ArrayList<String>() // 장치 중복 제거용 ArrayList
 
@@ -112,6 +120,68 @@ class SearchPeopleActivity : AppCompatActivity() {
             Log.d("블루투스", "mac 주소 : $devicemac")
             Log.d("블루투스", "UUID : $deviceuuid")
 
+            fun getFriendName(): String{
+                var FriendName = ""
+                try {
+                    /* 이 부분이 uuid로 다른유저를 정상적으로 찾을때 실행됨 */
+
+                    // 찾은 장치 uuid를 api 보내서 사용자 정보 찾아오기
+                    val jsonObject =
+                        Request().reqget("http://dmumars.kro.kr/api/getbtuserdata/${deviceuuid}")
+
+                    // 사용자 정보에서 user_name 가져오기
+                    FriendName = jsonObject.getString("user_name")
+                } catch (e: UnknownServiceException) {
+                    Log.d("블루투스", "해당 uuid는 앱 사용자가 아님")
+                }
+                return FriendName
+            }
+
+            class FriendDialog(id: String) : DialogFragment() {
+                private lateinit var binding : ActivityFriendDialogBinding
+
+                override fun onCreateView(
+                    inflater: LayoutInflater,
+                    container: ViewGroup?,
+                    savedInstanceState: Bundle?
+                ): View? {
+                    binding = ActivityFriendDialogBinding.inflate(inflater, container, false)
+                    val view = binding.root
+
+                    dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+                    binding.addFriendBtn.setOnClickListener{
+                        // handle click event for addFriendBtn
+                        Thread{
+                            fun setFriend() {
+                                try {
+                                    val userName = getName()
+                                    val friendName = getFriendName()
+
+                                    val jsonObject = JSONObject() //json 초기화
+                                    jsonObject.put("user_name", userName)
+                                    jsonObject.put("friend", friendName)
+                                    Request().reqpost("http://dmumars.kro.kr/api/setfriend", jsonObject)
+
+                                } catch (e: UnknownServiceException) {
+                                    println(e.message)
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                            }
+                            setFriend()
+                        }.start()
+                        dismiss()
+                    }
+
+                    binding.finishBtn.setOnClickListener{
+                        dismiss()
+                    }
+                    return view
+                }
+            }
+
+
             Thread {
                 try {
                     /* 이 부분이 uuid로 다른유저를 정상적으로 찾을때 실행됨 */
@@ -122,6 +192,8 @@ class SearchPeopleActivity : AppCompatActivity() {
 
                     // 사용자 정보에서 user_name 가져오기
                     val name = jsonObject.getString("user_name")
+
+
 
                     // Thread 안에서 수행할때 오류가 나는 코드들을 runOnUiThread 로 감싸서 수행
                     runOnUiThread {
@@ -159,15 +231,13 @@ class SearchPeopleActivity : AppCompatActivity() {
                     Log.d("블루투스", "해당 uuid는 앱 사용자가 아님")
                 }
             }.start()
-            // 이 아래는 위에  Thread 블록 과 동시에 실행됨
-
-            // 일반적인 블루투스장치의 경우 uuid는 null로 뜰꺼임
-            // 앱을 킨 사람은 ble로 uuid를 넣어서 계속 해서 신호를 보니기 때문에 정상적으로 출력 될꺼임
         }
     }
 
-
-
+    fun getName(): String {
+        val pref = getSharedPreferences("userName", 0)
+        return pref.getString("name", "").toString()
+    }
 
     // 옵션 메뉴 클릭 함수
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
