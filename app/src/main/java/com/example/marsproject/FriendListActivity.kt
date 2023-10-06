@@ -2,6 +2,7 @@ package com.example.marsproject
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -99,8 +100,8 @@ class FriendListActivity : AppCompatActivity() {
         // 실제 데이터 검색 및 추가 로직을 구현
 
         // 검색할 URL을 생성
-        val searchUrl = "http://dmumars.kro.kr/api/getuserdata/$friendCode"
-
+        val searchUrl = "http://dmumars.kro.kr/api/getuserdata/${friendCode}"
+        println("에디트 텍스트 값 : $friendCode")
         // 검색할 URL로 요청을 보내고 결과를 처리하는 코드를 추가
         val isFriendFound = sendHttpRequestAndProcessResult(searchUrl)
 
@@ -108,18 +109,22 @@ class FriendListActivity : AppCompatActivity() {
     }
 
     private fun sendHttpRequestAndProcessResult(searchUrl: String): Boolean {
+        println("url 값 : $searchUrl")
         try {
             val jsonObject = Request().reqget(searchUrl) // GET 요청
 
             // 검색 결과를 파싱하여 유저 데이터를 가져옴
             name = jsonObject.getString("user_name") // 닉네임
-            id = jsonObject.getString("user_id") // 아이디
             title = jsonObject.getString("user_title") // 칭호
             profile = jsonObject.getString("profile_local") // 프로필
-            level = jsonObject.getInt("level").toString() // 레벨
 
             // 검색 결과가 있으면 friendList에 추가
             friendList.add(name) // 예시로 닉네임을 추가, 원하는 데이터를 추가하세요.
+
+
+            println("user_name 값 : $name")
+            println("user_title 값 : $title")
+            println("profile_local 값 : $profile")
 
             // RecyclerView 업데이트
             runOnUiThread {
@@ -145,14 +150,17 @@ class FriendListActivity : AppCompatActivity() {
         val HomeThread = Thread {
             try {
                 val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getfriend/${getName()}") // GET 요청
-                val jsonArray = jsonObject.getJSONArray("result")
+
+                val jsonArray = jsonObject.getJSONArray("results")
 
                 // JSONArray를 Kotlin 리스트로 변환하여 친구 목록으로 추가
                 val friendListFromJson = mutableListOf<String>()
 
                 // 각 친구에 대한 데이터를 추출하여 리스트에 추가
                 for (i in 0 until jsonArray.length()) {
-                    val friendData = Request().reqget("http://dmumars.kro.kr/api/getfriend/${jsonArray.getString(i)}") // GET 요청
+                    val friendCode = jsonArray.getString(i)
+
+                    val friendData = Request().reqget("http://dmumars.kro.kr/api/getuserdata/${friendCode}") // GET 요청
 
                     // 필요한 데이터 추출
                     val title = friendData.getString("user_title")
@@ -163,6 +171,7 @@ class FriendListActivity : AppCompatActivity() {
                     val friendInfo = "$userName|$title|$profile"
                     friendListFromJson.add(friendInfo)
                 }
+
 
                 // friendList에 친구를 추가하거나 다른 작업 수행
                 friendList.addAll(friendListFromJson)
@@ -182,6 +191,12 @@ class FriendListActivity : AppCompatActivity() {
 
         HomeThread.start() // 쓰레드 시작
         HomeThread.join() // 쓰레드 종료될 때까지 대기
+
+        // 로그 추가
+        println("친구 목록 개수: ${friendList.size}")
+        for (friendInfo in friendList) {
+            println("친구 정보: $friendInfo")
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
