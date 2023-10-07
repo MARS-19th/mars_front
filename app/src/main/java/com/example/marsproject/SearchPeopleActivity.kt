@@ -1,7 +1,6 @@
 package com.example.marsproject
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.bluetooth.le.ScanCallback
@@ -11,7 +10,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -21,16 +19,12 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import com.example.marsproject.databinding.ActivityFriendDialogBinding
 import com.example.marsproject.databinding.ActivitySearchPeopleBinding
-import com.kakao.sdk.user.UserApiClient
 import org.json.JSONObject
-import org.w3c.dom.Text
 import java.net.UnknownServiceException
-import kotlin.random.Random
 
 // 권한 오류 방지
 @SuppressLint("MissingPermission")
@@ -71,13 +65,12 @@ class SearchPeopleActivity : AppCompatActivity() {
             resultLaunch.launch(enableBtIntent) // 이 함수를 사용하면 resultLaunch 메소드가 실행됨
         } else {
             // 2분동안 다른 블루투스 장치를 찾음
-            if (bluetoothsearch.startbluetoothSearch(bluetoothSearchCallback, 2)) {
-            }
+            bluetoothsearch.startbluetoothSearch(bluetoothSearchCallback, 2)
         }
     }
 
     // 블루투스가 활성화 되어있지 않을때 사용자로 부터 요청을 받음
-    val resultLaunch = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private val resultLaunch = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             // 사용자가 블루투스 사용을 허용 했을때
             if (result.resultCode == -1) {
                 // 2분동안 다른 블루투스 장치를 찾음
@@ -92,7 +85,7 @@ class SearchPeopleActivity : AppCompatActivity() {
             }
         }
 
-    val bluetoothSearchCallback = object : ScanCallback() {
+    private val bluetoothSearchCallback = object : ScanCallback() {
         private val isdup = ArrayList<String>() // 장치 중복 제거용 ArrayList
 
         // 블루투스가 장치를 찾을 때 마다 해당 함수를 실행함(비동기임)
@@ -153,6 +146,7 @@ class SearchPeopleActivity : AppCompatActivity() {
         }
     }
 
+    // 친구추가 다이얼 로그 구성
     class FriendDialog(val FriendData: JSONObject) : DialogFragment() {
         private lateinit var binding: ActivityFriendDialogBinding
 
@@ -170,7 +164,11 @@ class SearchPeopleActivity : AppCompatActivity() {
             binding.addFriendBtn.setOnClickListener {
                 Thread {
                     try {
-                        val userName = getName()
+                        // 저장된 닉네임 가져오기
+                        val pref = activity?.getSharedPreferences("userName", 0)
+                        val userName = pref?.getString("name", "").toString()
+
+                        // 찾은 유저의 닉네임 가져오기
                         val friendName = FriendData.getString("user_name")
 
                         val jsonObject = JSONObject() //json 초기화
@@ -192,14 +190,7 @@ class SearchPeopleActivity : AppCompatActivity() {
             }
             return view
         }
-
-        // 닉네임 정보를 가져오는 함수
-        fun getName(): String {
-            val pref = activity?.getSharedPreferences("userName", 0)
-            return pref?.getString("name", "").toString()
-        }
     }
-
 
     // 옵션 메뉴 클릭 함수
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
