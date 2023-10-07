@@ -1,6 +1,7 @@
 package com.example.marsproject
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.bluetooth.le.ScanCallback
@@ -60,16 +61,10 @@ class SearchPeopleActivity : AppCompatActivity() {
 
         // 애니메이션을 텍스트 뷰에 적용
         statusTextView.startAnimation(fadeInAnimation)
-
-        statusTextView.setOnClickListener{
-
-        }
-
+        statusTextView.setOnClickListener {}
         statusTextView.visibility = TextView.VISIBLE
 
-
         // 사용자 찾기 버튼 클릭 리스너
-
         if (!bluetoothsearch.bluetoothAdapter.isEnabled) {
             // 블루투스 활성화 안될때 활성화 시키기
             val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -83,21 +78,19 @@ class SearchPeopleActivity : AppCompatActivity() {
 
     // 블루투스가 활성화 되어있지 않을때 사용자로 부터 요청을 받음
     val resultLaunch = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        // 사용자가 블루투스 사용을 허용 했을때
-        if (result.resultCode == -1) {
-            // 2분동안 다른 블루투스 장치를 찾음
-            if (bluetoothsearch.startbluetoothSearch(bluetoothSearchCallback, 2)) {
-                statusTextView = binding.searchingText
-                fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+            // 사용자가 블루투스 사용을 허용 했을때
+            if (result.resultCode == -1) {
+                // 2분동안 다른 블루투스 장치를 찾음
+                if (bluetoothsearch.startbluetoothSearch(bluetoothSearchCallback, 2)) {
+                    statusTextView = binding.searchingText
+                    fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
 
-                // 애니메이션을 텍스트 뷰에 적용
-                statusTextView.startAnimation(fadeInAnimation)
-                statusTextView.visibility = TextView.VISIBLE
-
+                    // 애니메이션을 텍스트 뷰에 적용
+                    statusTextView.startAnimation(fadeInAnimation)
+                    statusTextView.visibility = TextView.VISIBLE
+                }
             }
         }
-    }
-
 
     val bluetoothSearchCallback = object : ScanCallback() {
         private val isdup = ArrayList<String>() // 장치 중복 제거용 ArrayList
@@ -120,80 +113,10 @@ class SearchPeopleActivity : AppCompatActivity() {
             Log.d("블루투스", "mac 주소 : $devicemac")
             Log.d("블루투스", "UUID : $deviceuuid")
 
-            fun getFriendName(): String{
-                var FriendName = ""
-                try {
-                    /* 이 부분이 uuid로 다른유저를 정상적으로 찾을때 실행됨 */
-
-                    // 찾은 장치 uuid를 api 보내서 사용자 정보 찾아오기
-                    val jsonObject =
-                        Request().reqget("http://dmumars.kro.kr/api/getbtuserdata/${deviceuuid}")
-
-                    // 사용자 정보에서 user_name 가져오기
-                    FriendName = jsonObject.getString("user_name")
-                } catch (e: UnknownServiceException) {
-                    Log.d("블루투스", "해당 uuid는 앱 사용자가 아님")
-                }
-                return FriendName
-            }
-
-            class FriendDialog(id: String) : DialogFragment() {
-                private lateinit var binding : ActivityFriendDialogBinding
-
-                override fun onCreateView(
-                    inflater: LayoutInflater,
-                    container: ViewGroup?,
-                    savedInstanceState: Bundle?
-                ): View? {
-                    binding = ActivityFriendDialogBinding.inflate(inflater, container, false)
-                    val view = binding.root
-
-                    dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-                    binding.addFriendBtn.setOnClickListener{
-                        // handle click event for addFriendBtn
-                        Thread{
-                            fun setFriend() {
-                                try {
-                                    val userName = getName()
-                                    val friendName = getFriendName()
-
-                                    val jsonObject = JSONObject() //json 초기화
-                                    jsonObject.put("user_name", userName)
-                                    jsonObject.put("friend", friendName)
-                                    Request().reqpost("http://dmumars.kro.kr/api/setfriend", jsonObject)
-
-                                } catch (e: UnknownServiceException) {
-                                    println(e.message)
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                }
-                            }
-                            setFriend()
-                        }.start()
-                        dismiss()
-                    }
-
-                    binding.finishBtn.setOnClickListener{
-                        dismiss()
-                    }
-                    return view
-                }
-            }
-
-
             Thread {
                 try {
-                    /* 이 부분이 uuid로 다른유저를 정상적으로 찾을때 실행됨 */
-
-                    // 찾은 장치 uuid를 api 보내서 사용자 정보 찾아오기
-                    val jsonObject =
-                        Request().reqget("http://dmumars.kro.kr/api/getbtuserdata/${deviceuuid}")
-
-                    // 사용자 정보에서 user_name 가져오기
-                    val name = jsonObject.getString("user_name")
-
-
+                    // 찾은 사용자 데이터 가져오기
+                    val frienddata = Request().reqget("http://dmumars.kro.kr/api/getbtuserdata/${deviceuuid}")
 
                     // Thread 안에서 수행할때 오류가 나는 코드들을 runOnUiThread 로 감싸서 수행
                     runOnUiThread {
@@ -211,21 +134,17 @@ class SearchPeopleActivity : AppCompatActivity() {
 
                         findUser.visibility = ImageView.VISIBLE
 
-                        //찾은 사용자 다이얼로그로 보여주기
-                        findUser.setOnClickListener{
-                            UserApiClient.instance.me { user, error ->
-                                if(user != null){
+                        // 찾은 사용자 다이얼로그로 보여주기
+                        findUser.setOnClickListener {
+                            // 친구추가 다이얼 로그 생성
+                            val dialog = FriendDialog(frienddata)
 
-                                    val dialog = FriendDialog("${user.id}")
-                                    //알림창이 띄워져있는 동안 배경 클릭 막기
-                                    dialog.isCancelable = false
-                                    dialog.show(supportFragmentManager, "FriendDialog")
-                                }
-                            }
+                            //알림창이 띄워져있는 동안 배경 클릭 막기
+                            dialog.isCancelable = false
+
+                            // 친구추가 다이얼 로그 띄우기
+                            dialog.show(supportFragmentManager, "FriendDialog")
                         }
-
-
-
                     }
                 } catch (e: UnknownServiceException) {
                     Log.d("블루투스", "해당 uuid는 앱 사용자가 아님")
@@ -234,10 +153,53 @@ class SearchPeopleActivity : AppCompatActivity() {
         }
     }
 
-    fun getName(): String {
-        val pref = getSharedPreferences("userName", 0)
-        return pref.getString("name", "").toString()
+    class FriendDialog(val FriendData: JSONObject) : DialogFragment() {
+        private lateinit var binding: ActivityFriendDialogBinding
+
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
+            binding = ActivityFriendDialogBinding.inflate(inflater, container, false)
+            val view = binding.root
+
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            // 친구 추가 버튼 이벤트 처리
+            binding.addFriendBtn.setOnClickListener {
+                Thread {
+                    try {
+                        val userName = getName()
+                        val friendName = FriendData.getString("user_name")
+
+                        val jsonObject = JSONObject() //json 초기화
+                        jsonObject.put("user_name", userName)
+                        jsonObject.put("friend", friendName)
+
+                        Request().reqpost("http://dmumars.kro.kr/api/setfriend", jsonObject)
+                    } catch (e: UnknownServiceException) {
+                        println(e.message)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }.start()
+                dismiss()
+            }
+
+            binding.finishBtn.setOnClickListener {
+                dismiss()
+            }
+            return view
+        }
+
+        // 닉네임 정보를 가져오는 함수
+        fun getName(): String {
+            val pref = activity?.getSharedPreferences("userName", 0)
+            return pref?.getString("name", "").toString()
+        }
     }
+
 
     // 옵션 메뉴 클릭 함수
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
