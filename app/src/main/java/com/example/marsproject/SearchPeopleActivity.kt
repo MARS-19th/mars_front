@@ -71,19 +71,19 @@ class SearchPeopleActivity : AppCompatActivity() {
 
     // 블루투스가 활성화 되어있지 않을때 사용자로 부터 요청을 받음
     private val resultLaunch = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            // 사용자가 블루투스 사용을 허용 했을때
-            if (result.resultCode == -1) {
-                // 2분동안 다른 블루투스 장치를 찾음
-                if (bluetoothsearch.startbluetoothSearch(bluetoothSearchCallback, 2)) {
-                    statusTextView = binding.searchingText
-                    fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+        // 사용자가 블루투스 사용을 허용 했을때
+        if (result.resultCode == -1) {
+            // 2분동안 다른 블루투스 장치를 찾음
+            if (bluetoothsearch.startbluetoothSearch(bluetoothSearchCallback, 2)) {
+                statusTextView = binding.searchingText
+                fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
 
-                    // 애니메이션을 텍스트 뷰에 적용
-                    statusTextView.startAnimation(fadeInAnimation)
-                    statusTextView.visibility = TextView.VISIBLE
-                }
+                // 애니메이션을 텍스트 뷰에 적용
+                statusTextView.startAnimation(fadeInAnimation)
+                statusTextView.visibility = TextView.VISIBLE
             }
         }
+    }
 
     private val bluetoothSearchCallback = object : ScanCallback() {
         private val isdup = ArrayList<String>() // 장치 중복 제거용 ArrayList
@@ -137,6 +137,8 @@ class SearchPeopleActivity : AppCompatActivity() {
 
                             // 친구추가 다이얼 로그 띄우기
                             dialog.show(supportFragmentManager, "FriendDialog")
+
+                            findUser.visibility = ImageView.INVISIBLE
                         }
                     }
                 } catch (e: UnknownServiceException) {
@@ -145,6 +147,7 @@ class SearchPeopleActivity : AppCompatActivity() {
             }.start()
         }
     }
+
 
     // 친구추가 다이얼 로그 구성
     class FriendDialog(val FriendData: JSONObject) : DialogFragment() {
@@ -160,6 +163,8 @@ class SearchPeopleActivity : AppCompatActivity() {
 
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
+            //binding.friendName.text = FriendData.getString("user_name")
+
             // 친구 추가 버튼 이벤트 처리
             binding.addFriendBtn.setOnClickListener {
                 Thread {
@@ -170,6 +175,7 @@ class SearchPeopleActivity : AppCompatActivity() {
 
                         // 찾은 유저의 닉네임 가져오기
                         val friendName = FriendData.getString("user_name")
+                        Log.d("JSON Response", FriendData.toString())
 
                         val jsonObject = JSONObject() //json 초기화
                         jsonObject.put("user_name", userName)
