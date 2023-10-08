@@ -77,14 +77,26 @@ class MainHomeFragment : Fragment() {
         // 유저 데이터 변경
         changeUserData(title, name, id, objective, life, progress.toInt())
 
-        // 클릭 시 친구 리스트로 이동하는 리스너
-        binding.searchPeople.setOnClickListener {
+        // 클릭 시 친구 찾기로 이동하는 리스너
+        binding.searchpeople.setOnClickListener {
             activity?.let{
                 // 인텐트 생성 후 액티비티 생성
                 val intent = Intent(context, SearchPeopleActivity::class.java) // 주변 친구 찾기 페이지로 설정
                 startActivity(intent) // 액티비티 생성
             }
         }
+
+        // 클릭 시 알림 다이얼로그로 이동하는 리스너
+        binding.notification.setOnClickListener {
+
+            val dialog = NoticeDialog()
+
+            //알림창이 띄워져있는 동안 배경 클릭 막기
+            dialog.isCancelable = false
+
+            dialog.show(childFragmentManager, "NoticeDialog")
+        }
+
 
         // 클릭 시 목표 프래그먼트로 전환하는 리스너
         binding.objectiveText.setOnClickListener{
@@ -104,7 +116,7 @@ class MainHomeFragment : Fragment() {
         binding.userIdText.text = id // 회원 아이디 텍스트 변경
         binding.objectiveText.text = objective // 상세 목표 텍스트 변경
 
-        // 목숨 수에 따른 이미지 활성화
+        /*// 목숨 수에 따른 이미지 활성화
         when(life) {
             3 -> {
                 binding.lifeImage1.visibility = View.VISIBLE // 활성화
@@ -121,7 +133,7 @@ class MainHomeFragment : Fragment() {
                 binding.lifeImage2.visibility = View.INVISIBLE // 비활성화
                 binding.lifeImage3.visibility = View.INVISIBLE // 비활성화
             }
-        }
+        }*/
         binding.progressBar.progress = progress // 목표 진행률 변경
     }
 }
