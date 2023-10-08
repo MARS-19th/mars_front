@@ -16,14 +16,9 @@ class FriendListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFriendListBinding
     private lateinit var friendListAdapter: FriendListAdapter
     private lateinit var friendRequestAdapter: FriendRequestAdapter
-    private var friendList = mutableListOf<String>() // 친구 목록을 저장할 리스트
-    private var friendRequestList = mutableListOf<String>() // 친구 신청 목록을 저장할 리스트
-
-    // 검색해야 되는 유저의 데이터를 가져오기 위해 사용하는 변수
-    private var name: String = "닉네임" // 닉네임
-    private var id: String = "아이디" // 아이디
-    private var title: String = "칭호" // 칭호
-    private lateinit var profile: String // 프로필
+    private var friendList = mutableListOf<FriendInfo>() // 친구 목록을 저장할 리스트
+    private var friendRequestList = mutableListOf<FriendInfo>() // 친구 신청 목록을 저장할 리스트
+    private var searchResultList = mutableListOf<FriendInfo>() // 검색 결과를 저장할 리스트
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,15 +66,20 @@ class FriendListActivity : AppCompatActivity() {
         binding.searchButton.setOnClickListener {
             val friendCode = binding.friendCodeEditText.text.toString()
             if (friendCode.isNotEmpty()) {
-                // 여기에서 실제 친구를 검색하고 결과를 friendList에 추가하는 로직을 구현
-                val isFriendFound = searchFriend(friendCode)
-                if (!isFriendFound) {
-                    // 검색 결과가 없는 경우 메시지를 표시
-                    friendList.clear()
-                    friendListAdapter.notifyDataSetChanged() // RecyclerView 갱신
-                }
+                // 여기에서 실제 친구를 검색하고 결과를 searchResultList에 추가하는 로직을 구현
+                searchFriend(friendCode)
                 binding.friendCodeEditText.text.clear()
             }
+
+        }
+
+          // 친구목록 텍스트뷰를 누를 때
+           friendListTextView.setOnClickListener {
+            friendListTextView.setTextColor(Color.parseColor("#FF9C46")) // 친구목록 텍스트뷰 선택
+            friendRequestTextView.setTextColor(Color.GRAY) // 친구신청 텍스트뷰는 기본 색상으로 변경
+
+            // 친구 목록 리사이클러뷰를 업데이트
+            binding.friendRecyclerView.adapter = FriendListAdapter(friendList)
         }
 
         // 초기 친구 목록을 추가
@@ -92,62 +92,64 @@ class FriendListActivity : AppCompatActivity() {
         return pref.getString("name", "").toString()
     }
 
-    private fun searchFriend(friendCode: String): Boolean {
-        // 여기에서 실제 친구 검색 로직을 구현
-        // 검색 결과가 있으면 friendList에 추가하고 true를 반환하고,
-        // 검색 결과가 없으면 false를 반환
-        // 실제 데이터 검색 및 추가 로직을 구현
+    private fun searchFriend(friendCode: String) {
+        // 검색 결과를 초기화
+        searchResultList.clear()
 
         // 검색할 URL을 생성
         val searchUrl = "http://dmumars.kro.kr/api/getuserdata/${friendCode}"
         println("에디트 텍스트 값 : $friendCode")
-        // 검색할 URL로 요청을 보내고 결과를 처리하는 코드를 추가
-        val isFriendFound = sendHttpRequestAndProcessResult(searchUrl)
 
-        // 검색 텍스트 값을 어댑터로 전달
+        val searchThread = Thread {
+            try {
+                val jsonObject = Request().reqget(searchUrl) // GET 요청
+                println("JSON 응답: $jsonObject")
 
-        return isFriendFound
+                val nickname = jsonObject.getString("user_name") // 닉네임
+                val title = jsonObject.getString("user_title") // 칭호
+                val profileImageUrl = jsonObject.getString("profile_local") // 프로필
+
+                // 여기에서 친구 목록에 해당 친구가 있는지 확인
+                val isFriend = checkIfFriendExists(nickname) // 이 함수는 친구 목록에서 해당 닉네임을 찾아서 있는지 확인하는 로직입니다.
+
+                // FriendInfo 객체를 생성하여 리스트에 추가
+                val friendInfo = FriendInfo(nickname, title, profileImageUrl, isFriend)
+                searchResultList.add(friendInfo)
+
+                // RecyclerView 업데이트
+                runOnUiThread {
+                    if (searchResultList.isEmpty()) {
+                        // 검색 결과가 없는 경우 RecyclerView를 비워줌
+                        binding.friendRecyclerView.adapter = null
+                    } else {
+                        // 검색 결과가 있을 때 검색한 친구의 목록을 표시
+                        binding.friendRecyclerView.adapter = FriendListAdapter(searchResultList)
+                    }
+                }
+
+            } catch (e: UnknownServiceException) {
+                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                println(e.message)
+                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장된 상태, 예: {err: "type_err"}
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        searchThread.start()
     }
 
-    private fun sendHttpRequestAndProcessResult(searchUrl: String): Boolean {
-        println("url 값 : $searchUrl")
-        try {
-            val jsonObject = Request().reqget(searchUrl) // GET 요청
-
-            // 검색 결과를 파싱하여 유저 데이터를 가져옴
-            name = jsonObject.getString("user_name") // 닉네임
-            title = jsonObject.getString("user_title") // 칭호
-            profile = jsonObject.getString("profile_local") // 프로필
-
-            println("user_name 값 : $name")
-            println("user_title 값 : $title")
-            println("profile_local 값 : $profile")
-
-            // 검색 결과가 있으면 friendList에 추가
-            friendList.add(name) // 예시로 닉네임을 추가, 원하는 데이터를 추가하세요.
-
-
-            println("user_name 값 : $name")
-            println("user_title 값 : $title")
-            println("profile_local 값 : $profile")
-
-            // RecyclerView 업데이트
-            runOnUiThread {
-                friendListAdapter.notifyDataSetChanged()
+    // 친구 목록에서 해당 닉네임을 찾아서 있는지 확인하는 함수
+    private fun checkIfFriendExists(nickname: String): Boolean {
+        // 여기에 친구 목록에서 해당 닉네임을 찾아서 있는지 확인하는 로직을 구현
+        // 만약 친구 목록에 해당 닉네임을 찾으면 true를 반환하고, 그렇지 않으면 false를 반환
+        for (friend in friendList) {
+            if (friend.nickname == nickname) {
+                return true
             }
-
-            return true
-        } catch (e: UnknownServiceException) {
-            // API 사용법에 나와있는 모든 오류응답은 여기서 처리
-            println(e.message)
-            // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장된 상태, 예: {err: "type_err"}
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
-
-        // 검색 결과가 없는 경우
         return false
     }
+
 
     private fun addInitialFriends() {
         // 초기 친구 목록을 추가합니다. 해당 유저 친구 목록 불러오는 쓰레드 생성
@@ -159,24 +161,23 @@ class FriendListActivity : AppCompatActivity() {
                 val jsonArray = jsonObject.getJSONArray("results")
 
                 // JSONArray를 Kotlin 리스트로 변환하여 친구 목록으로 추가
-                val friendListFromJson = mutableListOf<String>()
+                val friendListFromJson = mutableListOf<FriendInfo>()
 
                 // 각 친구에 대한 데이터를 추출하여 리스트에 추가
                 for (i in 0 until jsonArray.length()) {
                     val friendCode = jsonArray.getJSONObject(i).getString("friend")
-                    println("데이터 확인 : $friendCode")
+
                     val friendData = Request().reqget("http://dmumars.kro.kr/api/getuserdata/${friendCode}") // GET 요청
-                    println("$friendData")
+
                     // 필요한 데이터 추출
                     val title = friendData.getString("user_title")
                     val userName = friendData.getString("user_name")
                     val profile = friendData.getString("profile_local")
 
-                    // 데이터를 한 문자열로 묶어서 리스트에 추가
-                    val friendInfo = "$userName|$title|$profile"
+                    // FriendInfo 객체를 생성하여 리스트에 추가
+                    val friendInfo = FriendInfo(userName, title, profile, isFriend = true)
                     friendListFromJson.add(friendInfo)
                 }
-
 
                 // friendList에 친구를 추가하거나 다른 작업 수행
                 friendList.addAll(friendListFromJson)

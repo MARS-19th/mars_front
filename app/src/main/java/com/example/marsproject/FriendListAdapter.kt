@@ -9,7 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class FriendListAdapter(private val friendList: List<String>, private val isFriendList: Boolean = true) :
+// FriendInfo 모델 클래스 정의
+data class FriendInfo(val nickname: String, val title: String, val profileImageUrl: String, val isFriend: Boolean)
+
+
+class FriendListAdapter(private val friendList: List<FriendInfo>, private val isFriendList: Boolean = true) :
     RecyclerView.Adapter<FriendListAdapter.FriendViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
@@ -33,22 +37,17 @@ class FriendListAdapter(private val friendList: List<String>, private val isFrie
         private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         private val someButton: ImageButton = itemView.findViewById(R.id.someButton)
 
-        fun bind(friendInfo: String) {
-            val parts = friendInfo.split("|")
-            val nickname = parts[0]
-            val title = parts[1]
-            val profileImageUrl = parts[2]
-
-            nicknameTextView.text = nickname
-            titleTextView.text = title
+        fun bind(friendInfo: FriendInfo) {
+            // 친구 정보를 뷰에 바인딩
+            nicknameTextView.text = friendInfo.nickname
+            titleTextView.text = friendInfo.title
 
             Glide.with(itemView.context)
-                .load(profileImageUrl)
+                .load(friendInfo.profileImageUrl)
                 .into(profileImageView)
 
-            // 친구 목록에 있는 경우 이미지 버튼을 minus.png로 설정
-            // 친구 목록에 없는 경우 이미지 버튼을 plus.png로 설정
-            if (isFriendList) {
+            // isFriend 값에 따라 이미지 버튼 이미지 설정
+            if (friendInfo.isFriend) {
                 someButton.setImageResource(R.drawable.minus)
             } else {
                 someButton.setImageResource(R.drawable.plus)
@@ -61,7 +60,6 @@ class FriendListAdapter(private val friendList: List<String>, private val isFrie
                     // 친구 삭제 로직을 구현
                     // 현재 항목을 친구 목록에서 제거하고 RecyclerView 갱신
 
-
                 } else {
                     // 친구 추가 로직을 구현
                     // 현재 항목을 친구 목록에 추가하고 RecyclerView 갱신
@@ -72,3 +70,4 @@ class FriendListAdapter(private val friendList: List<String>, private val isFrie
         }
     }
 }
+
