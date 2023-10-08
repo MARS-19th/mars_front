@@ -26,8 +26,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.marsproject.databinding.FragmentMainMypageBinding
 import com.kakao.sdk.user.UserApiClient
 import org.json.JSONObject
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.UnknownServiceException
@@ -52,12 +53,24 @@ class MainMypageFragment : Fragment() {
                     // 가져온 파일을 inputStream으로 리턴
                     val fileInputStream = activity?.contentResolver?.openInputStream(data)!!
 
+                    // 사진 가져오기
+                    val bitmap = BitmapFactory.decodeStream(activity?.contentResolver?.openInputStream(data))
+                    // 사진의 회전 정보 가져오기
+                    val orientation = getOrientationOfImage(data).toFloat()
+                    // 이미지 회전하기
+                    val newBitmap = getRotatedBitmap(bitmap, orientation)
+
+                    val bos = ByteArrayOutputStream()
+                    newBitmap?.compress(Bitmap.CompressFormat.JPEG, 0, bos)
+                    val bitmapdata = bos.toByteArray()
+                    val inputStream = ByteArrayInputStream(bitmapdata)
+
                     // 프사 json 생성
                     val profilejson =  JSONObject()
                     profilejson.put("user_name", savedName)
 
                     // 파일 보내기
-                    Request().fileupload("http://dmumars.kro.kr/api/uploadprofile", profilejson, filename, fileInputStream)
+                    Request().fileupload("http://dmumars.kro.kr/api/uploadprofile", profilejson, filename, inputStream)
 
                     // 가저온 이미지로 프사 변경 변경하기
                     activity?.runOnUiThread {
@@ -101,7 +114,6 @@ class MainMypageFragment : Fragment() {
 
         // 사용자 프사 갖고오기
         var bitmap: Bitmap ?= null
-        var newBitmap: Bitmap ?= null
         val profile = Thread {
             // 닉네임으로 api 프사 이미지 요청
             val url = URL("http://dmumars.kro.kr/api/getprofile/${savedName}")
@@ -110,12 +122,6 @@ class MainMypageFragment : Fragment() {
             // 이미지 읽기
             val imgstream = http.inputStream
             bitmap = BitmapFactory.decodeStream(imgstream)
-
-            // 사진의 회전 정보 가져오기
-            val orientation = getOrientationOfImage(imgstream).toFloat()
-
-            // 이미지 회전하기
-            newBitmap = getRotatedBitmap(bitmap, orientation)
         }
         profile.start()
         profile.join()
@@ -268,14 +274,16 @@ class MainMypageFragment : Fragment() {
 
     // 이미지 회전 정보 가져오기
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun getOrientationOfImage(uri: InputStream): Int {
+    private fun getOrientationOfImage(uri: Uri): Int {
+        // uri -> inputStream
+        val inputStream = activity?.contentResolver?.openInputStream(uri)
         val exif: ExifInterface? = try {
-            ExifInterface(uri!!)
+            ExifInterface(inputStream!!)
         } catch (e: IOException) {
             e.printStackTrace()
             return -1
         }
-        uri.close()
+        inputStream.close()
 
         // 회전된 각도 알아내기
         val orientation = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
