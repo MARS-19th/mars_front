@@ -119,7 +119,7 @@ class MainMypageFragment : Fragment() {
     // 페이지로 이동하는 클릭 리스너 설정
     private fun setMoveClickListener() {
         // 프로필 이미지 클릭시 프사 변경 하는 리스너
-        binding.profileBackground.setOnClickListener {
+        binding.userImage.setOnClickListener {
             // 갤러리 Intent 실행
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"

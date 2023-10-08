@@ -130,7 +130,7 @@
     <TextView
         android:id="@+id/userIdText"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/pretendardregular"
         android:text="회원코드 or 아이디"
         android:textColor="#F3EAEA"
@@ -139,18 +139,20 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/userNameText"
-        app:layout_constraintTop_toTopOf="@+id/guideline8" />
+        app:layout_constraintTop_toTopOf="@+id/guideline8"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/profileimage"
-        app:layout_constraintBottom_toTopOf="@+id/guideline9"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/profileimage"
+        app:layout_constraintBottom_toBottomOf="@+id/userIdText"
         app:layout_constraintEnd_toEndOf="@+id/guideline10"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toTopOf="@+id/guideline7"
-        app:srcCompat="@drawable/cat_face" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline11"
