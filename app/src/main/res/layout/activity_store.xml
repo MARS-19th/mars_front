@@ -81,7 +81,7 @@
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cat_btn"
         android:layout_width="80dp"
         android:layout_height="65dp"
@@ -93,7 +93,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="SpeakableTextPresentCheck"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/plus_btn"
         android:layout_width="70dp"
         android:layout_height="60dp"
