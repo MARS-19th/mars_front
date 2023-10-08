@@ -145,7 +145,7 @@ class SearchPeopleActivity : AppCompatActivity() {
     }
 
     // 친구추가 다이얼 로그 구성
-    val FriendDialog =  object: DialogFragment() {
+    val FriendDialog = object: DialogFragment() {
         private lateinit var binding: ActivityFriendDialogBinding
 
         override fun onCreateView(
