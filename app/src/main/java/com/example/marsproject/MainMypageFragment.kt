@@ -61,7 +61,7 @@ class MainMypageFragment : Fragment() {
                     val newBitmap = getRotatedBitmap(bitmap, orientation)
 
                     val bos = ByteArrayOutputStream()
-                    newBitmap?.compress(Bitmap.CompressFormat.JPEG, 0, bos)
+                    newBitmap?.compress(Bitmap.CompressFormat.PNG, 0, bos)
                     val bitmapdata = bos.toByteArray()
                     val inputStream = ByteArrayInputStream(bitmapdata)
 
