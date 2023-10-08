@@ -36,6 +36,7 @@ class SearchPeopleActivity : AppCompatActivity() {
     private lateinit var statusTextView: TextView
     private lateinit var findUser: ImageView
     private lateinit var fadeInAnimation: Animation
+    private lateinit var frienddata: JSONObject // 찾은 유저정보 json
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchPeopleBinding.inflate(layoutInflater)
@@ -109,7 +110,7 @@ class SearchPeopleActivity : AppCompatActivity() {
             Thread {
                 try {
                     // 찾은 사용자 데이터 가져오기
-                    val frienddata = Request().reqget("http://dmumars.kro.kr/api/getbtuserdata/${deviceuuid}")
+                    frienddata = Request().reqget("http://dmumars.kro.kr/api/getbtuserdata/${deviceuuid}")
 
                     // Thread 안에서 수행할때 오류가 나는 코드들을 runOnUiThread 로 감싸서 수행
                     runOnUiThread {
@@ -129,14 +130,11 @@ class SearchPeopleActivity : AppCompatActivity() {
 
                         // 찾은 사용자 다이얼로그로 보여주기
                         findUser.setOnClickListener {
-                            // 친구추가 다이얼 로그 생성
-                            val dialog = FriendDialog(frienddata)
-
-                            //알림창이 띄워져있는 동안 배경 클릭 막기
-                            dialog.isCancelable = false
+                            // 다이얼로그가 띄워져있는 동안 배경 클릭 막기
+                            FriendDialog.isCancelable = false
 
                             // 친구추가 다이얼 로그 띄우기
-                            dialog.show(supportFragmentManager, "FriendDialog")
+                            FriendDialog.show(supportFragmentManager, "FriendDialog")
                         }
                     }
                 } catch (e: UnknownServiceException) {
@@ -147,7 +145,7 @@ class SearchPeopleActivity : AppCompatActivity() {
     }
 
     // 친구추가 다이얼 로그 구성
-    class FriendDialog(val FriendData: JSONObject) : DialogFragment() {
+    val FriendDialog =  object: DialogFragment() {
         private lateinit var binding: ActivityFriendDialogBinding
 
         override fun onCreateView(
@@ -165,11 +163,10 @@ class SearchPeopleActivity : AppCompatActivity() {
                 Thread {
                     try {
                         // 저장된 닉네임 가져오기
-                        val pref = activity?.getSharedPreferences("userName", 0)
-                        val userName = pref?.getString("name", "").toString()
+                        val userName = (activity as MainActivity).getName()
 
                         // 찾은 유저의 닉네임 가져오기
-                        val friendName = FriendData.getString("user_name")
+                        val friendName = frienddata.getString("user_name")
 
                         val jsonObject = JSONObject() //json 초기화
                         jsonObject.put("user_name", userName)
