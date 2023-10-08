@@ -24,7 +24,6 @@ class FriendListActivity : AppCompatActivity() {
     private var id: String = "아이디" // 아이디
     private var title: String = "칭호" // 칭호
     private lateinit var profile: String // 프로필
-    private lateinit var level: String // 레벨
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,6 +104,8 @@ class FriendListActivity : AppCompatActivity() {
         // 검색할 URL로 요청을 보내고 결과를 처리하는 코드를 추가
         val isFriendFound = sendHttpRequestAndProcessResult(searchUrl)
 
+        // 검색 텍스트 값을 어댑터로 전달
+
         return isFriendFound
     }
 
@@ -117,6 +118,10 @@ class FriendListActivity : AppCompatActivity() {
             name = jsonObject.getString("user_name") // 닉네임
             title = jsonObject.getString("user_title") // 칭호
             profile = jsonObject.getString("profile_local") // 프로필
+
+            println("user_name 값 : $name")
+            println("user_title 값 : $title")
+            println("profile_local 값 : $profile")
 
             // 검색 결과가 있으면 friendList에 추가
             friendList.add(name) // 예시로 닉네임을 추가, 원하는 데이터를 추가하세요.
@@ -158,10 +163,10 @@ class FriendListActivity : AppCompatActivity() {
 
                 // 각 친구에 대한 데이터를 추출하여 리스트에 추가
                 for (i in 0 until jsonArray.length()) {
-                    val friendCode = jsonArray.getString(i)
-
+                    val friendCode = jsonArray.getJSONObject(i).getString("friend")
+                    println("데이터 확인 : $friendCode")
                     val friendData = Request().reqget("http://dmumars.kro.kr/api/getuserdata/${friendCode}") // GET 요청
-
+                    println("$friendData")
                     // 필요한 데이터 추출
                     val title = friendData.getString("user_title")
                     val userName = friendData.getString("user_name")
@@ -194,9 +199,6 @@ class FriendListActivity : AppCompatActivity() {
 
         // 로그 추가
         println("친구 목록 개수: ${friendList.size}")
-        for (friendInfo in friendList) {
-            println("친구 정보: $friendInfo")
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

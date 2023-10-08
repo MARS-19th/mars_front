@@ -60,9 +60,12 @@ class FriendListAdapter(private val friendList: List<String>, private val isFrie
                 if (isFriendList) {
                     // 친구 삭제 로직을 구현
                     // 현재 항목을 친구 목록에서 제거하고 RecyclerView 갱신
+
+
                 } else {
                     // 친구 추가 로직을 구현
                     // 현재 항목을 친구 목록에 추가하고 RecyclerView 갱신
+
                 }
             }
 
