@@ -3,16 +3,10 @@ package com.example.marsproject
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.media.ExifInterface
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,16 +15,12 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.marsproject.databinding.FragmentMainMypageBinding
 import com.kakao.sdk.user.UserApiClient
 import org.json.JSONObject
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.URL
 import java.net.UnknownServiceException
 
 class MainMypageFragment : Fragment() {
@@ -53,24 +43,12 @@ class MainMypageFragment : Fragment() {
                     // 가져온 파일을 inputStream으로 리턴
                     val fileInputStream = activity?.contentResolver?.openInputStream(data)!!
 
-                    // 사진 가져오기
-                    val bitmap = BitmapFactory.decodeStream(activity?.contentResolver?.openInputStream(data))
-                    // 사진의 회전 정보 가져오기
-                    val orientation = getOrientationOfImage(data).toFloat()
-                    // 이미지 회전하기
-                    val newBitmap = getRotatedBitmap(bitmap, orientation)
-
-                    val bos = ByteArrayOutputStream()
-                    newBitmap?.compress(Bitmap.CompressFormat.PNG, 0, bos)
-                    val bitmapdata = bos.toByteArray()
-                    val inputStream = ByteArrayInputStream(bitmapdata)
-
                     // 프사 json 생성
                     val profilejson =  JSONObject()
                     profilejson.put("user_name", savedName)
 
                     // 파일 보내기
-                    Request().fileupload("http://dmumars.kro.kr/api/uploadprofile", profilejson, filename, inputStream)
+                    Request().fileupload("http://dmumars.kro.kr/api/uploadprofile", profilejson, filename, fileInputStream)
 
                     // 가저온 이미지로 프사 변경 변경하기
                     activity?.runOnUiThread {
@@ -112,22 +90,12 @@ class MainMypageFragment : Fragment() {
         binding.userNameText.text = savedName
         binding.userIdText.text = savedID
 
-        // 사용자 프사 갖고오기
-        var bitmap: Bitmap ?= null
-        val profile = Thread {
-            // 닉네임으로 api 프사 이미지 요청
-            val url = URL("http://dmumars.kro.kr/api/getprofile/${savedName}")
-            val http = url.openConnection() as HttpURLConnection
-
-            // 이미지 읽기
-            val imgstream = http.inputStream
-            bitmap = BitmapFactory.decodeStream(imgstream)
-        }
-        profile.start()
-        profile.join()
-
-        // 프로필 사진을 이미지뷰에 적용
-        binding.userImage.setImageBitmap(bitmap)
+        // 서버에서 프사 이미지 가져와서 userImage에 적용하기
+        Glide.with(this)
+            .load("http://dmumars.kro.kr/api/getprofile/${savedName}")
+            .placeholder(R.drawable.user_edit)
+            .error(R.drawable.user_edit)
+            .into(binding.userImage)
 
         // 항목별 페이지로 이동하는 클릭 리스너 설정
         setMoveClickListener()
@@ -270,40 +238,5 @@ class MainMypageFragment : Fragment() {
         c?.close()
 
         return result!!
-    }
-
-    // 이미지 회전 정보 가져오기
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun getOrientationOfImage(uri: Uri): Int {
-        // uri -> inputStream
-        val inputStream = activity?.contentResolver?.openInputStream(uri)
-        val exif: ExifInterface? = try {
-            ExifInterface(inputStream!!)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return -1
-        }
-        inputStream.close()
-
-        // 회전된 각도 알아내기
-        val orientation = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
-        if (orientation != -1) {
-            when (orientation) {
-                ExifInterface.ORIENTATION_ROTATE_90 -> return 90
-                ExifInterface.ORIENTATION_ROTATE_180 -> return 180
-                ExifInterface.ORIENTATION_ROTATE_270 -> return 270
-            }
-        }
-        return 0
-    }
-
-    // 이미지 회전하기
-    @Throws(Exception::class)
-    private fun getRotatedBitmap(bitmap: Bitmap?, degrees: Float): Bitmap? {
-        if (bitmap == null) return null
-        if (degrees == 0F) return bitmap
-        val m = Matrix()
-        m.setRotate(degrees, bitmap.width.toFloat() / 2, bitmap.height.toFloat() / 2)
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, m, true)
     }
 }

@@ -1,18 +1,13 @@
 package com.example.marsproject
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.marsproject.databinding.FragmentMainHomeBinding
-import org.json.JSONObject
-import java.net.HttpURLConnection
-import java.net.URL
 import java.net.UnknownServiceException
 
 class MainHomeFragment : Fragment() {
@@ -82,22 +77,12 @@ class MainHomeFragment : Fragment() {
         // 유저 데이터 변경
         changeUserData(title, name, id, objective, life, progress.toInt())
 
-        // 사용자 프사 갖고오기
-        var bitmap: Bitmap?= null
-        val profile = Thread {
-            // 닉네임으로 api 프사 이미지 요청
-            val url = URL("http://dmumars.kro.kr/api/getprofile/${savedname}")
-            val http = url.openConnection() as HttpURLConnection
-
-            // 이미지 읽기
-            val imgstream = http.inputStream
-            bitmap = BitmapFactory.decodeStream(imgstream)
-        }
-        profile.start()
-        profile.join()
-
-        // 프로필 사진을 이미지뷰에 적용
-        binding.profileImage.setImageBitmap(bitmap)
+        // 서버에서 프사 이미지 가져와서 profileImage에 적용하기
+        Glide.with(this)
+            .load("http://dmumars.kro.kr/api/getprofile/${savedname}")
+            .placeholder(R.drawable.user_edit)
+            .error(R.drawable.user_edit)
+            .into(binding.profileImage)
 
         // 클릭 시 목표 프래그먼트로 전환하는 리스너
         binding.objectiveText.setOnClickListener{
