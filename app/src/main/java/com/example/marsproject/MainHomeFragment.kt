@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.marsproject.databinding.FragmentMainHomeBinding
 import java.net.UnknownServiceException
 
@@ -82,6 +83,7 @@ class MainHomeFragment : Fragment() {
             .load("http://dmumars.kro.kr/api/getprofile/${savedname}")
             .placeholder(R.drawable.user_edit)
             .error(R.drawable.user_edit)
+            .apply(RequestOptions().skipMemoryCache(true))
             .into(binding.profileImage)
 
         // 클릭 시 목표 프래그먼트로 전환하는 리스너

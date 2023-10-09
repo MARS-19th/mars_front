@@ -18,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.marsproject.databinding.FragmentMainMypageBinding
 import com.kakao.sdk.user.UserApiClient
 import org.json.JSONObject
@@ -49,6 +50,9 @@ class MainMypageFragment : Fragment() {
 
                     // 파일 보내기
                     Request().fileupload("http://dmumars.kro.kr/api/uploadprofile", profilejson, filename, fileInputStream)
+
+                    // 기존 프로필 사진 디스크 케쉬 지우기
+                    Glide.get(requireActivity()).clearDiskCache()
 
                     // 가저온 이미지로 프사 변경 변경하기
                     activity?.runOnUiThread {
@@ -95,6 +99,7 @@ class MainMypageFragment : Fragment() {
             .load("http://dmumars.kro.kr/api/getprofile/${savedName}")
             .placeholder(R.drawable.user_edit)
             .error(R.drawable.user_edit)
+            .apply(RequestOptions().skipMemoryCache(true))
             .into(binding.userImage)
 
         // 항목별 페이지로 이동하는 클릭 리스너 설정
