@@ -43,7 +43,7 @@
         android:id="@+id/someButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/minus"
+        android:background="@drawable/minus_background"
         android:layout_gravity="center_vertical"
         android:text="버튼" />
 

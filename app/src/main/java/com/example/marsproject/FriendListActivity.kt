@@ -1,5 +1,6 @@
 package com.example.marsproject
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.marsproject.databinding.ActivityFriendListBinding
 import org.json.JSONObject
 import java.net.UnknownServiceException
@@ -19,7 +21,6 @@ class FriendListActivity : AppCompatActivity() {
     private var friendList = mutableListOf<FriendInfo>() // 친구 목록을 저장할 리스트
     private var friendRequestList = mutableListOf<FriendInfo>() // 친구 신청 목록을 저장할 리스트
     private var searchResultList = mutableListOf<FriendInfo>() // 검색 결과를 저장할 리스트
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFriendListBinding.inflate(layoutInflater)
@@ -29,6 +30,8 @@ class FriendListActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.icon_left_resize)
         supportActionBar?.title = "친구"
+
+
 
         // 텍스트뷰 변수
         val friendListTextView = findViewById<TextView>(R.id.friendListButton)
@@ -56,8 +59,8 @@ class FriendListActivity : AppCompatActivity() {
         }
 
         // RecyclerView 설정
-        friendListAdapter = FriendListAdapter(friendList) // 기본값은 친구 목록
-        friendRequestAdapter = FriendRequestAdapter(friendRequestList)
+        friendListAdapter = FriendListAdapter({ getName() }, friendList) // 기본값은 친구 목록
+        friendRequestAdapter = FriendRequestAdapter({ getName() }, friendRequestList)
 
         binding.friendRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.friendRecyclerView.adapter = friendListAdapter
@@ -79,15 +82,18 @@ class FriendListActivity : AppCompatActivity() {
             friendRequestTextView.setTextColor(Color.GRAY) // 친구신청 텍스트뷰는 기본 색상으로 변경
 
             // 친구 목록 리사이클러뷰를 업데이트
-            binding.friendRecyclerView.adapter = FriendListAdapter(friendList)
+            binding.friendRecyclerView.adapter = FriendListAdapter({ getName() }, friendList)
         }
 
         // 초기 친구 목록을 추가
         addInitialFriends()
+
+        // 친구신청 목록을 가져오고 업데이트
+        FriendReq()
     }
 
     //닉네임 값 가져오기
-    private fun getName(): String {
+    fun getName(): String {
         val pref = getSharedPreferences("userName", 0)
         return pref.getString("name", "").toString()
     }
@@ -123,7 +129,7 @@ class FriendListActivity : AppCompatActivity() {
                         binding.friendRecyclerView.adapter = null
                     } else {
                         // 검색 결과가 있을 때 검색한 친구의 목록을 표시
-                        binding.friendRecyclerView.adapter = FriendListAdapter(searchResultList)
+                        binding.friendRecyclerView.adapter = FriendListAdapter({ getName() }, searchResultList)
                     }
                 }
 
@@ -165,18 +171,15 @@ class FriendListActivity : AppCompatActivity() {
 
                 // 각 친구에 대한 데이터를 추출하여 리스트에 추가
                 for (i in 0 until jsonArray.length()) {
-                    val friendCode = jsonArray.getJSONObject(i).getString("friend")
+                    val friendData = jsonArray.getJSONObject(i)
+                    val friendCode = friendData.getString("friend")
+                    val isAccept = friendData.optBoolean("isaccept", false)
 
-                    val friendData = Request().reqget("http://dmumars.kro.kr/api/getuserdata/${friendCode}") // GET 요청
-
-                    // 필요한 데이터 추출
-                    val title = friendData.getString("user_title")
-                    val userName = friendData.getString("user_name")
-                    val profile = friendData.getString("profile_local")
-
-                    // FriendInfo 객체를 생성하여 리스트에 추가
-                    val friendInfo = FriendInfo(userName, title, profile, isFriend = true)
-                    friendListFromJson.add(friendInfo)
+                    // "isaccept" 플래그가 true인 경우에만 친구 목록에 추가
+                    if (isAccept) {
+                        val friendInfo = getFriendInfo(friendCode) // 친구 정보 가져오기
+                        friendListFromJson.add(friendInfo)
+                    }
                 }
 
                 // friendList에 친구를 추가하거나 다른 작업 수행
@@ -202,6 +205,61 @@ class FriendListActivity : AppCompatActivity() {
         println("친구 목록 개수: ${friendList.size}")
     }
 
+    // 친구 정보를 가져오는 함수
+    private fun getFriendInfo(friendCode: String): FriendInfo {
+        val friendData = Request().reqget("http://dmumars.kro.kr/api/getuserdata/${friendCode}") // GET 요청
+
+        val title = friendData.getString("user_title")
+        val userName = friendData.getString("user_name")
+        val profile = friendData.getString("profile_local")
+
+        // FriendInfo 객체를 생성하여 반환
+        return FriendInfo(userName, title, profile, isFriend = true)
+    }
+
+    private fun FriendReq() {
+        val username = getName()
+        Thread {
+            try {
+                val friendRequestsJSON =
+                    Request().reqget("http://dmumars.kro.kr/api/getreqfriend/${username}") // GET 요청
+                val friendNicknamesArray = friendRequestsJSON.getJSONArray("results") // 닉네임 배열
+
+                val friendListFromReq = mutableListOf<FriendInfo>() // 친구 정보를 저장할 리스트
+
+                for (i in 0 until friendNicknamesArray.length()) {
+                    val friendNickname = friendNicknamesArray.getString(i)
+                    Log.d("FriendRequest", "Friend Nickname[$i]: $friendNickname") // 로그로 닉네임 출력 확인
+                    val friendInfoJSON = Request().reqget("http://dmumars.kro.kr/api/getuserdata/${friendNickname}")
+
+                    val nickname = friendInfoJSON.getString("user_name") // 닉네임
+                    val title = friendInfoJSON.getString("user_title") // 칭호
+                    val profileImageUrl = friendInfoJSON.getString("profile_local") // 프로필 이미지 URL
+
+                    // FriendInfo 객체를 생성하여 리스트에 추가
+                    val friendInfo = FriendInfo(nickname, title, profileImageUrl, isFriend = true)
+                    friendListFromReq.add(friendInfo)
+                }
+
+                // 친구 요청 목록에 친구 정보를 추가하고, RecyclerView 업데이트
+                runOnUiThread {
+                    friendRequestList.clear()
+                    friendRequestList.addAll(friendListFromReq)
+                    friendRequestAdapter.notifyDataSetChanged() // RecyclerView 업데이트
+                }
+
+            } catch (e: UnknownServiceException) {
+                // API 사용법에 나와있는 모든 오류응답은 여기서 처리
+                println(e.message)
+                // 이미 reqget() 메소드에서 파싱 했기에 json 형태가 아닌 value 만 저장된 상태, 예: {err: "type_err"}
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }.start()
+    }
+
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item?.itemId) {
             android.R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
@@ -211,3 +269,4 @@ class FriendListActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 }
+
