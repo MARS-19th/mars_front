@@ -97,8 +97,8 @@ class MainMypageFragment : Fragment() {
         // 서버에서 프사 이미지 가져와서 userImage에 적용하기
         Glide.with(this)
             .load("http://dmumars.kro.kr/api/getprofile/${savedName}")
-            .placeholder(R.drawable.user_edit)
-            .error(R.drawable.user_edit)
+            .placeholder(R.drawable.profileimage)
+            .error(R.drawable.profileimage)
             .apply(RequestOptions().skipMemoryCache(true))
             .into(binding.userImage)
 
