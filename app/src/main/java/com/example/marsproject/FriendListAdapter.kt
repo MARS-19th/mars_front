@@ -26,10 +26,11 @@ data class FriendInfo(
 
 class FriendListAdapter(
     private val getUsername: () -> String,
-    private val friendList: List<FriendInfo>,
+    private val friendList: MutableList<FriendInfo>,
     private val isFriendList: Boolean = true
 ) :
     RecyclerView.Adapter<FriendListAdapter.FriendViewHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -44,6 +45,18 @@ class FriendListAdapter(
 
     override fun getItemCount(): Int {
         return friendList.size
+    }
+
+    fun addFriend(friend: FriendInfo): Boolean {
+        // 이미 목록에 있는 친구인지 확인
+        val isFriendAdded = friendList.none { it.nickname == friend.nickname }
+
+        if (isFriendAdded) {
+            // 목록에 추가되지 않은 친구라면 추가
+            friendList.add(friend)
+        }
+
+        return isFriendAdded
     }
 
 
@@ -67,7 +80,6 @@ class FriendListAdapter(
             if (friendInfo.isFriend) {
                 someButton.setImageResource(R.drawable.minus_background)
                 someButton.setOnClickListener {
-
                     // 친구 삭제 로직을 구현, 현재 항목을 친구 목록에서 제거하고 RecyclerView 갱신
                     val context = itemView.context
 
@@ -98,6 +110,13 @@ class FriendListAdapter(
                                             Toast.LENGTH_SHORT
                                         ).show()
 
+                                        // 친구 목록에서 해당 친구를 삭제하고 RecyclerView 갱신
+                                        val position = friendList.indexOf(friendInfo)
+                                        if (position != -1) {
+                                            friendList.removeAt(position)
+                                            notifyItemRemoved(position)
+                                            notifyItemChanged(position, friendList.size)
+                                        }
                                     } else {
                                         // 친구 삭제 요청이 실패한 경우 실패 메시지
                                         Toast.makeText(

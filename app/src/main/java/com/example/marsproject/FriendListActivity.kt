@@ -47,6 +47,7 @@ class FriendListActivity : AppCompatActivity() {
 
             // 친구 목록 리사이클러뷰를 업데이트
             binding.friendRecyclerView.adapter = friendListAdapter
+
         }
 
         // 친구신청 텍스트뷰를 누를 때
@@ -60,7 +61,8 @@ class FriendListActivity : AppCompatActivity() {
 
         // RecyclerView 설정
         friendListAdapter = FriendListAdapter({ getName() }, friendList) // 기본값은 친구 목록
-        friendRequestAdapter = FriendRequestAdapter({ getName() }, friendRequestList)
+        friendRequestAdapter = FriendRequestAdapter({ getName() }, friendRequestList, friendListAdapter)
+
 
         binding.friendRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.friendRecyclerView.adapter = friendListAdapter
