@@ -99,7 +99,7 @@ class MainMypageFragment : Fragment() {
             .load("http://dmumars.kro.kr/api/getprofile/${savedName}")
             .placeholder(R.drawable.profileimage)
             .error(R.drawable.profileimage)
-            .apply(RequestOptions().skipMemoryCache(true))
+            .skipMemoryCache(true)
             .into(binding.userImage)
 
         // 항목별 페이지로 이동하는 클릭 리스너 설정

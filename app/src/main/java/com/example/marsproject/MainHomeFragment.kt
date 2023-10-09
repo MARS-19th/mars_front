@@ -83,7 +83,7 @@ class MainHomeFragment : Fragment() {
             .load("http://dmumars.kro.kr/api/getprofile/${savedname}")
             .placeholder(R.drawable.profileimage)
             .error(R.drawable.profileimage)
-            .apply(RequestOptions().skipMemoryCache(true))
+            .skipMemoryCache(true)
             .into(binding.profileImage)
 
         // 클릭 시 목표 프래그먼트로 전환하는 리스너
