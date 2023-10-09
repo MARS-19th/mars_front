@@ -3,13 +3,10 @@ package com.example.marsproject
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,11 +16,12 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.marsproject.databinding.FragmentMainMypageBinding
 import com.kakao.sdk.user.UserApiClient
 import org.json.JSONObject
-import java.net.HttpURLConnection
-import java.net.URL
 import java.net.UnknownServiceException
 
 class MainMypageFragment : Fragment() {
@@ -52,6 +50,9 @@ class MainMypageFragment : Fragment() {
 
                     // 파일 보내기
                     Request().fileupload("http://dmumars.kro.kr/api/uploadprofile", profilejson, filename, fileInputStream)
+
+                    // 기존 프로필 사진 디스크 케쉬 지우기
+                    Glide.get(requireActivity()).clearDiskCache()
 
                     // 가저온 이미지로 프사 변경 변경하기
                     activity?.runOnUiThread {
@@ -93,22 +94,13 @@ class MainMypageFragment : Fragment() {
         binding.userNameText.text = savedName
         binding.userIdText.text = savedID
 
-        // 사용자 프사 갖고오기
-        var bitmap: Bitmap ?= null
-        val profile = Thread {
-            // 닉네임으로 api 프사 이미지 요청
-            val url = URL("http://dmumars.kro.kr/api/getprofile/${savedName}")
-            val http = url.openConnection() as HttpURLConnection
-
-            // 이미지 읽기
-            val imgstream = http.inputStream
-            bitmap = BitmapFactory.decodeStream(imgstream)
-        }
-        profile.start()
-        profile.join()
-
-        // 프로필 사진을 이미지뷰에 적용
-        binding.userImage.setImageBitmap(bitmap)
+        // 서버에서 프사 이미지 가져와서 userImage에 적용하기
+        Glide.with(this)
+            .load("http://dmumars.kro.kr/api/getprofile/${savedName}")
+            .placeholder(R.drawable.profileimage)
+            .error(R.drawable.profileimage)
+            .skipMemoryCache(true)
+            .into(binding.userImage)
 
         // 항목별 페이지로 이동하는 클릭 리스너 설정
         setMoveClickListener()
