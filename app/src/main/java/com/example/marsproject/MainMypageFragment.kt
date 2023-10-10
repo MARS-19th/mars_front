@@ -145,11 +145,11 @@ class MainMypageFragment : Fragment() {
             }
         }
 
-        // 클릭 시 친구 목록으로 이동하는 리스너
-        binding.friendLayout.setOnClickListener {
+        // 클릭 시 친구 리스트로 이동하는 리스너
+        binding.searchLayout.setOnClickListener {
             activity?.let{
                 // 인텐트 생성 후 액티비티 생성
-                val intent = Intent(context, FriendListActivity::class.java) // 친구 목록 페이지로 설정
+                val intent = Intent(context, FriendListActivity::class.java) // 주변 친구 찾기 페이지로 설정
                 startActivity(intent) // 액티비티 생성
             }
         }
