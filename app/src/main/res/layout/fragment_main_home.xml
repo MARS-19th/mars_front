@@ -114,6 +114,7 @@
         android:id="@+id/userNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:fontFamily="@font/pretendardbold"
         android:gravity="bottom"
         android:text="닉네임"
@@ -121,7 +122,8 @@
         android:textSize="26sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
-        app:layout_constraintTop_toTopOf="@+id/guideline7" />
+        app:layout_constraintTop_toTopOf="@+id/guideline7"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/userIdText"
