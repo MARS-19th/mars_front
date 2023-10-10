@@ -1,8 +1,10 @@
 package com.example.marsproject
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
@@ -69,6 +71,7 @@ class MainMypageFragment : Fragment() {
         }
     }
 
+    @SuppressLint("ResourceType")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -97,7 +100,7 @@ class MainMypageFragment : Fragment() {
         // 서버에서 프사 이미지 가져와서 userImage에 적용하기
         Glide.with(this)
             .load("http://dmumars.kro.kr/api/getprofile/${savedName}")
-            .placeholder(R.drawable.profileimage)
+            .placeholder(Color.parseColor("#00000000"))
             .error(R.drawable.profileimage)
             .skipMemoryCache(true)
             .into(binding.userImage)

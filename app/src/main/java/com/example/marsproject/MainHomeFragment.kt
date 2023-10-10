@@ -1,13 +1,14 @@
 package com.example.marsproject
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.marsproject.databinding.FragmentMainHomeBinding
 import java.net.UnknownServiceException
 
@@ -24,6 +25,7 @@ class MainHomeFragment : Fragment() {
     private lateinit var level: String // 레벨
     private var progress: Double = 0.0 // 진행률
 
+    @SuppressLint("ResourceType")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -81,7 +83,7 @@ class MainHomeFragment : Fragment() {
         // 서버에서 프사 이미지 가져와서 profileImage에 적용하기
         Glide.with(this)
             .load("http://dmumars.kro.kr/api/getprofile/${savedname}")
-            .placeholder(R.drawable.profileimage)
+            .placeholder(Color.parseColor("#00000000"))
             .error(R.drawable.profileimage)
             .skipMemoryCache(true)
             .into(binding.profileImage)
