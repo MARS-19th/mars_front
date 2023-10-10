@@ -1,6 +1,5 @@
 package com.example.marsproject
 
-import android.R
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -12,12 +11,12 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.marsproject.databinding.ActivityLanguageTestBinding
 import org.json.JSONObject
+import java.io.File
 import java.net.UnknownServiceException
 
 class LanguageTestActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLanguageTestBinding
     private lateinit var email: String // 이메일
-    private lateinit var profile: String // 프로필
     private lateinit var name: String // 닉네임
     private lateinit var animal: String // 동물 종류
     private lateinit var face: String // 표정
@@ -39,7 +38,6 @@ class LanguageTestActivity : AppCompatActivity() {
 
         // 액티비티 이동하면서 넘어온 값 받아오기
         email = intent.getStringExtra("email").toString() // 이메일
-        profile = intent.getStringExtra("profile").toString() // 프로필
         name = intent.getStringExtra("name").toString() // 닉네임
         animal = intent.getStringExtra("animal").toString() // 동물 종류
         face = intent.getStringExtra("face").toString() // 표정
@@ -52,15 +50,15 @@ class LanguageTestActivity : AppCompatActivity() {
         when(language) {
             "html" -> {}
             "python" -> {
-                binding.titleImage.setImageResource(com.example.marsproject.R.drawable.python_button) // 이미지 변경
+                binding.titleImage.setImageResource(R.drawable.python_button) // 이미지 변경
                 // 문제 변경 추가
             }
             "css" -> {
-                binding.titleImage.setImageResource(com.example.marsproject.R.drawable.css_button) // 이미지 변경
+                binding.titleImage.setImageResource(R.drawable.css_button) // 이미지 변경
                 // 문제 변경 추가
             }
             "java" -> {
-                binding.titleImage.setImageResource(com.example.marsproject.R.drawable.java_button) // 이미지 변경
+                binding.titleImage.setImageResource(R.drawable.java_button) // 이미지 변경
                 // 문제 변경 추가
             }
         }
@@ -89,36 +87,36 @@ class LanguageTestActivity : AppCompatActivity() {
         // 답 버튼 클릭 시 색상 변경, 값 저장해주는 리스너
         val clklistener = View.OnClickListener {
             when(it.id) {
-                com.example.marsproject.R.id.answerViewA,
-                com.example.marsproject.R.id.answerNoA,
-                com.example.marsproject.R.id.answerTextA -> {
+                R.id.answerViewA,
+                R.id.answerNoA,
+                R.id.answerTextA -> {
                     selectButton(binding.answerViewA, binding.answerNoA, binding.answerTextA) // 색상 활성화
                     noselectButton(binding.answerViewB, binding.answerNoB, binding.answerTextB) // 색상 비활성화
                     noselectButton(binding.answerViewC, binding.answerNoC, binding.answerTextC) // 색상 비활성화
                     noselectButton(binding.answerViewD, binding.answerNoD, binding.answerTextD) // 색상 비활성화
                     answer = "A" // 값 저장
                 }
-                com.example.marsproject.R.id.answerViewB,
-                com.example.marsproject.R.id.answerNoB,
-                com.example.marsproject.R.id.answerTextB -> {
+                R.id.answerViewB,
+                R.id.answerNoB,
+                R.id.answerTextB -> {
                     noselectButton(binding.answerViewA, binding.answerNoA, binding.answerTextA) // 색상 비활성화
                     selectButton(binding.answerViewB, binding.answerNoB, binding.answerTextB) // 색상 활성화
                     noselectButton(binding.answerViewC, binding.answerNoC, binding.answerTextC) // 색상 비활성화
                     noselectButton(binding.answerViewD, binding.answerNoD, binding.answerTextD) // 색상 비활성화
                     answer = "B" // 값 저장
                 }
-                com.example.marsproject.R.id.answerViewC,
-                com.example.marsproject.R.id.answerNoC,
-                com.example.marsproject.R.id.answerTextC -> {
+                R.id.answerViewC,
+                R.id.answerNoC,
+                R.id.answerTextC -> {
                     noselectButton(binding.answerViewA, binding.answerNoA, binding.answerTextA) // 색상 비활성화
                     noselectButton(binding.answerViewB, binding.answerNoB, binding.answerTextB) // 색상 비활성화
                     selectButton(binding.answerViewC, binding.answerNoC, binding.answerTextC) // 색상 활성화
                     noselectButton(binding.answerViewD, binding.answerNoD, binding.answerTextD) // 색상 비활성화
                     answer = "C" // 값 저장
                 }
-                com.example.marsproject.R.id.answerViewD,
-                com.example.marsproject.R.id.answerNoD,
-                com.example.marsproject.R.id.answerTextD -> {
+                R.id.answerViewD,
+                R.id.answerNoD,
+                R.id.answerTextD -> {
                     noselectButton(binding.answerViewA, binding.answerNoA, binding.answerTextA) // 색상 비활성화
                     noselectButton(binding.answerViewB, binding.answerNoB, binding.answerTextB) // 색상 비활성화
                     noselectButton(binding.answerViewC, binding.answerNoC, binding.answerTextC) // 색상 비활성화
@@ -145,17 +143,17 @@ class LanguageTestActivity : AppCompatActivity() {
 
     // 툴바에 옵션 메뉴 생성
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        binding.toolbar.inflateMenu(com.example.marsproject.R.menu.toolbar_menu2) // 완료 버튼 생성
+        binding.toolbar.inflateMenu(R.menu.toolbar_menu2) // 완료 버튼 생성
         return true
     }
 
     // 옵션 메뉴 클릭 함수
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
-            R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
+            android.R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
                 finish() // 액티비티 종료
             }
-            com.example.marsproject.R.id.action_ok -> { // 완료 버튼 눌렀을 때
+            R.id.action_ok -> { // 완료 버튼 눌렀을 때
                 // 답을 선택하지 않았을 때
                 if(answer == "") {
                     Toast.makeText(baseContext, "하나를 선택해주세요.", Toast.LENGTH_SHORT).show() // 토스트 메시지 출력
@@ -214,19 +212,6 @@ class LanguageTestActivity : AppCompatActivity() {
 
                             val jsonAvatar =
                                 Request().reqpost("http://dmumars.kro.kr/api/setuseravatar", avatarjson)
-
-                            // 프로필 json 생성
-                            val profilejson = JSONObject()
-
-                            profilejson.put("user_name", name) // 닉네임
-                            // 프로필이 비어있을 때
-                            if(profile == "null") {
-                                profilejson.put("file", JSONObject.NULL) // NULL
-                            } else {
-                                profilejson.put("file", profile) // 프로필
-                            }
-
-                            Request().fileupload("http://korseok.kro.kr/api/uploadprofile", profilejson)
                         } catch (e: UnknownServiceException) {
                             // API 사용법에 나와있는 모든 오류응답은 여기서 처리
 

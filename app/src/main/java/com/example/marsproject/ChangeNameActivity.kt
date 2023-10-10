@@ -116,6 +116,8 @@ class ChangeNameActivity : AppCompatActivity() {
                 setResult(RESULT_OK, intent)
                 finish() // 액티비티 종료
             }
+            // 아니오 버튼 클릭 시 실행
+            dlg.setOnNOClickedListener {}
             dlg.show("닉네임을 변경하시겠습니까?") // 다이얼로그 내용에 담을 텍스트
 
         }

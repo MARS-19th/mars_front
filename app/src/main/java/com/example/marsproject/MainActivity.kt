@@ -44,27 +44,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 블루투스 사용시 위치 및 블루투스 권한허용을 해야함
-        val permissionlist: Array<String>
+        // 블루투스 및 파일 사용시 위치 및 블루투스 권한허용을 해야함
+        val permissionlist = mutableListOf<String>()
+        permissionlist.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        permissionlist.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             // 안드로이드 12 이후 권한
-            permissionlist = arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.BLUETOOTH_CONNECT,
-                Manifest.permission.BLUETOOTH_SCAN,
-                Manifest.permission.BLUETOOTH_ADVERTISE
-            )
-        } else {
-            // 안드로이드 12 이전 권한
-            permissionlist = arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )
+            permissionlist.add(Manifest.permission.BLUETOOTH_CONNECT)
+            permissionlist.add(Manifest.permission.BLUETOOTH_SCAN)
+            permissionlist.add(Manifest.permission.BLUETOOTH_ADVERTISE)
         }
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+            // 안드로이드 12L 이전 까지는 파일권한 허용
+            permissionlist.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+
         // 권한 체크 하고 사용자로 부터 권한 받아오기
-        if (!checkpermission(this, permissionlist)) {
-            requestPermissions(permissionlist, PERMISSIONS_REQUEST)
+        if (!checkpermission(this, permissionlist.toTypedArray())) {
+            requestPermissions(permissionlist.toTypedArray(), PERMISSIONS_REQUEST)
         } else {
             // 처음 시작 할때는 onRequestPermissionsResult 에서 권한 확인 받고 findlogin 함수가 실행
             Thread {
@@ -91,7 +89,6 @@ class MainActivity : AppCompatActivity() {
             uuid = ParcelUuid.fromString(UUID.randomUUID().toString())
             Log.e("블루투스", "발급된 uuid: $uuid")
             // 최초로그인 시 블루투스를 식별하는 값 발급
-            // TODO: 해당 uuid를 api 에 /setuserbtuuid 넘기는 작업 필요
 
             // 로컬에 uuid 저장
             val save = getSharedPreferences("bt_uuid", MODE_PRIVATE).edit()

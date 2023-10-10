@@ -1,14 +1,15 @@
 package com.example.marsproject
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.marsproject.databinding.FragmentMainHomeBinding
-import org.json.JSONObject
 import java.net.UnknownServiceException
 
 class MainHomeFragment : Fragment() {
@@ -24,6 +25,7 @@ class MainHomeFragment : Fragment() {
     private lateinit var level: String // 레벨
     private var progress: Double = 0.0 // 진행률
 
+    @SuppressLint("ResourceType")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,7 +64,8 @@ class MainHomeFragment : Fragment() {
             try {
                 val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuserskill/${savedname}") //get요청
 
-                progress = jsonObject.getJSONArray("results").length() * 12.5 // 완료한 목표의 수만큼 증가
+                progress = jsonObject.getJSONArray("results").length() * 11.1 // 완료한 목표의 수만큼 증가
+                if(progress == 99.9) progress += 0.1
             } catch (e: UnknownServiceException) {
                 // API 사용법에 나와있는 모든 오류응답은 여기서 처리
                 println(e.message)
@@ -76,6 +79,14 @@ class MainHomeFragment : Fragment() {
 
         // 유저 데이터 변경
         changeUserData(title, name, id, objective, life, progress.toInt())
+
+        // 서버에서 프사 이미지 가져와서 profileImage에 적용하기
+        Glide.with(this)
+            .load("http://dmumars.kro.kr/api/getprofile/${savedname}")
+            .placeholder(Color.parseColor("#00000000"))
+            .error(R.drawable.profileimage)
+            .skipMemoryCache(true)
+            .into(binding.profileImage)
 
         // 클릭 시 친구 찾기로 이동하는 리스너
         binding.searchpeople.setOnClickListener {
@@ -97,6 +108,14 @@ class MainHomeFragment : Fragment() {
             dialog.show(childFragmentManager, "NoticeDialog")
         }
 
+
+        // 서버에서 프사 이미지 가져와서 profileImage에 적용하기
+        Glide.with(this)
+            .load("http://dmumars.kro.kr/api/getprofile/${savedname}")
+            .placeholder(Color.parseColor("#00000000"))
+            .error(R.drawable.profileimage)
+            .skipMemoryCache(true)
+            .into(binding.profileImage)
 
         // 클릭 시 목표 프래그먼트로 전환하는 리스너
         binding.objectiveText.setOnClickListener{
