@@ -165,15 +165,14 @@ class ChangeTitleActivity : AppCompatActivity() {
         for (view in titleToViewMap.values) {
             view.visibility = View.INVISIBLE
         }
+
+
 /*
-*for (view in titleToViewMap.values) {
-    view.alpha = 0.5f // 0부터 1까지의 값, 1은 완전 불투명, 0은 완전 투명
-}
 for (view in titleToViewMap.values) {
     view.setBackgroundColor(Color.parseColor("#80FFFFFF")) // 투명한 흰색 배경 설정
 }
+*/
 
-* */
         for (userTitle in userTitles) {
             val view = titleToViewMap[userTitle]
             view?.visibility = View.VISIBLE
