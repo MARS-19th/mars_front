@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marsproject.databinding.ActivityStoreBinding
 import java.net.UnknownServiceException
@@ -32,7 +33,7 @@ class StoreActivity : AppCompatActivity() {
             binding.userMoney4, binding.userMoney5, binding.userMoney6, binding.userMoney7)
         val imgList = arrayOf(R.drawable.bag, R.drawable.fish, R.drawable.cap,
             R.drawable.glasses, R.drawable.meat, R.drawable.wind, R.drawable.fork)
-        val userMoneyTextView =
+
 
         /*
         fun getName(): String {
@@ -71,6 +72,13 @@ class StoreActivity : AppCompatActivity() {
         Thread {
             try {
                 val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getshopitemid") //get요청
+                val jsonObject1 = Request().reqget("http://dmumars.kro.kr/api/getuserdata/서민지서민진") //get요청
+
+                val money = jsonObject1.getInt("money").toString() // 재화
+                runOnUiThread {
+                    val current_priceTextView = findViewById<TextView>(R.id.current_price)
+                    current_priceTextView.text=money
+                }
 
                 for(i in 0 until jsonObject.getJSONArray("results").length()) {
                     val id = jsonObject.getJSONArray("results").getJSONObject(i).getInt("object_id")
@@ -79,10 +87,11 @@ class StoreActivity : AppCompatActivity() {
                     userMoneyTextViews[i].text = price.toString()
 
                     viewList[i].setOnClickListener {
-                        val storeDialog = StoreDialog(this, imgList[i], price)
+                        val storeDialog = StoreDialog(this, imgList[i], price, money, getName(), id)
                         storeDialog.show()
                     }
                 }
+
             } catch (e: UnknownServiceException) {
                 // API 사용법에 나와있는 모든 오류응답은 여기서 처리
                 println(e.message)
@@ -126,5 +135,9 @@ class StoreActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+    fun getName(): String {
+        val pref = getSharedPreferences("userName", 0)
+        return pref.getString("name", "").toString()
     }
 }

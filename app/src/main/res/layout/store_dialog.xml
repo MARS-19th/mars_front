@@ -42,9 +42,9 @@
                 android:src="@drawable/icon_money" />
 
             <TextView
-                android:id="@+id/current_price"
+                android:id="@+id/dia_price"
                 android:layout_width="60dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="-2dp"
                 android:fontFamily="@font/pretendardbold"

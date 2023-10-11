@@ -212,7 +212,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/i_f1">
 
                     <View
-                        android:id="@+id/item_1"
+                        android:id="@+id/item1"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="4dp"
@@ -230,11 +230,12 @@
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/bag"
-                        app:layout_constraintEnd_toEndOf="@+id/item_1"
-                        app:layout_constraintStart_toStartOf="@+id/item_1"
+                        app:layout_constraintEnd_toEndOf="@+id/item1"
+                        app:layout_constraintStart_toStartOf="@+id/item1"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -244,8 +245,8 @@
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/item_1"
-                        app:layout_constraintStart_toStartOf="@+id/item_1"
+                        app:layout_constraintEnd_toEndOf="@+id/item1"
+                        app:layout_constraintStart_toStartOf="@+id/item1"
                         app:layout_constraintTop_toBottomOf="@+id/one_2">
 
                         <ImageView
@@ -264,6 +265,7 @@
                             android:gravity="center"
                             android:text=""
                             android:textSize="16sp" />
+
                     </LinearLayout>
 
 
@@ -274,7 +276,7 @@
                     android:layout_height="match_parent">
 
                     <View
-                        android:id="@+id/item_2"
+                        android:id="@+id/item2"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="5dp"
@@ -294,11 +296,12 @@
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/fish"
-                        app:layout_constraintEnd_toEndOf="@+id/item_2"
-                        app:layout_constraintStart_toStartOf="@+id/item_2"
+                        app:layout_constraintEnd_toEndOf="@+id/item2"
+                        app:layout_constraintStart_toStartOf="@+id/item2"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -307,8 +310,8 @@
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/item_2"
-                        app:layout_constraintStart_toStartOf="@+id/item_2">
+                        app:layout_constraintEnd_toEndOf="@+id/item2"
+                        app:layout_constraintStart_toStartOf="@+id/item2">
 
                         <ImageView
                             android:id="@+id/moneyImage2"
@@ -335,7 +338,7 @@
                     android:layout_height="match_parent">
 
                     <View
-                        android:id="@+id/item_3"
+                        android:id="@+id/item3"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="7dp"
@@ -355,11 +358,12 @@
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/cap"
-                        app:layout_constraintEnd_toEndOf="@+id/item_3"
-                        app:layout_constraintStart_toStartOf="@+id/item_3"
+                        app:layout_constraintEnd_toEndOf="@+id/item3"
+                        app:layout_constraintStart_toStartOf="@+id/item3"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -368,8 +372,8 @@
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/item_3"
-                        app:layout_constraintStart_toStartOf="@+id/item_3"
+                        app:layout_constraintEnd_toEndOf="@+id/item3"
+                        app:layout_constraintStart_toStartOf="@+id/item3"
                         app:layout_constraintTop_toTopOf="@+id/three_2"
                         app:layout_constraintVertical_bias="1.0">
 
@@ -410,7 +414,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/i_f1">
 
                     <View
-                        android:id="@+id/item_4"
+                        android:id="@+id/item4"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="5dp"
@@ -427,21 +431,22 @@
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/glasses"
-                        app:layout_constraintEnd_toEndOf="@+id/item_4"
-                        app:layout_constraintStart_toStartOf="@+id/item_4"
+                        app:layout_constraintEnd_toEndOf="@+id/item4"
+                        app:layout_constraintStart_toStartOf="@+id/item4"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:background="@drawable/coin_background"
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/item_4"
-                        app:layout_constraintEnd_toEndOf="@+id/item_4"
+                        app:layout_constraintBottom_toBottomOf="@+id/item4"
+                        app:layout_constraintEnd_toEndOf="@+id/item4"
                         app:layout_constraintHorizontal_bias="0.6"
-                        app:layout_constraintStart_toStartOf="@+id/item_4"
+                        app:layout_constraintStart_toStartOf="@+id/item4"
                         app:layout_constraintTop_toTopOf="@+id/four_2"
                         app:layout_constraintVertical_bias="0.903">
 
@@ -471,7 +476,7 @@
                     android:layout_height="match_parent">
 
                     <View
-                        android:id="@+id/item_5"
+                        android:id="@+id/item5"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="5dp"
@@ -491,11 +496,12 @@
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/meat"
-                        app:layout_constraintEnd_toEndOf="@+id/item_5"
-                        app:layout_constraintStart_toStartOf="@+id/item_5"
+                        app:layout_constraintEnd_toEndOf="@+id/item5"
+                        app:layout_constraintStart_toStartOf="@+id/item5"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -504,8 +510,8 @@
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/item_5"
-                        app:layout_constraintStart_toStartOf="@+id/item_5">
+                        app:layout_constraintEnd_toEndOf="@+id/item5"
+                        app:layout_constraintStart_toStartOf="@+id/item5">
 
                         <ImageView
                             android:id="@+id/moneyImage5"
@@ -532,7 +538,7 @@
                     android:layout_height="match_parent">
 
                     <View
-                        android:id="@+id/item_6"
+                        android:id="@+id/item6"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="7dp"
@@ -552,11 +558,12 @@
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/wind"
-                        app:layout_constraintEnd_toEndOf="@+id/item_6"
-                        app:layout_constraintStart_toStartOf="@+id/item_6"
+                        app:layout_constraintEnd_toEndOf="@+id/item6"
+                        app:layout_constraintStart_toStartOf="@+id/item6"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -566,8 +573,8 @@
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/item_6"
-                        app:layout_constraintStart_toStartOf="@+id/item_6"
+                        app:layout_constraintEnd_toEndOf="@+id/item6"
+                        app:layout_constraintStart_toStartOf="@+id/item6"
                         app:layout_constraintTop_toBottomOf="@+id/six_2">
 
                         <ImageView
@@ -609,7 +616,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/i_f1">
 
                     <View
-                        android:id="@+id/item_7"
+                        android:id="@+id/item7"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="5dp"
@@ -626,11 +633,12 @@
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/fork"
-                        app:layout_constraintEnd_toEndOf="@+id/item_7"
-                        app:layout_constraintStart_toStartOf="@+id/item_7"
+                        app:layout_constraintEnd_toEndOf="@+id/item7"
+                        app:layout_constraintStart_toStartOf="@+id/item7"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -639,9 +647,9 @@
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/item_7"
+                        app:layout_constraintEnd_toEndOf="@+id/item7"
                         app:layout_constraintHorizontal_bias="0.6"
-                        app:layout_constraintStart_toStartOf="@+id/item_7"
+                        app:layout_constraintStart_toStartOf="@+id/item7"
                         app:layout_constraintTop_toTopOf="@+id/seven_2"
                         app:layout_constraintVertical_bias="1.0">
 
