@@ -2,10 +2,13 @@ package com.example.marsproject
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.marsproject.R
@@ -34,24 +37,33 @@ class ChangeTitleActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.icon_left_resize)
         supportActionBar?.title = "내 칭호"
 
+        // view 클릭 시 선택 기록하기 위한 변수
+        var selectedTitle: String? = null
+
         // 프론트 뷰들
-        val frontViews = arrayOf(binding.f1, binding.f2, binding.f3, binding.f4, binding.f5, binding.f6)
-        val frontTextViews = arrayOf(binding.tF1, binding.tF2, binding.tF3, binding.tF4, binding.tF5, binding.tF6)
+        val frontViews =
+            arrayOf(binding.f1, binding.f2, binding.f3, binding.f4, binding.f5, binding.f6)
+        val frontTextViews =
+            arrayOf(binding.tF1, binding.tF2, binding.tF3, binding.tF4, binding.tF5, binding.tF6)
 
         // 백엔드 뷰들
-        val backViews = arrayOf(binding.b1, binding.b2, binding.b3, binding.b4, binding.b5, binding.b6)
-        val backTextViews = arrayOf(binding.tB1, binding.tB2, binding.tB3, binding.tB4, binding.tB5, binding.tB6)
+        val backViews =
+            arrayOf(binding.b1, binding.b2, binding.b3, binding.b4, binding.b5, binding.b6)
+        val backTextViews =
+            arrayOf(binding.tB1, binding.tB2, binding.tB3, binding.tB4, binding.tB5, binding.tB6)
 
-        // 클릭 리스너 설정 함수
+        // view에 클릭 리스너 설정 함수
         fun setClickListener(views: Array<View>, textViews: Array<TextView>) {
             for (i in views.indices) {
                 val view = views[i]
                 val textView = textViews[i]
 
                 view.setOnClickListener {
-                    text = textView.text.toString()
+                    // 클릭한 뷰의 칭호를 선택하도록 기록
+                    selectedTitle = textView.text.toString()
+
+                    // 선택한 뷰의 시각적 표시 변경 (예: 배경 변경)
                     toggleBackground(view)
-                    sendSelectedTitleToServer(text)
                 }
             }
         }
@@ -61,6 +73,21 @@ class ChangeTitleActivity : AppCompatActivity() {
 
         // 백엔드 뷰들에 클릭 리스너 설정
         setClickListener(backViews, backTextViews)
+
+        // "btn_check" 버튼 클릭 시 서버로 선택한 칭호를 보내는 함수
+        val btnCheck: Button = findViewById(R.id.btn_check) // "btn_check" 버튼의 ID를 설정
+        btnCheck.setOnClickListener {
+            if (selectedTitle != null) {
+                // 선택한 칭호를 서버로 전송
+                sendSelectedTitleToServer(selectedTitle!!)
+                // 버튼 배경 & 텍스트 바꾸기
+                btnCheck.setBackgroundResource(R.drawable.act_btn_check2)
+                btnCheck.text = "선택 완료"
+                btnCheck.setTextColor(Color.parseColor("#FF9C46"))
+            } else {
+                // 사용자에게 메시지 표시 또는 처리
+            }
+        }
 
         // 이전에 선택된 뷰의 ID를 복원
         selectedViewId = sharedPreferences.getInt("selected_view_id", 0)
@@ -96,6 +123,7 @@ class ChangeTitleActivity : AppCompatActivity() {
         return pref.getString("name", "").toString()
     }
 
+    //사용자가 가진 칭호 보내기
     fun sendSelectedTitleToServer(value: String) {
         val titleThread = Thread {
             try {
@@ -103,7 +131,8 @@ class ChangeTitleActivity : AppCompatActivity() {
                 outputjson.put("user_name", getName()) // 사용자 이름
                 outputjson.put("value", value.replace("\n", " "))  // value 값
 
-                val jsonObject = Request().reqpost("http://dmumars.kro.kr/api/setusertitle", outputjson)
+                val jsonObject =
+                    Request().reqpost("http://dmumars.kro.kr/api/setusertitle", outputjson)
 
                 val title = jsonObject.getString("title")
                 println("사용자의 칭호: $title")
@@ -121,7 +150,8 @@ class ChangeTitleActivity : AppCompatActivity() {
     fun getSelectedTitleAndUpdateUI() {
         val titleThread = Thread {
             try {
-                val jsonObject = Request().reqget("http://dmumars.kro.kr/api/usergettitle/${getName()}")
+                val jsonObject =
+                    Request().reqget("http://dmumars.kro.kr/api/usergettitle/${getName()}")
 
                 // 사용자 칭호 추출
                 val resultsArray = jsonObject.getJSONArray("results")
@@ -144,6 +174,7 @@ class ChangeTitleActivity : AppCompatActivity() {
     }
 
     fun updateUserTitlesUI(userTitles: List<String>) {
+
         // 칭호와 그에 해당하는 view를 매핑
         val titleToViewMap = mapOf(
             //프
@@ -156,26 +187,23 @@ class ChangeTitleActivity : AppCompatActivity() {
             //백
             "초보 백엔드 냥이" to binding.vb1,
             "백엔드 탐험가 냥이" to binding.vb2,
-            "자바스크립트 냥이" to binding.vb3,
+            "자바스크립트 백냥이" to binding.vb3,
             "백엔드 엔지니어" to binding.vb4,
             "백엔드의 냥스터" to binding.vb5,
-            "백엔드 마에스트냥" to binding.vb6
+            "백엔드 마에스트냥" to binding.vb6,
+
         )
 
+        //사용자 미보유 칭호
         for (view in titleToViewMap.values) {
-            view.visibility = View.INVISIBLE
+            view.alpha = 0.2f // 불투명도를 0.2로 설정
+
         }
-
-
-/*
-for (view in titleToViewMap.values) {
-    view.setBackgroundColor(Color.parseColor("#80FFFFFF")) // 투명한 흰색 배경 설정
-}
-*/
-
+        
+        // 사용자가 보유 칭호
         for (userTitle in userTitles) {
             val view = titleToViewMap[userTitle]
-            view?.visibility = View.VISIBLE
+            view?.alpha = 1.0f
         }
     }
 
@@ -188,4 +216,3 @@ for (view in titleToViewMap.values) {
         return super.onOptionsItemSelected(item)
     }
 }
-//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 토큰
