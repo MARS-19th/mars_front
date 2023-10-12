@@ -210,13 +210,13 @@ class FriendListActivity : AppCompatActivity() {
     // 친구 정보를 가져오는 함수
     private fun getFriendInfo(friendCode: String): FriendInfo {
         val friendData = Request().reqget("http://dmumars.kro.kr/api/getuserdata/${friendCode}") // GET 요청
+        val friendimg = "http://dmumars.kro.kr/api/getprofile/${friendCode}" // GET 요청
 
         val title = friendData.getString("user_title")
         val userName = friendData.getString("user_name")
-        val profile = friendData.getString("profile_local")
 
         // FriendInfo 객체를 생성하여 반환
-        return FriendInfo(userName, title, profile, isFriend = true)
+        return FriendInfo(userName, title, friendimg, isFriend = true)
     }
 
     private fun FriendReq() {
@@ -233,10 +233,11 @@ class FriendListActivity : AppCompatActivity() {
                     val friendNickname = friendNicknamesArray.getString(i)
                     Log.d("FriendRequest", "Friend Nickname[$i]: $friendNickname") // 로그로 닉네임 출력 확인
                     val friendInfoJSON = Request().reqget("http://dmumars.kro.kr/api/getuserdata/${friendNickname}")
+                    val profileImageUrl = "http://dmumars.kro.kr/api/getprofile/${friendNickname}"
 
                     val nickname = friendInfoJSON.getString("user_name") // 닉네임
                     val title = friendInfoJSON.getString("user_title") // 칭호
-                    val profileImageUrl = friendInfoJSON.getString("profile_local") // 프로필 이미지 URL
+
 
                     // FriendInfo 객체를 생성하여 리스트에 추가
                     val friendInfo = FriendInfo(nickname, title, profileImageUrl, isFriend = true)

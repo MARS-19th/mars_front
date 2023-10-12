@@ -1,12 +1,15 @@
 package com.example.marsproject
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -41,13 +44,18 @@ class FriendRequestAdapter(
         private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         private val acceptButton: Button = itemView.findViewById(R.id.acceptButton)
         private val declineButton: Button = itemView.findViewById(R.id.declineButton)
+        private val touchuserdata: LinearLayout = itemView.findViewById(R.id.touchuserdata)
 
+        @SuppressLint("ResourceType")
         fun bind(friendRequest: FriendInfo) {
             val username = getUsername()
 
             // 프로필 이미지를 Glide를 사용하여 로드
             Glide.with(itemView.context)
                 .load(friendRequest.profileImageUrl)
+                .placeholder(Color.parseColor("#00000000"))
+                .error(R.drawable.profileimage)
+                .skipMemoryCache(true)
                 .into(profileImageView)
 
             // 닉네임 텍스트뷰에 닉네임 설정
@@ -57,7 +65,7 @@ class FriendRequestAdapter(
             titleTextView.text = friendRequest.title
 
             // 닉네임 텍스트뷰 클릭 이벤트 설정
-            nicknameTextView.setOnClickListener {
+            touchuserdata.setOnClickListener {
                 // SendMessageActivity로 데이터를 전달하는 Intent 생성
                 val intent = Intent(itemView.context, SendMessageActivity::class.java)
                 intent.putExtra("nickname", friendRequest.nickname)

@@ -1,14 +1,17 @@
 package com.example.marsproject
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.icu.util.ULocale.getName
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -65,7 +68,9 @@ class FriendListAdapter(
         private val nicknameTextView: TextView = itemView.findViewById(R.id.nicknameTextView)
         private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         private val someButton: ImageButton = itemView.findViewById(R.id.someButton)
+        private val touchuserdata: LinearLayout = itemView.findViewById(R.id.touchuserdata)
 
+        @SuppressLint("ResourceType")
         fun bind(friendInfo: FriendInfo) {
             val username = getUsername()
             // 친구 정보를 뷰에 바인딩
@@ -74,6 +79,9 @@ class FriendListAdapter(
 
             Glide.with(itemView.context)
                 .load(friendInfo.profileImageUrl)
+                .placeholder(Color.parseColor("#00000000"))
+                .error(R.drawable.profileimage)
+                .skipMemoryCache(true)
                 .into(profileImageView)
 
             // isFriend 값에 따라 이미지 버튼 이미지 설정
@@ -196,7 +204,7 @@ class FriendListAdapter(
             }
 
             // 닉네임 텍스트뷰 클릭 이벤트 처리
-            nicknameTextView.setOnClickListener {
+            touchuserdata.setOnClickListener {
                 // 다른 액티비티로 이동하는 코드 작성
                 val intent = Intent(itemView.context, SendMessageActivity::class.java)
                 // 닉네임, 프로필 이미지 URL, 칭호 데이터를 인텐트에 추가하여 다른 액티비티로 전달

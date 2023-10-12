@@ -1,5 +1,6 @@
 package com.example.marsproject
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class EquipmentAdapter(
     private val equipmentItems: List<EquipmentItem>,
-    private val itemClickListener: OnItemClickListener // Add itemClickListener parameter
+    private val itemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
@@ -32,6 +33,7 @@ class EquipmentAdapter(
 
         fun bind(equipmentItem: EquipmentItem) {
             equipmentImageView.setImageDrawable(equipmentItem.getImage())
+
         }
     }
 
