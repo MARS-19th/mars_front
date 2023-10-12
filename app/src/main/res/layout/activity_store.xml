@@ -99,29 +99,6 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/cat_btn"
-        android:layout_width="80dp"
-        android:layout_height="65dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/store_cat"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="SpeakableTextPresentCheck"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/plus_btn"
-        android:layout_width="70dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/plus_active"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="SpeakableTextPresentCheck"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
