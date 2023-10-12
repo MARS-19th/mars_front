@@ -1,8 +1,11 @@
 package com.example.marsproject
 
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -215,11 +218,49 @@ class ChangeTitleActivity : AppCompatActivity() {
             "백엔드 냥스터" to binding.vb5,
             "백엔드 마에스트냥" to binding.vb6
         )
+
+        var array: Array<ConstraintLayout> = arrayOf(binding.vf1, binding.vf2, binding.vf3, binding.vf4,
+            binding.vf5, binding.vf6, binding.vb1, binding.vb2, binding.vb3, binding.vb4
+            , binding.vb5, binding.vb6)
+
         for(title in userTitle){
             ViewOpacity(2,title)
             setClickListener(titleToViewMap[title],title)
             //binding.vf1,"초보 프냥이"
+            array = removeItem(array, titleToViewMap[title]) // 가지고 있는 칭호들 삭제
         }
+
+        // 내가 안 가지고 있는 칭호들 클릭 시 토스트 메시지 출력
+        for(noselectedview in array) {
+            showToast(noselectedview)
+        }
+
+    }
+
+    // 내가 안 가지고 있는 칭호들 클릭 시 토스트 메시지 출력
+    fun showToast(noselectedView: ConstraintLayout?) {
+        noselectedView?.setOnClickListener {
+            var text = ""
+            when(it.id) {
+                R.id.vf1 -> text = "조건: HTML과 CSS 클리어"
+                R.id.vf2 -> text = "조건: JAVA와 Python 클리어"
+                R.id.vf3 -> text = "조건: JavaScript 클리어"
+                R.id.vf4 -> text = "조건: 프론트엔드 중간시험 클리어"
+                R.id.vf5 -> text = "조건: JSP 클리어"
+                R.id.vf6 -> text = "조건: React 클리어"
+                R.id.vb1 -> text = "조건: JAVA와 Python 클리어"
+                R.id.vb2 -> text = "조건: HTML과 CSS 클리어"
+                R.id.vb3 -> text = "조건: JavaScript 클리어"
+                R.id.vb4 -> text = "조건: 백엔드 중간시험 클리어"
+                R.id.vb5 -> text = "조건: Spring 클리어"
+                R.id.vb6 -> text = "조건: Node 클리어"
+            }
+            Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun removeItem(array: Array<ConstraintLayout>, value: ConstraintLayout?): Array<ConstraintLayout> {
+        return array.filter { it != value }.toTypedArray()
     }
 
     fun getName(): String {
