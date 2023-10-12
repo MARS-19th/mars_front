@@ -3,7 +3,6 @@ package com.example.marsproject
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +43,7 @@ class FriendRequestAdapter(
         private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         private val acceptButton: Button = itemView.findViewById(R.id.acceptButton)
         private val declineButton: Button = itemView.findViewById(R.id.declineButton)
-        private val touchuserdata: LinearLayout = itemView.findViewById(R.id.touchuserdata)
+        private val touchUser: LinearLayout = itemView.findViewById(R.id.touchUser)
 
         @SuppressLint("ResourceType")
         fun bind(friendRequest: FriendInfo) {
@@ -65,7 +64,7 @@ class FriendRequestAdapter(
             titleTextView.text = friendRequest.title
 
             // 닉네임 텍스트뷰 클릭 이벤트 설정
-            touchuserdata.setOnClickListener {
+            touchUser.setOnClickListener {
                 // SendMessageActivity로 데이터를 전달하는 Intent 생성
                 val intent = Intent(itemView.context, SendMessageActivity::class.java)
                 intent.putExtra("nickname", friendRequest.nickname)

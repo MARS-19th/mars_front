@@ -2,10 +2,8 @@ package com.example.marsproject
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.icu.util.ULocale.getName
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,7 +66,7 @@ class FriendListAdapter(
         private val nicknameTextView: TextView = itemView.findViewById(R.id.nicknameTextView)
         private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         private val someButton: ImageButton = itemView.findViewById(R.id.someButton)
-        private val touchuserdata: LinearLayout = itemView.findViewById(R.id.touchuserdata)
+        private val touchUserData: LinearLayout = itemView.findViewById(R.id.touchUserData)
 
         @SuppressLint("ResourceType")
         fun bind(friendInfo: FriendInfo) {
@@ -204,7 +202,7 @@ class FriendListAdapter(
             }
 
             // 닉네임 텍스트뷰 클릭 이벤트 처리
-            touchuserdata.setOnClickListener {
+            touchUserData.setOnClickListener {
                 // 다른 액티비티로 이동하는 코드 작성
                 val intent = Intent(itemView.context, SendMessageActivity::class.java)
                 // 닉네임, 프로필 이미지 URL, 칭호 데이터를 인텐트에 추가하여 다른 액티비티로 전달
