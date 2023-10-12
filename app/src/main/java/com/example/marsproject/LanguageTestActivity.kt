@@ -212,6 +212,21 @@ class LanguageTestActivity : AppCompatActivity() {
 
                             val jsonAvatar =
                                 Request().reqpost("http://dmumars.kro.kr/api/setuseravatar", avatarjson)
+
+                            // 임시로 일일 목표 json 생성
+                            val dailyjson1 = JSONObject() // JSON 생성
+                            dailyjson1.put("user_name", name) // 닉네임
+                            dailyjson1.put("mark_list", "html 1일차 강의 듣기") // 목표 내용
+
+                            // 목표 추가하기
+                            val jsonDaily1 = Request().reqpost("http://dmumars.kro.kr/api/setuserdatemark", dailyjson1)
+
+                            val dailyjson2 = JSONObject() // JSON 생성
+                            dailyjson2.put("user_name", name) // 닉네임
+                            dailyjson2.put("mark_list", "html 2일차 강의 듣기") // 목표 내용
+
+                            // 목표 추가하기
+                            val jsonDaily2 = Request().reqpost("http://dmumars.kro.kr/api/setuserdatemark", dailyjson2)
                         } catch (e: UnknownServiceException) {
                             // API 사용법에 나와있는 모든 오류응답은 여기서 처리
 
