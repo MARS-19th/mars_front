@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".StoreActivity">
 
+    <ImageView
+        android:id="@+id/StoreAvatarImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
+        android:translationZ="-100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:srcCompat="@drawable/act_cat_b1" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -31,14 +43,18 @@
                 android:src="@drawable/icon_money" />
 
             <TextView
-                android:id="@+id/userMoney"
-                android:layout_width="wrap_content"
+
+                android:id="@+id/current_price"
+                android:layout_width="62dp"
+
                 android:layout_height="match_parent"
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="-4dp"
                 android:fontFamily="@font/pretendardbold"
                 android:gravity="center"
-                android:text="1,004"
+
+                android:text=""
+
                 android:textSize="16sp" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
@@ -71,15 +87,17 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.45" />
 
-    <ImageView
-        android:id="@+id/avatarImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/cat_avatar"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+    <Button
+        android:id="@+id/cat_btn"
+        android:layout_width="80dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/store_cat"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cat_btn"
@@ -194,6 +212,7 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -213,8 +232,6 @@
                 android:gravity="center|center_horizontal|center_vertical"
                 android:orientation="horizontal">
 
-                <!-- 각 View 추가 -->
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="125dp"
                     android:layout_height="match_parent"
@@ -222,28 +239,31 @@
                     app:layout_constraintTop_toBottomOf="@+id/i_f1">
 
                     <View
-                        android:id="@+id/a_1"
+                        android:id="@+id/item1"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
-                        android:layout_marginStart="5dp"
+                        android:layout_marginStart="4dp"
+
                         android:layout_marginTop="7dp"
                         android:layout_marginBottom="7dp"
                         android:background="@drawable/act_btn"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
 
                     <View
-                        android:id="@+id/a_2"
-                        android:layout_width="70dp"
+                        android:id="@+id/one_2"
+                        android:layout_width="90dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/act_circle_f1"
-                        app:layout_constraintEnd_toEndOf="@+id/a_1"
-                        app:layout_constraintStart_toStartOf="@+id/a_1"
+                        android:background="@drawable/bag"
+                        app:layout_constraintEnd_toEndOf="@+id/item1"
+                        app:layout_constraintStart_toStartOf="@+id/item1"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -253,9 +273,9 @@
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/a_1"
-                        app:layout_constraintStart_toStartOf="@+id/a_1"
-                        app:layout_constraintTop_toBottomOf="@+id/a_2">
+                        app:layout_constraintEnd_toEndOf="@+id/item1"
+                        app:layout_constraintStart_toStartOf="@+id/item1"
+                        app:layout_constraintTop_toBottomOf="@+id/one_2">
 
                         <ImageView
                             android:id="@+id/moneyImage1"
@@ -265,14 +285,77 @@
 
                         <TextView
                             android:id="@+id/userMoney1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="6dp"
                             android:layout_marginTop="-4dp"
                             android:fontFamily="@font/pretendardbold"
                             android:gravity="center"
-                            android:text="1,004"
+                            android:text=""
                             android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnyes1"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item1"
+                        app:layout_constraintEnd_toEndOf="@+id/item1"
+                        app:layout_constraintStart_toStartOf="@+id/item1"
+                        app:layout_constraintTop_toBottomOf="@+id/one_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes1"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno1"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item1"
+                        app:layout_constraintEnd_toEndOf="@+id/item1"
+                        app:layout_constraintStart_toStartOf="@+id/item1"
+                        app:layout_constraintTop_toBottomOf="@+id/one_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno1"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
                     </LinearLayout>
 
 
@@ -283,7 +366,7 @@
                     android:layout_height="match_parent">
 
                     <View
-                        android:id="@+id/b_1"
+                        android:id="@+id/item2"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="5dp"
@@ -298,26 +381,27 @@
                         app:layout_constraintVertical_bias="0.0" />
 
                     <View
-                        android:id="@+id/b_2"
-                        android:layout_width="70dp"
+                        android:id="@+id/two_2"
+                        android:layout_width="90dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/act_circle_f2"
-                        app:layout_constraintEnd_toEndOf="@+id/b_1"
-                        app:layout_constraintStart_toStartOf="@+id/b_1"
+                        android:background="@drawable/fish"
+                        app:layout_constraintEnd_toEndOf="@+id/item2"
+                        app:layout_constraintStart_toStartOf="@+id/item2"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:layout_marginBottom="16dp"
                         android:background="@drawable/coin_background"
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/b_1"
-                        app:layout_constraintStart_toStartOf="@+id/b_1">
+                        app:layout_constraintBottom_toBottomOf="@+id/item2"
+                        app:layout_constraintEnd_toEndOf="@+id/item2"
+                        app:layout_constraintStart_toStartOf="@+id/item2"
+                        app:layout_constraintTop_toBottomOf="@+id/two_2">
 
                         <ImageView
                             android:id="@+id/moneyImage2"
@@ -327,14 +411,76 @@
 
                         <TextView
                             android:id="@+id/userMoney2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="6dp"
                             android:layout_marginTop="-4dp"
                             android:fontFamily="@font/pretendardbold"
                             android:gravity="center"
-                            android:text="1,004"
+                            android:text=""
                             android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnyes2"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item2"
+                        app:layout_constraintEnd_toEndOf="@+id/item2"
+                        app:layout_constraintStart_toStartOf="@+id/item2"
+                        app:layout_constraintTop_toBottomOf="@+id/two_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes2"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno2"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item2"
+                        app:layout_constraintEnd_toEndOf="@+id/item2"
+                        app:layout_constraintStart_toStartOf="@+id/item2"
+                        app:layout_constraintTop_toBottomOf="@+id/two_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno2"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -344,7 +490,7 @@
                     android:layout_height="match_parent">
 
                     <View
-                        android:id="@+id/c_1"
+                        android:id="@+id/item3"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="7dp"
@@ -359,16 +505,17 @@
                         app:layout_constraintVertical_bias="1.0" />
 
                     <View
-                        android:id="@+id/c_2"
-                        android:layout_width="70dp"
+                        android:id="@+id/three_2"
+                        android:layout_width="90dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/act_circle_f3"
-                        app:layout_constraintEnd_toEndOf="@+id/c_1"
-                        app:layout_constraintStart_toStartOf="@+id/c_1"
+                        android:background="@drawable/cap"
+                        app:layout_constraintEnd_toEndOf="@+id/item3"
+                        app:layout_constraintStart_toStartOf="@+id/item3"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -377,9 +524,9 @@
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/c_1"
-                        app:layout_constraintStart_toStartOf="@+id/c_1"
-                        app:layout_constraintTop_toTopOf="@+id/c_2"
+                        app:layout_constraintEnd_toEndOf="@+id/item3"
+                        app:layout_constraintStart_toStartOf="@+id/item3"
+                        app:layout_constraintTop_toTopOf="@+id/three_2"
                         app:layout_constraintVertical_bias="1.0">
 
                         <ImageView
@@ -390,16 +537,77 @@
 
                         <TextView
                             android:id="@+id/userMoney3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="6dp"
                             android:layout_marginTop="-4dp"
                             android:fontFamily="@font/pretendardbold"
                             android:gravity="center"
-                            android:text="1,004"
+                            android:text=""
                             android:textSize="16sp" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/btnyes3"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item3"
+                        app:layout_constraintEnd_toEndOf="@+id/item3"
+                        app:layout_constraintStart_toStartOf="@+id/item3"
+                        app:layout_constraintTop_toBottomOf="@+id/three_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes3"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno3"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item3"
+                        app:layout_constraintEnd_toEndOf="@+id/item3"
+                        app:layout_constraintStart_toStartOf="@+id/item3"
+                        app:layout_constraintTop_toBottomOf="@+id/three_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno3"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -412,8 +620,6 @@
                 android:gravity="center|center_horizontal|center_vertical"
                 android:orientation="horizontal">
 
-                <!-- 각 View 추가 -->
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="125dp"
                     android:layout_height="match_parent"
@@ -421,7 +627,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/i_f1">
 
                     <View
-                        android:id="@+id/d_1"
+                        android:id="@+id/item4"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="5dp"
@@ -433,27 +639,28 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <View
-                        android:id="@+id/d_2"
-                        android:layout_width="70dp"
+                        android:id="@+id/four_2"
+                        android:layout_width="90dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/act_circle_f1"
-                        app:layout_constraintEnd_toEndOf="@+id/d_1"
-                        app:layout_constraintStart_toStartOf="@+id/d_1"
+                        android:background="@drawable/glasses"
+                        app:layout_constraintEnd_toEndOf="@+id/item4"
+                        app:layout_constraintStart_toStartOf="@+id/item4"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:background="@drawable/coin_background"
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/d_1"
-                        app:layout_constraintEnd_toEndOf="@+id/d_1"
+                        app:layout_constraintBottom_toBottomOf="@+id/item4"
+                        app:layout_constraintEnd_toEndOf="@+id/item4"
                         app:layout_constraintHorizontal_bias="0.6"
-                        app:layout_constraintStart_toStartOf="@+id/d_1"
-                        app:layout_constraintTop_toTopOf="@+id/d_2"
+                        app:layout_constraintStart_toStartOf="@+id/item4"
+                        app:layout_constraintTop_toTopOf="@+id/four_2"
                         app:layout_constraintVertical_bias="0.903">
 
                         <ImageView
@@ -464,16 +671,77 @@
 
                         <TextView
                             android:id="@+id/userMoney4"
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="6dp"
                             android:layout_marginTop="-4dp"
                             android:fontFamily="@font/pretendardbold"
                             android:gravity="center"
-                            android:text="1,004"
+                            android:text=""
                             android:textSize="16sp" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/btnyes4"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item4"
+                        app:layout_constraintEnd_toEndOf="@+id/item4"
+                        app:layout_constraintStart_toStartOf="@+id/item4"
+                        app:layout_constraintTop_toBottomOf="@+id/four_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes4"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno4"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item4"
+                        app:layout_constraintEnd_toEndOf="@+id/item4"
+                        app:layout_constraintStart_toStartOf="@+id/item4"
+                        app:layout_constraintTop_toBottomOf="@+id/four_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno4"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -482,7 +750,7 @@
                     android:layout_height="match_parent">
 
                     <View
-                        android:id="@+id/e_1"
+                        android:id="@+id/item5"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="5dp"
@@ -497,16 +765,17 @@
                         app:layout_constraintVertical_bias="0.0" />
 
                     <View
-                        android:id="@+id/e_2"
-                        android:layout_width="70dp"
+                        android:id="@+id/five_2"
+                        android:layout_width="90dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/act_circle_f2"
-                        app:layout_constraintEnd_toEndOf="@+id/e_1"
-                        app:layout_constraintStart_toStartOf="@+id/e_1"
+                        android:background="@drawable/pen"
+                        app:layout_constraintEnd_toEndOf="@+id/item5"
+                        app:layout_constraintStart_toStartOf="@+id/item5"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -515,8 +784,8 @@
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/e_1"
-                        app:layout_constraintStart_toStartOf="@+id/e_1">
+                        app:layout_constraintEnd_toEndOf="@+id/item5"
+                        app:layout_constraintStart_toStartOf="@+id/item5">
 
                         <ImageView
                             android:id="@+id/moneyImage5"
@@ -526,14 +795,76 @@
 
                         <TextView
                             android:id="@+id/userMoney5"
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="6dp"
                             android:layout_marginTop="-4dp"
                             android:fontFamily="@font/pretendardbold"
                             android:gravity="center"
-                            android:text="1,004"
+                            android:text=""
                             android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnyes5"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item5"
+                        app:layout_constraintEnd_toEndOf="@+id/item5"
+                        app:layout_constraintStart_toStartOf="@+id/item5"
+                        app:layout_constraintTop_toBottomOf="@+id/five_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes5"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno5"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item5"
+                        app:layout_constraintEnd_toEndOf="@+id/item5"
+                        app:layout_constraintStart_toStartOf="@+id/item5"
+                        app:layout_constraintTop_toBottomOf="@+id/five_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno5"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -543,7 +874,7 @@
                     android:layout_height="match_parent">
 
                     <View
-                        android:id="@+id/f_1"
+                        android:id="@+id/item6"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="7dp"
@@ -558,16 +889,17 @@
                         app:layout_constraintVertical_bias="1.0" />
 
                     <View
-                        android:id="@+id/f_2"
-                        android:layout_width="70dp"
+                        android:id="@+id/six_2"
+                        android:layout_width="90dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/act_circle_b6"
-                        app:layout_constraintEnd_toEndOf="@+id/f_1"
-                        app:layout_constraintStart_toStartOf="@+id/f_1"
+                        android:background="@drawable/wind"
+                        app:layout_constraintEnd_toEndOf="@+id/item6"
+                        app:layout_constraintStart_toStartOf="@+id/item6"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -577,9 +909,9 @@
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/f_1"
-                        app:layout_constraintStart_toStartOf="@+id/f_1"
-                        app:layout_constraintTop_toBottomOf="@+id/f_2">
+                        app:layout_constraintEnd_toEndOf="@+id/item6"
+                        app:layout_constraintStart_toStartOf="@+id/item6"
+                        app:layout_constraintTop_toBottomOf="@+id/six_2">
 
                         <ImageView
                             android:id="@+id/moneyImage6"
@@ -589,16 +921,77 @@
 
                         <TextView
                             android:id="@+id/userMoney6"
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="6dp"
                             android:layout_marginTop="-4dp"
                             android:fontFamily="@font/pretendardbold"
                             android:gravity="center"
-                            android:text="1,004"
+                            android:text=""
                             android:textSize="16sp" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/btnyes6"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/six_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes6"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno6"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item6"
+                        app:layout_constraintEnd_toEndOf="@+id/item6"
+                        app:layout_constraintStart_toStartOf="@+id/item6"
+                        app:layout_constraintTop_toBottomOf="@+id/six_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno6"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -611,8 +1004,6 @@
                 android:gravity="center|center_horizontal|center_vertical"
                 android:orientation="horizontal">
 
-                <!-- 각 View 추가 -->
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="125dp"
                     android:layout_height="match_parent"
@@ -620,7 +1011,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/i_f1">
 
                     <View
-                        android:id="@+id/g_1"
+                        android:id="@+id/item7"
                         android:layout_width="110dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="5dp"
@@ -632,16 +1023,17 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <View
-                        android:id="@+id/g_2"
-                        android:layout_width="70dp"
+                        android:id="@+id/seven_2"
+                        android:layout_width="90dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/act_circle_f1"
-                        app:layout_constraintEnd_toEndOf="@+id/g_1"
-                        app:layout_constraintStart_toStartOf="@+id/g_1"
+                        android:background="@drawable/fork"
+                        app:layout_constraintEnd_toEndOf="@+id/item7"
+                        app:layout_constraintStart_toStartOf="@+id/item7"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -650,10 +1042,10 @@
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/g_1"
+                        app:layout_constraintEnd_toEndOf="@+id/item7"
                         app:layout_constraintHorizontal_bias="0.6"
-                        app:layout_constraintStart_toStartOf="@+id/g_1"
-                        app:layout_constraintTop_toTopOf="@+id/g_2"
+                        app:layout_constraintStart_toStartOf="@+id/item7"
+                        app:layout_constraintTop_toTopOf="@+id/seven_2"
                         app:layout_constraintVertical_bias="1.0">
 
                         <ImageView
@@ -664,14 +1056,75 @@
 
                         <TextView
                             android:id="@+id/userMoney7"
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="6dp"
                             android:layout_marginTop="-4dp"
                             android:fontFamily="@font/pretendardbold"
                             android:gravity="center"
-                            android:text="1,004"
+                            android:text=""
                             android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnyes7"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item7"
+                        app:layout_constraintEnd_toEndOf="@+id/item7"
+                        app:layout_constraintStart_toStartOf="@+id/item7"
+                        app:layout_constraintTop_toBottomOf="@+id/seven_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes7"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno7"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item7"
+                        app:layout_constraintEnd_toEndOf="@+id/item7"
+                        app:layout_constraintStart_toStartOf="@+id/item7"
+                        app:layout_constraintTop_toBottomOf="@+id/seven_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno7"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
 
@@ -679,131 +1132,11 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="125dp"
-                    android:layout_height="match_parent">
-
-                    <View
-                        android:id="@+id/h_1"
-                        android:layout_width="110dp"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginBottom="7dp"
-                        android:background="@drawable/act_btn"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.2"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
-
-                    <View
-                        android:id="@+id/h_2"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginTop="20dp"
-                        android:background="@drawable/act_circle_f2"
-                        app:layout_constraintEnd_toEndOf="@+id/h_1"
-                        app:layout_constraintStart_toStartOf="@+id/h_1"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginBottom="16dp"
-                        android:background="@drawable/coin_background"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="5dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/h_1"
-                        app:layout_constraintHorizontal_bias="0.52"
-                        app:layout_constraintStart_toStartOf="@+id/h_1"
-                        app:layout_constraintTop_toTopOf="@+id/h_2"
-                        app:layout_constraintVertical_bias="1.0">
-
-                        <ImageView
-                            android:id="@+id/moneyImage8"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/icon_money" />
-
-                        <TextView
-                            android:id="@+id/userMoney8"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="6dp"
-                            android:layout_marginTop="-4dp"
-                            android:fontFamily="@font/pretendardbold"
-                            android:gravity="center"
-                            android:text="1,004"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="147dp" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="125dp"
-                    android:layout_height="match_parent">
-
-                    <View
-                        android:id="@+id/i_1"
-                        android:layout_width="110dp"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginBottom="7dp"
-                        android:background="@drawable/act_btn"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.7"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0"/>
-
-                    <View
-                        android:id="@+id/i_2"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginTop="20dp"
-                        android:background="@drawable/act_circle_f6"
-                        app:layout_constraintEnd_toEndOf="@+id/i_1"
-                        app:layout_constraintStart_toStartOf="@+id/i_1"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="16dp"
-                        android:background="@drawable/coin_background"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="5dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/i_1"
-                        app:layout_constraintStart_toStartOf="@+id/i_1"
-                        app:layout_constraintTop_toBottomOf="@+id/i_2">
-
-                        <ImageView
-                            android:id="@+id/moneylmage9"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/icon_money" />
-
-                        <TextView
-                            android:id="@+id/userMoney9"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="6dp"
-                            android:layout_marginTop="-4dp"
-                            android:fontFamily="@font/pretendardbold"
-                            android:gravity="center"
-                            android:text="1,004"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 

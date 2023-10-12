@@ -2,13 +2,13 @@ package com.example.marsproject
 
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.marsproject.databinding.ActivityChangeNameBinding
 import org.json.JSONObject
 import java.net.UnknownServiceException
@@ -87,6 +87,7 @@ class ChangeNameActivity : AppCompatActivity() {
             val dlg = MyDialog(this) // 커스텀 다이얼로그 객체 저장
             // 예 버튼 클릭 시 실행
             dlg.setOnOKClickedListener{
+                println(1)
                 val name = binding.editName.text.toString() // 닉네임 저장
 
                 // 닉네임 변경 쓰레드 생성
