@@ -158,9 +158,9 @@ class ChangeTitleActivity : AppCompatActivity() {
                     val selectedTitle = selectedText
 
                     try {
-                val changeTitleJson = JSONObject()
-                        changeTitleJson.put("user_name", getName()) // 사용자 이름
-                        changeTitleJson.put("value", selectedTitle.replace("\n", " "))  // value 값
+                        val changeTitleJson = JSONObject()
+                                changeTitleJson.put("user_name", getName()) // 사용자 이름
+                                changeTitleJson.put("value", selectedTitle.replace("\n", " "))  // value 값
 
                         Request().reqpost("http://dmumars.kro.kr/api/setusertitle", changeTitleJson)
                     } catch (e: UnknownServiceException) {
