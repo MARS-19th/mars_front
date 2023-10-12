@@ -1,55 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ChangeTitleActivity">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="40dp"
+        android:text="프론트"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <LinearLayout
+        android:layout_width="391dp"
+        android:layout_height="724dp"
+        android:layout_marginTop="1dp"
         android:orientation="vertical"
-        tools:context=".ChangeTitleActivity">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ToolbarTheme" />
-
-        <!-- 첫 번째 섹션 -->
-        <LinearLayout
-            android:layout_width="380dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="304dp"
-                android:layout_height="wrap_content"
-                android:paddingLeft="40dp"
-                android:text="프론트"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btn_check"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:background="@drawable/act_btn_check"
-                android:text="선택"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" />
-        </LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="155dp"
-            android:layout_gravity="center"
-            android:gravity="center|center_horizontal|center_vertical"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <!-- 각 View 추가 -->
@@ -82,10 +78,10 @@
                     android:background="@drawable/act_circle_f1"
                     app:layout_constraintBottom_toTopOf="@+id/t_f1"
                     app:layout_constraintEnd_toEndOf="@+id/t_f1"
-                    app:layout_constraintHorizontal_bias="0.464"
+                    app:layout_constraintHorizontal_bias="0.448"
                     app:layout_constraintStart_toStartOf="@+id/t_f1"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.777" />
 
                 <TextView
                     android:id="@+id/t_f1"
@@ -104,14 +100,15 @@
 
                 <ImageView
                     android:id="@+id/i_f1"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="7dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="38dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_f1"
                     app:layout_constraintEnd_toEndOf="@+id/c_f1"
+                    app:layout_constraintHorizontal_bias="0.545"
                     app:layout_constraintStart_toStartOf="@+id/c_f1"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_f1" />
@@ -119,9 +116,11 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vf2"
                 android:layout_width="125dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent">
 
                 <View
@@ -134,7 +133,6 @@
                     android:background="@drawable/act_btn"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
@@ -148,10 +146,25 @@
                     android:background="@drawable/act_circle_f2"
                     app:layout_constraintBottom_toTopOf="@+id/t_f2"
                     app:layout_constraintEnd_toEndOf="@+id/t_f2"
-                    app:layout_constraintHorizontal_bias="0.464"
+                    app:layout_constraintHorizontal_bias="0.586"
                     app:layout_constraintStart_toStartOf="@+id/t_f2"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.736" />
+
+                <ImageView
+                    android:id="@+id/i_f2"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="38dp"
+                    android:layout_marginEnd="7dp"
+                    android:layout_marginBottom="17dp"
+                    app:layout_constraintBottom_toTopOf="@+id/t_f2"
+                    app:layout_constraintEnd_toEndOf="@+id/c_f2"
+                    app:layout_constraintHorizontal_bias="0.454"
+                    app:layout_constraintStart_toStartOf="@+id/c_f2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/act_cat_f2" />
 
                 <TextView
                     android:id="@+id/t_f2"
@@ -168,24 +181,11 @@
                     app:layout_constraintStart_toStartOf="@+id/f2"
                     app:layout_constraintTop_toBottomOf="@+id/i_f2" />
 
-                <ImageView
-                    android:id="@+id/i_f2"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="7dp"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginEnd="7dp"
-                    android:layout_marginBottom="17dp"
-                    app:layout_constraintBottom_toTopOf="@+id/t_f2"
-                    app:layout_constraintEnd_toEndOf="@+id/c_f2"
-                    app:layout_constraintStart_toStartOf="@+id/c_f2"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/act_cat_f2" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vf3"
+                android:layout_weight="1"
                 android:layout_width="125dp"
                 android:layout_height="match_parent">
 
@@ -211,10 +211,10 @@
                     android:background="@drawable/act_circle_f3"
                     app:layout_constraintBottom_toTopOf="@+id/t_f3"
                     app:layout_constraintEnd_toEndOf="@+id/t_f3"
-                    app:layout_constraintHorizontal_bias="0.464"
+                    app:layout_constraintHorizontal_bias="0.413"
                     app:layout_constraintStart_toStartOf="@+id/t_f3"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.789" />
 
                 <TextView
                     android:id="@+id/t_f3"
@@ -233,10 +233,10 @@
 
                 <ImageView
                     android:id="@+id/i_f3"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="7dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="38dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_f3"
@@ -250,13 +250,10 @@
 
         </LinearLayout>
 
-        <!-- 두 번째 섹션 -->
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="155dp"
-            android:layout_gravity="center"
-            android:gravity="center|center_horizontal|center_vertical"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <!-- 각 View 추가 -->
@@ -264,6 +261,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vf4"
                 android:layout_width="125dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="@+id/i_f1"
                 app:layout_constraintTop_toBottomOf="@+id/i_f1">
@@ -328,6 +326,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vf5"
                 android:layout_width="125dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent">
 
                 <View
@@ -392,6 +391,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vf6"
                 android:layout_width="125dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent">
 
                 <View
@@ -450,31 +450,18 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="40dp"
-            android:text="백엔드"
-            android:textSize="17sp"
-            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="155dp"
-            android:layout_gravity="center"
-            android:gravity="center|center_horizontal|center_vertical"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
-
-            <!-- 세 번째 섹션 -->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vb1"
                 android:layout_width="125dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="@+id/i_f1"
                 app:layout_constraintTop_toBottomOf="@+id/i_f1">
@@ -539,6 +526,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vb2"
                 android:layout_width="125dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent">
 
                 <View
@@ -603,6 +591,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vb3"
                 android:layout_width="125dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent">
 
                 <View
@@ -665,18 +654,16 @@
 
         </LinearLayout>
 
-        <!-- 네 번째 섹션 -->
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="155dp"
-            android:layout_gravity="center"
-            android:gravity="center|center_horizontal|center_vertical"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vb4"
                 android:layout_width="125dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="@+id/i_f1"
                 app:layout_constraintTop_toBottomOf="@+id/i_b1">
@@ -741,6 +728,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vb5"
                 android:layout_width="125dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent">
 
                 <View
@@ -805,6 +793,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vb6"
                 android:layout_width="125dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent">
 
                 <View
@@ -864,6 +853,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
-
     </LinearLayout>
-</ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
