@@ -96,8 +96,6 @@ class ChangeTitleActivity : AppCompatActivity() {
             }
         }
     }
-
-
     fun ViewOpacity(num:Int, userTitle: String){
         val titleToViewMap = mapOf(
             //프
@@ -245,8 +243,4 @@ class ChangeTitleActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-
-
 }
-//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 토큰

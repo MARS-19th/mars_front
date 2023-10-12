@@ -12,16 +12,18 @@
         android:theme="@style/ToolbarTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.001" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="40dp"
+        android:paddingLeft="23dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:text="프론트"
         android:textSize="17sp"
         android:textStyle="bold"
@@ -30,12 +32,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.026" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="391dp"
         android:layout_height="724dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -120,8 +123,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vf2"
                 android:layout_width="125dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <View
                     android:id="@+id/f2"
@@ -146,10 +149,10 @@
                     android:background="@drawable/act_circle_f2"
                     app:layout_constraintBottom_toTopOf="@+id/t_f2"
                     app:layout_constraintEnd_toEndOf="@+id/t_f2"
-                    app:layout_constraintHorizontal_bias="0.586"
+                    app:layout_constraintHorizontal_bias="0.448"
                     app:layout_constraintStart_toStartOf="@+id/t_f2"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.736" />
+                    app:layout_constraintVertical_bias="0.777" />
 
                 <ImageView
                     android:id="@+id/i_f2"
@@ -161,7 +164,7 @@
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_f2"
                     app:layout_constraintEnd_toEndOf="@+id/c_f2"
-                    app:layout_constraintHorizontal_bias="0.454"
+                    app:layout_constraintHorizontal_bias="0.545"
                     app:layout_constraintStart_toStartOf="@+id/c_f2"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_f2" />
@@ -185,9 +188,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vf3"
-                android:layout_weight="1"
                 android:layout_width="125dp"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <View
                     android:id="@+id/f3"
@@ -211,10 +214,10 @@
                     android:background="@drawable/act_circle_f3"
                     app:layout_constraintBottom_toTopOf="@+id/t_f3"
                     app:layout_constraintEnd_toEndOf="@+id/t_f3"
-                    app:layout_constraintHorizontal_bias="0.413"
+                    app:layout_constraintHorizontal_bias="0.448"
                     app:layout_constraintStart_toStartOf="@+id/t_f3"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.789" />
+                    app:layout_constraintVertical_bias="0.777" />
 
                 <TextView
                     android:id="@+id/t_f3"
@@ -241,6 +244,7 @@
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_f3"
                     app:layout_constraintEnd_toEndOf="@+id/c_f3"
+                    app:layout_constraintHorizontal_bias="0.545"
                     app:layout_constraintStart_toStartOf="@+id/c_f3"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_f3" />
@@ -261,8 +265,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vf4"
                 android:layout_width="125dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 app:layout_constraintBottom_toBottomOf="@+id/i_f1"
                 app:layout_constraintTop_toBottomOf="@+id/i_f1">
 
@@ -287,9 +291,10 @@
                     android:background="@drawable/act_circle_f4"
                     app:layout_constraintBottom_toTopOf="@+id/t_f4"
                     app:layout_constraintEnd_toEndOf="@+id/f4"
+                    app:layout_constraintHorizontal_bias="0.448"
                     app:layout_constraintStart_toStartOf="@+id/f4"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.777" />
 
                 <TextView
                     android:id="@+id/t_f4"
@@ -308,14 +313,15 @@
 
                 <ImageView
                     android:id="@+id/i_f4"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="7dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="38dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_f4"
                     app:layout_constraintEnd_toEndOf="@+id/c_f4"
+                    app:layout_constraintHorizontal_bias="0.545"
                     app:layout_constraintStart_toStartOf="@+id/c_f4"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_f4" />
@@ -326,8 +332,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vf5"
                 android:layout_width="125dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <View
                     android:id="@+id/f5"
@@ -352,10 +358,10 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/act_circle_f5"
                     app:layout_constraintBottom_toTopOf="@+id/t_f5"
-                    app:layout_constraintHorizontal_bias="0.464"
+                    app:layout_constraintHorizontal_bias="0.448"
                     app:layout_constraintStart_toStartOf="@+id/t_f5"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.777" />
 
                 <TextView
                     android:id="@+id/t_f5"
@@ -374,14 +380,15 @@
 
                 <ImageView
                     android:id="@+id/i_f5"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="7dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="38dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_f5"
                     app:layout_constraintEnd_toEndOf="@+id/c_f5"
+                    app:layout_constraintHorizontal_bias="0.545"
                     app:layout_constraintStart_toStartOf="@+id/c_f5"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_f5" />
@@ -391,8 +398,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vf6"
                 android:layout_width="125dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <View
                     android:id="@+id/f6"
@@ -415,10 +422,10 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/act_circle_f6"
                     app:layout_constraintBottom_toTopOf="@+id/t_f6"
-                    app:layout_constraintHorizontal_bias="0.464"
+                    app:layout_constraintHorizontal_bias="0.448"
                     app:layout_constraintStart_toStartOf="@+id/t_f6"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.777" />
 
                 <TextView
                     android:id="@+id/t_f6"
@@ -436,21 +443,40 @@
 
                 <ImageView
                     android:id="@+id/i_f6"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="7dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="38dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_f6"
                     app:layout_constraintEnd_toEndOf="@+id/c_f6"
+                    app:layout_constraintHorizontal_bias="0.545"
                     app:layout_constraintStart_toStartOf="@+id/c_f6"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_f6" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="백엔드"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.0" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -461,8 +487,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vb1"
                 android:layout_width="125dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 app:layout_constraintBottom_toBottomOf="@+id/i_f1"
                 app:layout_constraintTop_toBottomOf="@+id/i_f1">
 
@@ -486,10 +512,10 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/act_circle_b1"
                     app:layout_constraintBottom_toTopOf="@+id/t_b1"
-                    app:layout_constraintHorizontal_bias="0.464"
+                    app:layout_constraintHorizontal_bias="0.448"
                     app:layout_constraintStart_toStartOf="@+id/t_b1"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.777" />
 
                 <TextView
                     android:id="@+id/t_b1"
@@ -508,14 +534,15 @@
 
                 <ImageView
                     android:id="@+id/i_b1"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="7dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="38dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_b1"
                     app:layout_constraintEnd_toEndOf="@+id/c_b1"
+                    app:layout_constraintHorizontal_bias="0.545"
                     app:layout_constraintStart_toStartOf="@+id/c_b1"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_b1" />
@@ -526,8 +553,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vb2"
                 android:layout_width="125dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <View
                     android:id="@+id/b2"
@@ -553,9 +580,10 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/act_circle_b2"
                     app:layout_constraintBottom_toTopOf="@+id/t_b2"
+                    app:layout_constraintHorizontal_bias="0.448"
                     app:layout_constraintStart_toStartOf="@+id/t_b2"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.777" />
 
                 <TextView
                     android:id="@+id/t_b2"
@@ -574,14 +602,15 @@
 
                 <ImageView
                     android:id="@+id/i_b2"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="7dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="38dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_b2"
                     app:layout_constraintEnd_toEndOf="@+id/c_b2"
+                    app:layout_constraintHorizontal_bias="0.545"
                     app:layout_constraintStart_toStartOf="@+id/c_b2"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_b2" />
@@ -591,8 +620,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vb3"
                 android:layout_width="125dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <View
                     android:id="@+id/b3"
@@ -616,9 +645,10 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/act_circle_b3"
                     app:layout_constraintBottom_toTopOf="@+id/t_b3"
+                    app:layout_constraintHorizontal_bias="0.448"
                     app:layout_constraintStart_toStartOf="@+id/t_b3"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.777" />
 
                 <TextView
                     android:id="@+id/t_b3"
@@ -637,14 +667,15 @@
 
                 <ImageView
                     android:id="@+id/i_b3"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="7dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="38dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_b3"
                     app:layout_constraintEnd_toEndOf="@+id/c_b3"
+                    app:layout_constraintHorizontal_bias="0.545"
                     app:layout_constraintStart_toStartOf="@+id/c_b3"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_b3" />
@@ -663,8 +694,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vb4"
                 android:layout_width="125dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 app:layout_constraintBottom_toBottomOf="@+id/i_f1"
                 app:layout_constraintTop_toBottomOf="@+id/i_b1">
 
@@ -689,9 +720,10 @@
                     android:background="@drawable/act_circle_b4"
                     app:layout_constraintBottom_toTopOf="@+id/t_b4"
                     app:layout_constraintEnd_toEndOf="@+id/b4"
+                    app:layout_constraintHorizontal_bias="0.448"
                     app:layout_constraintStart_toStartOf="@+id/b4"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.777" />
 
                 <TextView
                     android:id="@+id/t_b4"
@@ -710,14 +742,15 @@
 
                 <ImageView
                     android:id="@+id/i_b4"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="7dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="38dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_b4"
                     app:layout_constraintEnd_toEndOf="@+id/c_b4"
+                    app:layout_constraintHorizontal_bias="0.545"
                     app:layout_constraintStart_toStartOf="@+id/c_b4"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_b4" />
@@ -728,8 +761,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vb5"
                 android:layout_width="125dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <View
                     android:id="@+id/b5"
@@ -755,9 +788,10 @@
                     android:background="@drawable/act_circle_b5"
                     app:layout_constraintBottom_toTopOf="@+id/t_b5"
                     app:layout_constraintEnd_toEndOf="@+id/b5"
+                    app:layout_constraintHorizontal_bias="0.448"
                     app:layout_constraintStart_toStartOf="@+id/b5"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.777" />
 
                 <TextView
                     android:id="@+id/t_b5"
@@ -776,14 +810,15 @@
 
                 <ImageView
                     android:id="@+id/i_b5"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="7dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="38dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_b5"
                     app:layout_constraintEnd_toEndOf="@+id/c_b5"
+                    app:layout_constraintHorizontal_bias="0.545"
                     app:layout_constraintStart_toStartOf="@+id/c_b5"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_b5" />
@@ -793,8 +828,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vb6"
                 android:layout_width="125dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <View
                     android:id="@+id/b6"
@@ -817,10 +852,10 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/act_circle_b6"
                     app:layout_constraintBottom_toTopOf="@+id/t_b6"
-                    app:layout_constraintHorizontal_bias="0.464"
+                    app:layout_constraintHorizontal_bias="0.448"
                     app:layout_constraintStart_toStartOf="@+id/t_b6"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.777" />
 
                 <TextView
                     android:id="@+id/t_b6"
@@ -839,14 +874,15 @@
 
                 <ImageView
                     android:id="@+id/i_b6"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="7dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="38dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_b6"
                     app:layout_constraintEnd_toEndOf="@+id/c_b6"
+                    app:layout_constraintHorizontal_bias="0.545"
                     app:layout_constraintStart_toStartOf="@+id/c_b6"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_b6" />
