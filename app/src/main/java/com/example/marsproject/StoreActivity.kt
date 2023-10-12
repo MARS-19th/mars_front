@@ -144,12 +144,13 @@ class StoreActivity : AppCompatActivity() {
                                     // 서버로 보낼 JSON 객체 생성
                                     val requestData = JSONObject()
                                     requestData.put("user_name", getName()) // 사용자 이름 또는 식별자
-                                    requestData.put("moun_shop", null) // 아이템 아이디 (null로 설정하여 착용 해제)
+                                    requestData.put("moun_shop", JSONObject.NULL) // 아이템 아이디 (null로 설정하여 착용 해제)
 
                                     try {
                                         Request().reqpost(
                                             "http://dmumars.kro.kr/api/setuserfititem", requestData
                                         )
+                                        currentItem=null
                                         load()
                                         // 서버 응답을 기다리지 않고 바로 UI를 업데이트할 수 있다면 여기에서 UI 업데이트 코드를 추가할 수 있습니다.
                                     } catch (e: Exception) {
@@ -186,8 +187,6 @@ class StoreActivity : AppCompatActivity() {
                             }
                         }
                         itemIdViewMap[objectId]?.setBackgroundResource(R.drawable.act_btn_click)
-                        //yesBtnViewMap[objectId]?.setBackgroundResource(R.drawable.wear_yes)
-                        //noBtnViewMap[objectId]?.setBackgroundResource(R.drawable.wear_no)
                     }
 
                 }
