@@ -1,28 +1,22 @@
 package com.example.marsproject
 
-import android.content.ContentValues
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.view.marginBottom
+import androidx.fragment.app.Fragment
 import com.example.marsproject.databinding.FragmentMainDetailStudyBinding
-import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.net.UnknownServiceException
+
 
 class MainDetailStudyFragment : Fragment() {
     private lateinit var binding: FragmentMainDetailStudyBinding
@@ -52,24 +46,14 @@ class MainDetailStudyFragment : Fragment() {
         savedname = (activity as MainActivity).getName()
 
         // 뷰 객체들 담을 리스트 생성
-        val itemList = ArrayList<View>()
-
-        // 리스트에 값 넣기
-        itemList.add(binding.studyView1)
-        itemList.add(binding.studyView2)
-        itemList.add(binding.studyView3)
-        itemList.add(binding.studyView4)
-        itemList.add(binding.studyView5)
-        itemList.add(binding.studyView6)
-        itemList.add(binding.studyView7)
-        itemList.add(binding.studyView8)
-        itemList.add(binding.studyView9)
-        itemList.add(binding.studyView10)
-        itemList.add(binding.studyView11)
-        itemList.add(binding.studyView12)
-        itemList.add(binding.studyView13)
-        itemList.add(binding.studyView14)
-        itemList.add(binding.studyView15)
+        val itemList:Array<View> = arrayOf(binding.studyView1, binding.studyView2, binding.studyView3,
+            binding.studyView4, binding.studyView5, binding.studyView6, binding.studyView7,
+            binding.studyView8, binding.studyView9, binding.studyView10, binding.studyView11,
+            binding.studyView12, binding.studyView13, binding.studyView14, binding.studyView15)
+        val viewList:Array<View> = arrayOf(binding.view1, binding.view2, binding.view3,
+            binding.view4, binding.view5, binding.view6, binding.view7,
+            binding.view8, binding.view9, binding.view10, binding.view11,
+            binding.view12, binding.view13, binding.view14)
 
         // 강의 정보 불러오기
         val skillThread = Thread {
@@ -80,7 +64,7 @@ class MainDetailStudyFragment : Fragment() {
                 // 스킬의 강의 수만큼 for문 실행
                 for(i in 0 until lectureObject.getJSONArray("results").length()) {
                     // 클릭시 해당 일차 강의 띄우기
-                    itemList[i].setOnClickListener{
+                    val lecturelistener = View.OnClickListener {
                         var progress = 0 // 유저의 해당 강의 진행도
                         var lectureid = lectureObject.getJSONArray("results").getJSONObject(i).getInt("mark_id") // 강의 번호
 
@@ -150,6 +134,8 @@ class MainDetailStudyFragment : Fragment() {
                         }
                         dlg.show(lectureName, lectureLink, progress) // 다이얼로그 내용에 담을 텍스트
                     }
+                    itemList[i].setOnClickListener(lecturelistener)
+                    viewList[i].setOnClickListener(lecturelistener)
                 }
 
                 // 들은 강의의 수를 저장

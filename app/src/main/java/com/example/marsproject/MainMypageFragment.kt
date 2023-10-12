@@ -1,15 +1,14 @@
 package com.example.marsproject
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,12 +18,12 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.marsproject.databinding.FragmentMainMypageBinding
 import com.kakao.sdk.user.UserApiClient
 import org.json.JSONObject
-import java.io.File
-import java.net.HttpURLConnection
-import java.net.URL
 import java.net.UnknownServiceException
 
 class MainMypageFragment : Fragment() {
@@ -36,23 +35,30 @@ class MainMypageFragment : Fragment() {
     // 프사 선택 후 앱으로 돌아올때 콜백
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == AppCompatActivity.RESULT_OK) {
-            // 실제 파일 경로 얻기
-            val data = it.data?.data
-            val selectedImagePath =  absolutelyPath(data!!, activity?.applicationContext!!)
+            // 파일 uri 값 얻기
+            val data = it.data?.data!!
 
             Thread {
                 try {
+                    //파일 이름 얻기
+                    val filename =  getFilename(data, activity?.applicationContext!!)
+
+                    // 가져온 파일을 inputStream으로 리턴
+                    val fileInputStream = activity?.contentResolver?.openInputStream(data)!!
+
                     // 프사 json 생성
                     val profilejson =  JSONObject()
                     profilejson.put("user_name", savedName)
 
                     // 파일 보내기
-                    Request().fileupload("http://dmumars.kro.kr/api/uploadprofile", profilejson, File(selectedImagePath))
+                    Request().fileupload("http://dmumars.kro.kr/api/uploadprofile", profilejson, filename, fileInputStream)
+
+                    // 기존 프로필 사진 디스크 케쉬 지우기
+                    Glide.get(requireActivity()).clearDiskCache()
 
                     // 가저온 이미지로 프사 변경 변경하기
-                    val bitmap = BitmapFactory.decodeFile(selectedImagePath)
                     activity?.runOnUiThread {
-                        binding.userImage.setImageBitmap(bitmap)
+                        binding.userImage.setImageURI(data)
                         Toast.makeText(activity?.applicationContext!!, "프로필 사진 업로드 완료!", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
@@ -65,6 +71,7 @@ class MainMypageFragment : Fragment() {
         }
     }
 
+    @SuppressLint("ResourceType")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -90,22 +97,13 @@ class MainMypageFragment : Fragment() {
         binding.userNameText.text = savedName
         binding.userIdText.text = savedID
 
-        // 사용자 프사 갖고오기
-        var bitmap: Bitmap ?= null
-        val profile = Thread {
-            // 닉네임으로 api 프사 이미지 요청
-            val url = URL("http://dmumars.kro.kr/api/getprofile/${savedName}")
-            val http = url.openConnection() as HttpURLConnection
-
-            // 이미지 읽기
-            val imgstream = http.inputStream
-            bitmap = BitmapFactory.decodeStream(imgstream)
-        }
-        profile.start()
-        profile.join()
-
-        // 프로필 사진을 이미지뷰에 적용
-        binding.userImage.setImageBitmap(bitmap)
+        // 서버에서 프사 이미지 가져와서 userImage에 적용하기
+        Glide.with(this)
+            .load("http://dmumars.kro.kr/api/getprofile/${savedName}")
+            .placeholder(Color.parseColor("#00000000"))
+            .error(R.drawable.profileimage)
+            .skipMemoryCache(true)
+            .into(binding.userImage)
 
         // 항목별 페이지로 이동하는 클릭 리스너 설정
         setMoveClickListener()
@@ -116,7 +114,7 @@ class MainMypageFragment : Fragment() {
     // 페이지로 이동하는 클릭 리스너 설정
     private fun setMoveClickListener() {
         // 프로필 이미지 클릭시 프사 변경 하는 리스너
-        binding.profileBackground.setOnClickListener {
+        binding.userImage.setOnClickListener {
             // 갤러리 Intent 실행
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
@@ -147,11 +145,11 @@ class MainMypageFragment : Fragment() {
             }
         }
 
-        // 클릭 시 친구 목록으로 이동하는 리스너
-        binding.friendLayout.setOnClickListener {
+        // 클릭 시 친구 리스트로 이동하는 리스너
+        binding.searchLayout.setOnClickListener {
             activity?.let{
                 // 인텐트 생성 후 액티비티 생성
-                val intent = Intent(context, FriendListActivity::class.java) // 친구 목록 페이지로 설정
+                val intent = Intent(context, FriendListActivity::class.java) // 주변 친구 찾기 페이지로 설정
                 startActivity(intent) // 액티비티 생성
             }
         }
@@ -239,11 +237,10 @@ class MainMypageFragment : Fragment() {
         }
     }
 
-    // 절대경로로 파일경로 반환 하는 함수
-    private fun absolutelyPath(path: Uri?, context: Context): String {
-        val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-        val c = context.contentResolver.query(path!!, proj, null, null, null)
-        val index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+    // 파일 이름 얻기
+    private fun getFilename(path: Uri?, context: Context): String {
+        val c = context.contentResolver.query(path!!, null, null, null, null)
+        val index = c?.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME)
         c?.moveToFirst()
         val result = c?.getString(index!!)
         c?.close()

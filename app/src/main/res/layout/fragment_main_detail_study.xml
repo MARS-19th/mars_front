@@ -152,7 +152,18 @@
         app:layout_constraintHorizontal_bias="0.35"
         app:layout_constraintStart_toStartOf="@+id/background"
         app:layout_constraintTop_toTopOf="@+id/background"
-        app:layout_constraintVertical_bias="0.018" />
+        app:layout_constraintVertical_bias="0.018">
+
+    </View>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView1"
+        app:layout_constraintEnd_toEndOf="@+id/studyView1"
+        app:layout_constraintStart_toStartOf="@+id/studyView1"
+        app:layout_constraintTop_toTopOf="@+id/studyView1" />
 
     <View
         android:id="@+id/studyView2"
@@ -167,6 +178,15 @@
         app:layout_constraintVertical_bias="0.018" />
 
     <View
+        android:id="@+id/view2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView2"
+        app:layout_constraintEnd_toEndOf="@+id/studyView2"
+        app:layout_constraintStart_toStartOf="@+id/studyView2"
+        app:layout_constraintTop_toTopOf="@+id/studyView2" />
+
+    <View
         android:id="@+id/studyView3"
         android:layout_width="13dp"
         android:layout_height="13dp"
@@ -177,6 +197,15 @@
         app:layout_constraintStart_toStartOf="@+id/background"
         app:layout_constraintTop_toTopOf="@+id/background"
         app:layout_constraintVertical_bias="0.135" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView3"
+        app:layout_constraintEnd_toEndOf="@+id/studyView3"
+        app:layout_constraintStart_toStartOf="@+id/studyView3"
+        app:layout_constraintTop_toTopOf="@+id/studyView3" />
 
     <View
         android:id="@+id/studyView4"
@@ -191,6 +220,15 @@
         app:layout_constraintVertical_bias="0.252" />
 
     <View
+        android:id="@+id/view4"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView4"
+        app:layout_constraintEnd_toEndOf="@+id/studyView4"
+        app:layout_constraintStart_toStartOf="@+id/studyView4"
+        app:layout_constraintTop_toTopOf="@+id/studyView4" />
+
+    <View
         android:id="@+id/studyView5"
         android:layout_width="13dp"
         android:layout_height="13dp"
@@ -201,6 +239,15 @@
         app:layout_constraintStart_toStartOf="@+id/background"
         app:layout_constraintTop_toTopOf="@+id/background"
         app:layout_constraintVertical_bias="0.252" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView5"
+        app:layout_constraintEnd_toEndOf="@+id/studyView5"
+        app:layout_constraintStart_toStartOf="@+id/studyView5"
+        app:layout_constraintTop_toTopOf="@+id/studyView5" />
 
     <View
         android:id="@+id/studyView6"
@@ -215,6 +262,15 @@
         app:layout_constraintVertical_bias="0.375" />
 
     <View
+        android:id="@+id/view6"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView6"
+        app:layout_constraintEnd_toEndOf="@+id/studyView6"
+        app:layout_constraintStart_toStartOf="@+id/studyView6"
+        app:layout_constraintTop_toTopOf="@+id/studyView6" />
+
+    <View
         android:id="@+id/studyView7"
         android:layout_width="13dp"
         android:layout_height="13dp"
@@ -225,6 +281,15 @@
         app:layout_constraintStart_toStartOf="@+id/background"
         app:layout_constraintTop_toTopOf="@+id/background"
         app:layout_constraintVertical_bias="0.493" />
+
+    <View
+        android:id="@+id/view7"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView7"
+        app:layout_constraintEnd_toEndOf="@+id/studyView7"
+        app:layout_constraintStart_toStartOf="@+id/studyView7"
+        app:layout_constraintTop_toTopOf="@+id/studyView7" />
 
     <View
         android:id="@+id/studyView8"
@@ -239,6 +304,15 @@
         app:layout_constraintVertical_bias="0.493" />
 
     <View
+        android:id="@+id/view8"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView8"
+        app:layout_constraintEnd_toEndOf="@+id/studyView8"
+        app:layout_constraintStart_toStartOf="@+id/studyView8"
+        app:layout_constraintTop_toTopOf="@+id/studyView8" />
+
+    <View
         android:id="@+id/studyView9"
         android:layout_width="13dp"
         android:layout_height="13dp"
@@ -249,6 +323,15 @@
         app:layout_constraintStart_toStartOf="@+id/background"
         app:layout_constraintTop_toTopOf="@+id/background"
         app:layout_constraintVertical_bias="0.62" />
+
+    <View
+        android:id="@+id/view9"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView9"
+        app:layout_constraintEnd_toEndOf="@+id/studyView9"
+        app:layout_constraintStart_toStartOf="@+id/studyView9"
+        app:layout_constraintTop_toTopOf="@+id/studyView9" />
 
     <View
         android:id="@+id/studyView10"
@@ -263,6 +346,15 @@
         app:layout_constraintVertical_bias="0.735" />
 
     <View
+        android:id="@+id/view10"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView10"
+        app:layout_constraintEnd_toEndOf="@+id/studyView10"
+        app:layout_constraintStart_toStartOf="@+id/studyView10"
+        app:layout_constraintTop_toTopOf="@+id/studyView10" />
+
+    <View
         android:id="@+id/studyView11"
         android:layout_width="13dp"
         android:layout_height="13dp"
@@ -273,6 +365,15 @@
         app:layout_constraintStart_toStartOf="@+id/background"
         app:layout_constraintTop_toTopOf="@+id/background"
         app:layout_constraintVertical_bias="0.735" />
+
+    <View
+        android:id="@+id/view11"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView11"
+        app:layout_constraintEnd_toEndOf="@+id/studyView11"
+        app:layout_constraintStart_toStartOf="@+id/studyView11"
+        app:layout_constraintTop_toTopOf="@+id/studyView11" />
 
     <View
         android:id="@+id/studyView12"
@@ -287,6 +388,15 @@
         app:layout_constraintVertical_bias="0.86" />
 
     <View
+        android:id="@+id/view12"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView12"
+        app:layout_constraintEnd_toEndOf="@+id/studyView12"
+        app:layout_constraintStart_toStartOf="@+id/studyView12"
+        app:layout_constraintTop_toTopOf="@+id/studyView12" />
+
+    <View
         android:id="@+id/studyView13"
         android:layout_width="13dp"
         android:layout_height="13dp"
@@ -299,6 +409,15 @@
         app:layout_constraintVertical_bias="0.98" />
 
     <View
+        android:id="@+id/view13"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView13"
+        app:layout_constraintEnd_toEndOf="@+id/studyView13"
+        app:layout_constraintStart_toStartOf="@+id/studyView13"
+        app:layout_constraintTop_toTopOf="@+id/studyView13" />
+
+    <View
         android:id="@+id/studyView14"
         android:layout_width="13dp"
         android:layout_height="13dp"
@@ -309,6 +428,15 @@
         app:layout_constraintStart_toStartOf="@+id/background"
         app:layout_constraintTop_toTopOf="@+id/background"
         app:layout_constraintVertical_bias="0.98" />
+
+    <View
+        android:id="@+id/view14"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/studyView14"
+        app:layout_constraintEnd_toEndOf="@+id/studyView14"
+        app:layout_constraintStart_toStartOf="@+id/studyView14"
+        app:layout_constraintTop_toTopOf="@+id/studyView14" />
 
     <ImageView
         android:id="@+id/studyView15"

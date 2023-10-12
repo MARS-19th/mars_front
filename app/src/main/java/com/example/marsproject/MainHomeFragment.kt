@@ -1,14 +1,16 @@
 package com.example.marsproject
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.marsproject.databinding.FragmentMainHomeBinding
-import org.json.JSONObject
 import java.net.UnknownServiceException
 
 class MainHomeFragment : Fragment() {
@@ -24,6 +26,7 @@ class MainHomeFragment : Fragment() {
     private lateinit var level: String // 레벨
     private var progress: Double = 0.0 // 진행률
 
+    @SuppressLint("ResourceType")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,21 +81,54 @@ class MainHomeFragment : Fragment() {
         // 유저 데이터 변경
         changeUserData(title, name, id, objective, life, progress.toInt())
 
+        // 기존 프로필 사진 디스크 케쉬 지우기
+        Thread {
+            Glide.get(requireActivity()).clearDiskCache()
+        }.start()
+
+        // 서버에서 프사 이미지 가져와서 profileImage에 적용하기
+        Glide.with(this)
+            .load("http://dmumars.kro.kr/api/getprofile/${savedname}")
+            .placeholder(Color.parseColor("#00000000"))
+            .error(R.drawable.profileimage)
+            .skipMemoryCache(true)
+            .into(binding.profileImage)
+
+        // 클릭 시 친구 찾기로 이동하는 리스너
+        binding.searchpeople.setOnClickListener {
+            activity?.let{
+                // 인텐트 생성 후 액티비티 생성
+                val intent = Intent(context, SearchPeopleActivity::class.java) // 주변 친구 찾기 페이지로 설정
+                startActivity(intent) // 액티비티 생성
+            }
+        }
+
+        // 클릭 시 알림 다이얼로그로 이동하는 리스너
+        binding.notification.setOnClickListener {
+
+            val dialog = NoticeDialog()
+
+            //알림창이 띄워져있는 동안 배경 클릭 막기
+            dialog.isCancelable = false
+
+            dialog.show(childFragmentManager, "NoticeDialog")
+        }
+
+
+        // 서버에서 프사 이미지 가져와서 profileImage에 적용하기
+        Glide.with(this)
+            .load("http://dmumars.kro.kr/api/getprofile/${savedname}")
+            .placeholder(Color.parseColor("#00000000"))
+            .error(R.drawable.profileimage)
+            .skipMemoryCache(true)
+            .into(binding.profileImage)
+
         // 클릭 시 목표 프래그먼트로 전환하는 리스너
         binding.objectiveText.setOnClickListener{
             (activity as MainActivity).clickchangeFragment(1) // 목표 프래그먼트로 전환
         }
         binding.progressBar.setOnClickListener{
             (activity as MainActivity).clickchangeFragment(1) // 목표 프래그먼트로 전환
-        }
-
-        // 클릭 시 주변 사람 찾기로 이동하는 리스너
-        binding.searchImage.setOnClickListener{
-            activity?.let{
-                // 인텐트 생성 후 액티비티 생성
-                val intent = Intent(context, SearchPeopleActivity::class.java) // 주변 사람 찾기 페이지로 설정
-                startActivity(intent) // 액티비티 생성
-            }
         }
 
         return binding.root
@@ -105,7 +141,7 @@ class MainHomeFragment : Fragment() {
         binding.userIdText.text = id // 회원 아이디 텍스트 변경
         binding.objectiveText.text = objective // 상세 목표 텍스트 변경
 
-        // 목숨 수에 따른 이미지 활성화
+        /*// 목숨 수에 따른 이미지 활성화
         when(life) {
             3 -> {
                 binding.lifeImage1.visibility = View.VISIBLE // 활성화
@@ -122,7 +158,7 @@ class MainHomeFragment : Fragment() {
                 binding.lifeImage2.visibility = View.INVISIBLE // 비활성화
                 binding.lifeImage3.visibility = View.INVISIBLE // 비활성화
             }
-        }
+        }*/
         binding.progressBar.progress = progress // 목표 진행률 변경
     }
 }
