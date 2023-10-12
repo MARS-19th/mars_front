@@ -154,11 +154,11 @@ class ChangeTitleActivity : AppCompatActivity() {
             // 예 버튼 클릭 시 실행
             dlg.setOnOKClickedListener{
                 //사용자 칭호 보내기
-            val changeTitle = Thread {
-                val selectedTitle = selectedText
+                val changeTitle = Thread {
+                    val selectedTitle = selectedText
 
                     try {
-                        val changeTitleJson = JSONObject()
+                val changeTitleJson = JSONObject()
                         changeTitleJson.put("user_name", getName()) // 사용자 이름
                         changeTitleJson.put("value", selectedTitle.replace("\n", " "))  // value 값
 
