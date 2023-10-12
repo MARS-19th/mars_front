@@ -230,9 +230,14 @@ class MainDetailStudyFragment : Fragment() {
                     constraints.applyTo(binding.constraintLayout)
                 }
 
+                Log.d("count", count.toString())
+
                 // 스킬의 강의 수만큼 for문 실행
                 for(i in count + 1 until 15) {
                     itemList[i].setOnClickListener{
+                        Toast.makeText(context, "이전 강의를 시청하세요", Toast.LENGTH_SHORT).show()
+                    }
+                    viewList[i].setOnClickListener{
                         Toast.makeText(context, "이전 강의를 시청하세요", Toast.LENGTH_SHORT).show()
                     }
                 }
