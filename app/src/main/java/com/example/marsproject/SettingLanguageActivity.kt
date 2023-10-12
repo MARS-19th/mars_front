@@ -63,7 +63,7 @@ class SettingLanguageActivity : AppCompatActivity() {
 
         binding.skipButton.setOnClickListener{
             // DB에 데이터 저장하는 쓰레드 실행
-            Thread {
+            val saveThread = Thread {
                 try {
                     // 유저 정보 json 생성
                     val userjson = JSONObject()
@@ -138,7 +138,9 @@ class SettingLanguageActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-            }.start()
+            }
+            saveThread.start() // 쓰레드 실행
+            saveThread.join() // 쓰레드 종료될 때까지 대기
 
             // 완료 결과 보내기
             val intentD = Intent()

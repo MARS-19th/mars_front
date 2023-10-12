@@ -159,7 +159,7 @@ class LanguageTestActivity : AppCompatActivity() {
                     Toast.makeText(baseContext, "하나를 선택해주세요.", Toast.LENGTH_SHORT).show() // 토스트 메시지 출력
                 } else {
                     // DB에 데이터 저장하는 쓰레드 실행
-                    Thread {
+                    val saveThread = Thread {
                         try {
                             // 유저 정보 json 생성
                             val userjson = JSONObject()
@@ -235,7 +235,9 @@ class LanguageTestActivity : AppCompatActivity() {
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
-                    }.start()
+                    }
+                    saveThread.start() // 쓰레드 실행
+                    saveThread.join() // 쓰레드 종료될 때까지 대기
 
                     // 완료 결과 보내기
                     val intentL = Intent()
