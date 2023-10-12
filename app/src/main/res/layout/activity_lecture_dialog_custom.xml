@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendardbold"
             android:text="JavaScript 15일차 강의"
+            android:textColor="@color/black"
             android:textSize="22sp" />
 
         <androidx.appcompat.widget.AppCompatButton
