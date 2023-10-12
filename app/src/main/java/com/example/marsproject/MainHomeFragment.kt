@@ -122,7 +122,8 @@ class MainHomeFragment : Fragment() {
                 val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuserskill/${savedname}") //get요청
 
                 progress = jsonObject.getJSONArray("results").length() * 11.1 // 완료한 목표의 수만큼 증가
-                if(progress == 99.9) progress += 0.1
+                if(jsonObject.getJSONArray("results").length() == 9) progress = 100.0
+                Log.d("목표", progress.toString())
             } catch (e: UnknownServiceException) {
                 // API 사용법에 나와있는 모든 오류응답은 여기서 처리
                 println(e.message)
