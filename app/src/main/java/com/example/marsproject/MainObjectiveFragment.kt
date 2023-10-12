@@ -293,8 +293,8 @@ class MainObjectiveFragment : Fragment() {
 
             // 클릭한 버튼에 따른 값 변경
             when(it.id) {
-                R.id.frontendButton -> choice = "frontend" // 프론트엔드
-                R.id.backendButton -> choice = "backend" // 백엔드
+                R.id.frontexamButton -> choice = "frontend" // 프론트엔드
+                R.id.backexamButton -> choice = "backend" // 백엔드
             }
 
             val dlg = MyDialog(context as AppCompatActivity) // 커스텀 다이얼로그 객체 저장
