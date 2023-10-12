@@ -56,14 +56,14 @@ class ChangeTitleActivity : AppCompatActivity() {
             "HTML 마스터" to binding.vf2,
             "CSS 마법사" to binding.vf3,
             "자바스크립트 냥이" to binding.vf4,
-            "프론트엔트 냥스터" to binding.vf5,
-            "프론트엔트 마에스트냥" to binding.vf6,
+            "프론트엔드 냥스터" to binding.vf5,
+            "프론트엔드 마에스트냥" to binding.vf6,
             //백
             "초보 백엔드 냥이" to binding.vb1,
             "백엔드 탐험가 냥이" to binding.vb2,
             "자바스크립트 백냥이" to binding.vb3,
             "백엔드 엔지니어" to binding.vb4,
-            "백엔드의 냥스터" to binding.vb5,
+            "백엔드 냥스터" to binding.vb5,
             "백엔드 마에스트냥" to binding.vb6
         )
         Thread {
@@ -103,14 +103,14 @@ class ChangeTitleActivity : AppCompatActivity() {
             "HTML 마스터" to binding.vf2,
             "CSS 마법사" to binding.vf3,
             "자바스크립트 냥이" to binding.vf4,
-            "프론트엔트 냥스터" to binding.vf5,
-            "프론트엔트 마에스트냥" to binding.vf6,
+            "프론트엔드 냥스터" to binding.vf5,
+            "프론트엔드 마에스트냥" to binding.vf6,
             //백
             "초보 백엔드 냥이" to binding.vb1,
             "백엔드 탐험가 냥이" to binding.vb2,
             "자바스크립트 백냥이" to binding.vb3,
             "백엔드 엔지니어" to binding.vb4,
-            "백엔드의 냥스터" to binding.vb5,
+            "백엔드 냥스터" to binding.vb5,
             "백엔드 마에스트냥" to binding.vb6
         )
         if(num==1){
@@ -214,14 +214,14 @@ class ChangeTitleActivity : AppCompatActivity() {
             "HTML 마스터" to binding.vf2,
             "CSS 마법사" to binding.vf3,
             "자바스크립트 냥이" to binding.vf4,
-            "프론트엔트 냥스터" to binding.vf5,
-            "프론트엔트 마에스트냥" to binding.vf6,
+            "프론트엔드 냥스터" to binding.vf5,
+            "프론트엔드 마에스트냥" to binding.vf6,
             //백
             "초보 백엔드 냥이" to binding.vb1,
             "백엔드 탐험가 냥이" to binding.vb2,
             "자바스크립트 백냥이" to binding.vb3,
             "백엔드 엔지니어" to binding.vb4,
-            "백엔드의 냥스터" to binding.vb5,
+            "백엔드 냥스터" to binding.vb5,
             "백엔드 마에스트냥" to binding.vb6
         )
         for(title in userTitle){
