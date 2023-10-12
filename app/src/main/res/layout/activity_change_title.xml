@@ -121,78 +121,10 @@
                 android:layout_weight="1">
 
                 <View
-                    android:id="@+id/f2"
-                    android:layout_width="110dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginBottom="7dp"
-                    android:background="@drawable/act_btn"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <View
-                    android:id="@+id/c_f2"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/act_circle_f2"
-                    app:layout_constraintBottom_toTopOf="@+id/t_f2"
-                    app:layout_constraintEnd_toEndOf="@+id/t_f2"
-                    app:layout_constraintHorizontal_bias="0.448"
-                    app:layout_constraintStart_toStartOf="@+id/t_f2"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.777" />
-
-                <ImageView
-                    android:id="@+id/i_f2"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="7dp"
-                    android:layout_marginTop="38dp"
-                    android:layout_marginEnd="7dp"
-                    android:layout_marginBottom="17dp"
-                    app:layout_constraintBottom_toTopOf="@+id/t_f2"
-                    app:layout_constraintEnd_toEndOf="@+id/c_f2"
-                    app:layout_constraintHorizontal_bias="0.545"
-                    app:layout_constraintStart_toStartOf="@+id/c_f2"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/act_cat_f2" />
-
-                <TextView
-                    android:id="@+id/t_f2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:gravity="center"
-                    android:text="HTML\n마스터냥"
-                    android:textColor="#B0D2E5"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/f2"
-                    app:layout_constraintStart_toStartOf="@+id/f2"
-                    app:layout_constraintTop_toBottomOf="@+id/i_f2" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/vf3"
-                android:layout_width="125dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <View
-                    android:id="@+id/f3"
+                    android:id="@+id/b1"
                     android:layout_width="110dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="7dp"
-                    android:layout_marginEnd="5dp"
                     android:layout_marginBottom="7dp"
                     android:background="@drawable/act_btn"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -201,69 +133,56 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <View
-                    android:id="@+id/c_f3"
+                    android:id="@+id/c_b1"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="5dp"
-                    android:background="@drawable/act_circle_f3"
-                    app:layout_constraintBottom_toTopOf="@+id/t_f3"
-                    app:layout_constraintEnd_toEndOf="@+id/t_f3"
-                    app:layout_constraintHorizontal_bias="0.448"
-                    app:layout_constraintStart_toStartOf="@+id/t_f3"
+                    android:background="@drawable/act_circle_b1"
+                    android:foregroundGravity="clip_horizontal"
+                    app:layout_constraintBottom_toTopOf="@+id/t_b1"
+                    app:layout_constraintEnd_toEndOf="@+id/t_b1"
+                    app:layout_constraintStart_toStartOf="@+id/t_b1"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.777" />
+                    app:layout_constraintVertical_bias="0.6" />
 
                 <TextView
-                    android:id="@+id/t_f3"
+                    android:id="@+id/t_b1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:gravity="center"
-                    android:text="CSS\n마법사냥"
-                    android:textColor="#A5BB84"
+                    android:text="초보\n백냥이"
+                    android:textColor="#D5D76B"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/f3"
-                    app:layout_constraintStart_toStartOf="@+id/f3"
-                    app:layout_constraintTop_toBottomOf="@+id/i_f3" />
+                    app:layout_constraintEnd_toEndOf="@+id/b1"
+                    app:layout_constraintStart_toStartOf="@+id/b1"
+                    app:layout_constraintTop_toBottomOf="@+id/i_b1" />
 
                 <ImageView
-                    android:id="@+id/i_f3"
+                    android:id="@+id/i_b1"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_marginStart="7dp"
                     android:layout_marginTop="38dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginBottom="17dp"
-                    app:layout_constraintBottom_toTopOf="@+id/t_f3"
-                    app:layout_constraintEnd_toEndOf="@+id/c_f3"
+                    app:layout_constraintBottom_toTopOf="@+id/t_b1"
+                    app:layout_constraintEnd_toEndOf="@+id/c_b1"
                     app:layout_constraintHorizontal_bias="0.545"
-                    app:layout_constraintStart_toStartOf="@+id/c_f3"
+                    app:layout_constraintStart_toStartOf="@+id/c_b1"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/act_cat_f3" />
-
+                    app:srcCompat="@drawable/act_cat_b1" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <!-- 각 View 추가 -->
-
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/vf4"
+                android:id="@+id/vf3"
                 android:layout_width="125dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:layout_constraintBottom_toBottomOf="@+id/i_f1"
-                app:layout_constraintTop_toBottomOf="@+id/i_f1">
+                android:layout_weight="1">
 
                 <View
                     android:id="@+id/f4"
@@ -315,10 +234,88 @@
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_f4"
                     app:layout_constraintEnd_toEndOf="@+id/c_f4"
-                    app:layout_constraintHorizontal_bias="0.545"
+                    app:layout_constraintHorizontal_bias="0.454"
                     app:layout_constraintStart_toStartOf="@+id/c_f4"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_f4" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <!-- 각 View 추가 -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/vf4"
+                android:layout_width="125dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="@+id/i_f1"
+                app:layout_constraintTop_toBottomOf="@+id/i_f1">
+
+                <View
+                    android:id="@+id/f3"
+                    android:layout_width="110dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="7dp"
+                    android:background="@drawable/act_btn"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/c_f3"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/act_circle_f3"
+                    app:layout_constraintBottom_toTopOf="@+id/t_f3"
+                    app:layout_constraintEnd_toEndOf="@+id/t_f3"
+                    app:layout_constraintHorizontal_bias="0.448"
+                    app:layout_constraintStart_toStartOf="@+id/t_f3"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.777" />
+
+                <TextView
+                    android:id="@+id/t_f3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:text="프론트엔드\n마법사냥"
+                    android:textColor="#A5BB84"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/f3"
+                    app:layout_constraintStart_toStartOf="@+id/f3"
+                    app:layout_constraintTop_toBottomOf="@+id/i_f3" />
+
+                <ImageView
+                    android:id="@+id/i_f3"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="38dp"
+                    android:layout_marginEnd="7dp"
+                    android:layout_marginBottom="17dp"
+                    app:layout_constraintBottom_toTopOf="@+id/t_f3"
+                    app:layout_constraintEnd_toEndOf="@+id/c_f3"
+                    app:layout_constraintHorizontal_bias="0.545"
+                    app:layout_constraintStart_toStartOf="@+id/c_f3"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/act_cat_f3" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -554,63 +551,61 @@
                 android:layout_weight="1">
 
                 <View
-                    android:id="@+id/b2"
+                    android:id="@+id/f1"
                     android:layout_width="110dp"
                     android:layout_height="0dp"
-                    android:layout_marginStart="5dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginBottom="7dp"
                     android:background="@drawable/act_btn"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <View
-                    android:id="@+id/c_b2"
+                    android:id="@+id/c_f1"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="5dp"
-                    android:background="@drawable/act_circle_b2"
-                    app:layout_constraintBottom_toTopOf="@+id/t_b2"
-                    app:layout_constraintEnd_toEndOf="@+id/t_b2"
+                    android:background="@drawable/act_circle_f1"
+                    app:layout_constraintBottom_toTopOf="@+id/t_f1"
+                    app:layout_constraintEnd_toEndOf="@+id/t_f1"
+
                     app:layout_constraintHorizontal_bias="0.448"
-                    app:layout_constraintStart_toStartOf="@+id/t_b2"
+                    app:layout_constraintStart_toStartOf="@+id/t_f1"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.777" />
 
                 <TextView
-                    android:id="@+id/t_b2"
+                    android:id="@+id/t_f1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:gravity="center"
-                    android:text="백엔드 탐험가\n냥이"
-                    android:textColor="#8CDECA"
+                    android:text="초보\n프냥이"
+                    android:textColor="#DFB2DD"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/b2"
-                    app:layout_constraintStart_toStartOf="@+id/b2"
-                    app:layout_constraintTop_toBottomOf="@+id/i_b2" />
+                    app:layout_constraintEnd_toEndOf="@+id/f1"
+                    app:layout_constraintStart_toStartOf="@+id/f1"
+                    app:layout_constraintTop_toBottomOf="@+id/i_f1" />
 
                 <ImageView
-                    android:id="@+id/i_b2"
+                    android:id="@+id/i_f1"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_marginStart="7dp"
                     android:layout_marginTop="38dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginBottom="17dp"
-                    app:layout_constraintBottom_toTopOf="@+id/t_b2"
-                    app:layout_constraintEnd_toEndOf="@+id/c_b2"
+                    app:layout_constraintBottom_toTopOf="@+id/t_f1"
+                    app:layout_constraintEnd_toEndOf="@+id/c_f1"
                     app:layout_constraintHorizontal_bias="0.545"
-                    app:layout_constraintStart_toStartOf="@+id/c_b2"
+                    app:layout_constraintStart_toStartOf="@+id/c_f1"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/act_cat_b2" />
+                    app:srcCompat="@drawable/act_cat_f1" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -813,7 +808,7 @@
                     android:layout_marginBottom="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/t_b5"
                     app:layout_constraintEnd_toEndOf="@+id/c_b5"
-                    app:layout_constraintHorizontal_bias="0.545"
+                    app:layout_constraintHorizontal_bias="0.636"
                     app:layout_constraintStart_toStartOf="@+id/c_b5"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/act_cat_b5" />
