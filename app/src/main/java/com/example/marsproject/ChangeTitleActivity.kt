@@ -1,20 +1,11 @@
 package com.example.marsproject
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.graphics.drawable.BitmapDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.example.marsproject.R
-import com.example.marsproject.Request
 import com.example.marsproject.databinding.ActivityChangeTitleBinding
 import org.json.JSONObject
 import java.net.UnknownServiceException
@@ -53,14 +44,14 @@ class ChangeTitleActivity : AppCompatActivity() {
         val titleToViewMap = mapOf(
             //프
             "초보 프냥이" to binding.vf1,
-            "HTML 마스터냥" to binding.vf2,
-            "CSS 마법사냥" to binding.vf3,
-            "자바스크립트 프냥이" to binding.vf4,
+            "초보 백냥이" to binding.vf2,
+            "자바스크립트 프냥이" to binding.vf3,
+            "프론트엔드 마법사냥" to binding.vf4,
             "프론트엔드 냥스터" to binding.vf5,
             "프론트엔드 마에스트냥" to binding.vf6,
             //백
             "초보 백냥이" to binding.vb1,
-            "백엔드 탐험가 냥이" to binding.vb2,
+            "초보 프냥이" to binding.vb2,
             "자바스크립트 백냥이" to binding.vb3,
             "백엔드 냥지니어" to binding.vb4,
             "백엔드 냥스터" to binding.vb5,
@@ -100,14 +91,14 @@ class ChangeTitleActivity : AppCompatActivity() {
         val titleToViewMap = mapOf(
             //프
             "초보 프냥이" to binding.vf1,
-            "HTML 마스터냥" to binding.vf2,
-            "CSS 마법사냥" to binding.vf3,
-            "자바스크립트 프냥이" to binding.vf4,
+            "초보 백냥이" to binding.vf2,
+            "자바스크립트 프냥이" to binding.vf3,
+            "프론트엔드 마법사냥" to binding.vf4,
             "프론트엔드 냥스터" to binding.vf5,
             "프론트엔드 마에스트냥" to binding.vf6,
             //백
             "초보 백냥이" to binding.vb1,
-            "백엔드 탐험가 냥이" to binding.vb2,
+            "초보 프냥이" to binding.vb2,
             "자바스크립트 백냥이" to binding.vb3,
             "백엔드 냥지니어" to binding.vb4,
             "백엔드 냥스터" to binding.vb5,
@@ -211,14 +202,14 @@ class ChangeTitleActivity : AppCompatActivity() {
         val titleToViewMap = mapOf(
             //프
             "초보 프냥이" to binding.vf1,
-            "HTML 마스터냥" to binding.vf2,
-            "CSS 마법사냥" to binding.vf3,
-            "자바스크립트 프냥이" to binding.vf4,
+            "초보 백냥이" to binding.vf2,
+            "자바스크립트 프냥이" to binding.vf3,
+            "프론트엔드 마법사냥" to binding.vf4,
             "프론트엔드 냥스터" to binding.vf5,
             "프론트엔드 마에스트냥" to binding.vf6,
             //백
             "초보 백냥이" to binding.vb1,
-            "백엔드 탐험가 냥이" to binding.vb2,
+            "초보 프냥이" to binding.vb2,
             "자바스크립트 백냥이" to binding.vb3,
             "백엔드 냥지니어" to binding.vb4,
             "백엔드 냥스터" to binding.vb5,
