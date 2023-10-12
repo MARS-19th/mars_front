@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".StoreActivity">
 
+    <ImageView
+        android:id="@+id/StoreAvatarImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
+        android:translationZ="-100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:srcCompat="@drawable/act_cat_b1" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -75,26 +87,13 @@
         android:id="@+id/cat_btn"
         android:layout_width="80dp"
         android:layout_height="65dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/store_cat"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <Button
-        android:id="@+id/plus_btn"
-        android:layout_width="70dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/plus_active"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="SpeakableTextPresentCheck"
-        tools:visibility="gone" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
@@ -185,6 +184,7 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -268,6 +268,68 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/btnyes1"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item1"
+                        app:layout_constraintEnd_toEndOf="@+id/item1"
+                        app:layout_constraintStart_toStartOf="@+id/item1"
+                        app:layout_constraintTop_toBottomOf="@+id/one_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes1"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno1"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item1"
+                        app:layout_constraintEnd_toEndOf="@+id/item1"
+                        app:layout_constraintStart_toStartOf="@+id/item1"
+                        app:layout_constraintTop_toBottomOf="@+id/one_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno1"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -305,13 +367,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:layout_marginBottom="16dp"
                         android:background="@drawable/coin_background"
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="5dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@+id/item2"
                         app:layout_constraintEnd_toEndOf="@+id/item2"
-                        app:layout_constraintStart_toStartOf="@+id/item2">
+                        app:layout_constraintStart_toStartOf="@+id/item2"
+                        app:layout_constraintTop_toBottomOf="@+id/two_2">
 
                         <ImageView
                             android:id="@+id/moneyImage2"
@@ -329,6 +391,68 @@
                             android:gravity="center"
                             android:text=""
                             android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnyes2"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item2"
+                        app:layout_constraintEnd_toEndOf="@+id/item2"
+                        app:layout_constraintStart_toStartOf="@+id/item2"
+                        app:layout_constraintTop_toBottomOf="@+id/two_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes2"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno2"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item2"
+                        app:layout_constraintEnd_toEndOf="@+id/item2"
+                        app:layout_constraintStart_toStartOf="@+id/item2"
+                        app:layout_constraintTop_toBottomOf="@+id/two_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno2"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -393,6 +517,68 @@
                             android:gravity="center"
                             android:text=""
                             android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnyes3"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item3"
+                        app:layout_constraintEnd_toEndOf="@+id/item3"
+                        app:layout_constraintStart_toStartOf="@+id/item3"
+                        app:layout_constraintTop_toBottomOf="@+id/three_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes3"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno3"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item3"
+                        app:layout_constraintEnd_toEndOf="@+id/item3"
+                        app:layout_constraintStart_toStartOf="@+id/item3"
+                        app:layout_constraintTop_toBottomOf="@+id/three_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno3"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
                     </LinearLayout>
 
 
@@ -468,6 +654,68 @@
                             android:textSize="16sp" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/btnyes4"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item4"
+                        app:layout_constraintEnd_toEndOf="@+id/item4"
+                        app:layout_constraintStart_toStartOf="@+id/item4"
+                        app:layout_constraintTop_toBottomOf="@+id/four_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes4"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno4"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item4"
+                        app:layout_constraintEnd_toEndOf="@+id/item4"
+                        app:layout_constraintStart_toStartOf="@+id/item4"
+                        app:layout_constraintTop_toBottomOf="@+id/four_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno4"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -495,7 +743,7 @@
                         android:layout_width="90dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/meat"
+                        android:background="@drawable/pen"
                         app:layout_constraintEnd_toEndOf="@+id/item5"
                         app:layout_constraintStart_toStartOf="@+id/item5"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -529,6 +777,68 @@
                             android:gravity="center"
                             android:text=""
                             android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnyes5"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item5"
+                        app:layout_constraintEnd_toEndOf="@+id/item5"
+                        app:layout_constraintStart_toStartOf="@+id/item5"
+                        app:layout_constraintTop_toBottomOf="@+id/five_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes5"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno5"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item5"
+                        app:layout_constraintEnd_toEndOf="@+id/item5"
+                        app:layout_constraintStart_toStartOf="@+id/item5"
+                        app:layout_constraintTop_toBottomOf="@+id/five_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno5"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -595,6 +905,68 @@
                             android:textSize="16sp" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/btnyes6"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/six_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes6"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno6"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item6"
+                        app:layout_constraintEnd_toEndOf="@+id/item6"
+                        app:layout_constraintStart_toStartOf="@+id/item6"
+                        app:layout_constraintTop_toBottomOf="@+id/six_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno6"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -606,7 +978,6 @@
                 android:layout_gravity="center"
                 android:gravity="center|center_horizontal|center_vertical"
                 android:orientation="horizontal">
-
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -671,6 +1042,68 @@
                             android:textSize="16sp" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/btnyes7"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_yes"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item7"
+                        app:layout_constraintEnd_toEndOf="@+id/item7"
+                        app:layout_constraintStart_toStartOf="@+id/item7"
+                        app:layout_constraintTop_toBottomOf="@+id/seven_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textyes7"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="착용중"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnno7"
+                        android:layout_width="95dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/wear_no"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/item7"
+                        app:layout_constraintEnd_toEndOf="@+id/item7"
+                        app:layout_constraintStart_toStartOf="@+id/item7"
+                        app:layout_constraintTop_toBottomOf="@+id/seven_2"
+                        tools:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/textno7"
+                            android:layout_width="61dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="-4dp"
+                            android:fontFamily="@font/pretendardbold"
+                            android:gravity="center"
+                            android:text="미착용"
+                            android:textAlignment="center"
+                            android:textColor="#FF9C46"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -680,21 +1113,11 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="125dp"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
-    <ImageView
-        android:id="@+id/StoreAvatarImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="200dp"
-        android:translationZ="-100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
