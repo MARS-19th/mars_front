@@ -212,15 +212,15 @@ class MainObjectiveFragment : Fragment() {
         // 클릭 시 선택한 스킬이 무엇인지 저장하고 해당하는 상세 목표로 이동하는 리스너
         val skillClkListener = View.OnClickListener { p0 ->
             when(p0?.id) {
-                R.id.htmlButton -> (activity as MainActivity).setSkill("html") // 저장
-                R.id.cssButton -> (activity as MainActivity).setSkill("css") // 저장
-                R.id.javaButton -> (activity as MainActivity).setSkill("java") // 저장
-                R.id.pythonButton -> (activity as MainActivity).setSkill("python") // 저장
+                R.id.htmlButton -> (activity as MainActivity).setSkill("HTML") // 저장
+                R.id.cssButton -> (activity as MainActivity).setSkill("CSS") // 저장
+                R.id.javaButton -> (activity as MainActivity).setSkill("Java") // 저장
+                R.id.pythonButton -> (activity as MainActivity).setSkill("Python") // 저장
                 R.id.javascriptButton -> (activity as MainActivity).setSkill("js") // 저장
-                R.id.jspButton -> (activity as MainActivity).setSkill("jsp") // 저장
-                R.id.reactButton -> (activity as MainActivity).setSkill("react") // 저장
-                R.id.nodeButton -> (activity as MainActivity).setSkill("node") // 저장
-                R.id.springButton -> (activity as MainActivity).setSkill("spring") // 저장
+                R.id.jspButton -> (activity as MainActivity).setSkill("JSP") // 저장
+                R.id.reactButton -> (activity as MainActivity).setSkill("React") // 저장
+                R.id.nodeButton -> (activity as MainActivity).setSkill("Node") // 저장
+                R.id.springButton -> (activity as MainActivity).setSkill("Spring") // 저장
             }
             (activity as MainActivity).clickchangeFragment(2) // 이동
         }

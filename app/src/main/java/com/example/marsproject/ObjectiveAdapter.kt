@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import org.w3c.dom.Text
 
 class ObjectiveAdapter(val itemList: ArrayList<ObjectiveItem>) :
     RecyclerView.Adapter<ObjectiveAdapter.ObjectiveViewHolder>() {
@@ -23,6 +24,9 @@ class ObjectiveAdapter(val itemList: ArrayList<ObjectiveItem>) :
     }
 
     override fun onBindViewHolder(holder: ObjectiveViewHolder, position: Int) {
+        // 목표 id 입력
+        holder.id.text = itemList[position].id.toString()
+
         // 체크 유무에 따른 체크박스 활성화
         holder.checkbox.isChecked = itemList[position].check != "no"
 
@@ -43,6 +47,7 @@ class ObjectiveAdapter(val itemList: ArrayList<ObjectiveItem>) :
 
     // 각 뷰들을 연결 및 아이템 클릭 시 몇 번째 아이템인지 넘기기
     inner class ObjectiveViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val id = itemView.findViewById<TextView>(R.id.id)
         val checkbox = itemView.findViewById<CheckBox>(R.id.checkbox)
         val content = itemView.findViewById<TextView>(R.id.content)
 

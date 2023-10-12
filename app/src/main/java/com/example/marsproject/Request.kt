@@ -1,14 +1,17 @@
 package com.example.marsproject
 
-import com.kakao.sdk.user.UserApiClient
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.BufferedOutputStream
 import java.io.IOException
 import java.io.FileNotFoundException
 import java.io.DataOutputStream
 import java.io.FileInputStream
 import java.io.BufferedReader
+import java.io.File
+import java.io.InputStream
 import java.io.InputStreamReader
+import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.UnknownServiceException
@@ -73,18 +76,9 @@ class Request {
         }
     }
 
-
     //파일 업로드 메소드
     @Throws(IOException::class, FileNotFoundException::class, JSONException::class)
-    fun fileupload(url: String?, outputjson: JSONObject): JSONObject {
-        if (outputjson.isNull("user_name") || outputjson.isNull("file")) {
-            //값이 빠지지는 않았는지 유효성 검사
-            throw UnknownServiceException("less_data")  // 파일이 없으면 less_data 라는 Exception 발생하게
-        }
-
-        val file = outputjson.getString("file")
-        val user_name = outputjson.getString("user_name")
-
+    fun fileupload(url: String?, outputjson: JSONObject, filename: String, inputStream: InputStream): JSONObject {
         val link = URL(url)
         val huc = link.openConnection() as HttpURLConnection
         // http 연결 부분
@@ -98,25 +92,24 @@ class Request {
 
         val dos = DataOutputStream(huc.outputStream) // 해더작성을 하기위한 객체
         dos.writeBytes("--$boundary\r\n")
-        dos.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\"$file\"\r\n")
+        dos.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\"${filename}\"\r\n")
         dos.writeBytes("\r\n")
 
         // 파일이 전송되는 부분
-        val fis = FileInputStream(file)
         val buffer = ByteArray(1024) // 버퍼 크기설정
         var bytesRead: Int
 
-        while (fis.read(buffer).also { bytesRead = it } != -1) {
+        while (inputStream.read(buffer).also { bytesRead = it } != -1) {
             dos.write(buffer, 0, bytesRead)
         }
-        fis.close()
+        inputStream.close()
 
         dos.writeBytes("\r\n")
         dos.writeBytes("--$boundary\r\n")
-        dos.writeBytes("""Content-Disposition: form-data; name="user_name"""".trimIndent())
-        dos.writeBytes("""Content-Type: Application/json; charset=UTF-8""".trimIndent())
+        dos.writeBytes("Content-Disposition: form-data; name=\"data\"\r\n")
+        dos.writeBytes("Content-Type: Application/json; charset=UTF-8\r\n")
         dos.writeBytes("\r\n")
-        dos.write(user_name.toByteArray(charset("utf-8")))
+        dos.write(outputjson.toString().toByteArray(charset("utf-8")))
         //json 데이터 전송을 위한 부분
 
         dos.writeBytes("\r\n")

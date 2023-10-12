@@ -65,6 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="자신 있는 언어 하나를\n선택해 주세요!"
+        android:textColor="@color/black"
         android:fontFamily="@font/pretendardextrabold"
         android:textSize="24sp"
         android:gravity="center"

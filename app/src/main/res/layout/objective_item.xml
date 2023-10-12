@@ -8,6 +8,13 @@
     android:paddingHorizontal="15dp"
     android:paddingVertical="20dp">
 
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:fontFamily="@font/pretendardbold" />
+
     <CheckBox
         android:id="@+id/checkbox"
         android:layout_width="18dp"
@@ -15,7 +22,7 @@
         android:layout_marginRight="8dp"
         android:button="@null"
         android:checked="false"
-        android:enabled="false"
+        android:clickable="false"
         android:background="@drawable/custom_checkbox" />
 
     <TextView
