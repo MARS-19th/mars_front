@@ -21,14 +21,14 @@ class StoreActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityStoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        load()
-    }
-
-    fun load() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.icon_left_resize)
         supportActionBar?.title = "상점"
+        load()
+    }
+
+    fun load() {
         //DB에서 고양이 색상, 표정, 아이템여부를 가지고 와서 백그라운드 생성
         runOnUiThread { setBackGround()}
 
