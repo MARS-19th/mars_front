@@ -3,6 +3,7 @@ package com.example.marsproject
 import android.content.Context
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -121,6 +122,27 @@ class MainDetailStudyFragment : Fragment() {
                                     // 강의 진행도 저장
                                     Request().reqpost("http://dmumars.kro.kr/api/setuserdetailskill", saveDatajson)
 
+                                    // 처음만 재화 지급
+                                    if(progress == 0) {
+                                        // 사용자의 재화 가져오기
+                                        val jsonObject =
+                                            Request().reqget("http://dmumars.kro.kr/api/getuserdata/${savedname}") //get요청
+
+                                        // 강의 하나 들을때마다 20원
+                                        var money = jsonObject.getInt("money") // 재화
+                                        money += 20 // 20원 추가
+
+                                        // 사용자의 재화 저장
+                                        val moneyjson = JSONObject()
+                                        moneyjson.put("user_name", savedname) // 닉네임
+                                        moneyjson.put("value", money) // 재화
+
+                                        Request().reqpost(
+                                            "http://dmumars.kro.kr/api/setmoney",
+                                            moneyjson
+                                        )
+                                    }
+
                                 } catch (e: UnknownServiceException) {
                                 } catch (e: Exception) {
                                     e.printStackTrace()
@@ -218,7 +240,7 @@ class MainDetailStudyFragment : Fragment() {
                 // 모든 강의를 들었을 때 해당 스킬 클리어 처리
                 if (count == 14) {
                     binding.studyView15.setOnClickListener {
-                        // 유저의 해당 스킬 클리어 처리 쓰레드 생성
+                        // 유저의 해당 스킬 클리어 처리 및 재화 지급 쓰레드 생성
                         val saveThread = Thread {
                             try {
                                 // 닉네임과 스킬 이 담아서 보내기
@@ -229,6 +251,24 @@ class MainDetailStudyFragment : Fragment() {
                                 // 유저의 해당 스킬 클리어 처리
                                 Request().reqpost("http://dmumars.kro.kr/api/setuserskill", saveDatajson)
 
+                                // 사용자의 재화 가져오기
+                                val jsonObject =
+                                    Request().reqget("http://dmumars.kro.kr/api/getuserdata/${savedname}") //get요청
+
+                                // 스킬 클리어시 300원
+                                var money = jsonObject.getInt("money") // 재화
+                                money += 300 // 300원 추가
+
+                                // 사용자의 재화 저장
+                                val moneyjson = JSONObject()
+                                moneyjson.put("user_name", savedname) // 닉네임
+                                moneyjson.put("value", money) // 재화
+
+                                Request().reqpost(
+                                    "http://dmumars.kro.kr/api/setmoney",
+                                    moneyjson
+                                )
+
                             } catch (e: UnknownServiceException) {
                             } catch (e: Exception) {
                                 e.printStackTrace()
@@ -238,6 +278,7 @@ class MainDetailStudyFragment : Fragment() {
                         saveThread.join() // 쓰레드 종료될 때까지 대기
 
                         // 칭호 부여
+                        giveTitle(skill.lowercase())
 
                         // 토스트 메시지 출력
                         if(skill == "js") {
@@ -266,5 +307,31 @@ class MainDetailStudyFragment : Fragment() {
     private fun convertDpToPixel(dp: Float, context: Context): Int {
         return (dp * (context.resources
             .displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
+    }
+
+    // 칭호 부여
+    private fun giveTitle(skill: String) {
+        var title = ""
+        when(skill) {
+            "html" -> title = "HTML 마스터냥"
+            "css" -> title = "CSS 마법사냥"
+        }
+        // 유저의 해당 스킬 클리어 처리 쓰레드 생성
+        val titleThread = Thread {
+            try {
+                // 칭호 부여 및 변경
+                val titlejson = JSONObject()
+                titlejson.put("user_name", savedname) // 닉네임
+                titlejson.put("value", title) // 칭호
+
+                Request().reqpost("http://dmumars.kro.kr/api/setusertitle", titlejson)
+
+            } catch (e: UnknownServiceException) {
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        titleThread.start() // 쓰레드 실행
+        titleThread.join() // 쓰레드 종료될 때까지 대기
     }
 }
