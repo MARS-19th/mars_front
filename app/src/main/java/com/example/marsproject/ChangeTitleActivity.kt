@@ -53,16 +53,16 @@ class ChangeTitleActivity : AppCompatActivity() {
         val titleToViewMap = mapOf(
             //프
             "초보 프냥이" to binding.vf1,
-            "HTML 마스터" to binding.vf2,
-            "CSS 마법사" to binding.vf3,
-            "자바스크립트 냥이" to binding.vf4,
+            "HTML 마스터냥" to binding.vf2,
+            "CSS 마법사냥" to binding.vf3,
+            "자바스크립트 프냥이" to binding.vf4,
             "프론트엔드 냥스터" to binding.vf5,
             "프론트엔드 마에스트냥" to binding.vf6,
             //백
-            "초보 백엔드 냥이" to binding.vb1,
+            "초보 백냥이" to binding.vb1,
             "백엔드 탐험가 냥이" to binding.vb2,
             "자바스크립트 백냥이" to binding.vb3,
-            "백엔드 엔지니어" to binding.vb4,
+            "백엔드 냥지니어" to binding.vb4,
             "백엔드 냥스터" to binding.vb5,
             "백엔드 마에스트냥" to binding.vb6
         )
@@ -100,16 +100,16 @@ class ChangeTitleActivity : AppCompatActivity() {
         val titleToViewMap = mapOf(
             //프
             "초보 프냥이" to binding.vf1,
-            "HTML 마스터" to binding.vf2,
-            "CSS 마법사" to binding.vf3,
-            "자바스크립트 냥이" to binding.vf4,
+            "HTML 마스터냥" to binding.vf2,
+            "CSS 마법사냥" to binding.vf3,
+            "자바스크립트 프냥이" to binding.vf4,
             "프론트엔드 냥스터" to binding.vf5,
             "프론트엔드 마에스트냥" to binding.vf6,
             //백
-            "초보 백엔드 냥이" to binding.vb1,
+            "초보 백냥이" to binding.vb1,
             "백엔드 탐험가 냥이" to binding.vb2,
             "자바스크립트 백냥이" to binding.vb3,
-            "백엔드 엔지니어" to binding.vb4,
+            "백엔드 냥지니어" to binding.vb4,
             "백엔드 냥스터" to binding.vb5,
             "백엔드 마에스트냥" to binding.vb6
         )
@@ -211,16 +211,16 @@ class ChangeTitleActivity : AppCompatActivity() {
         val titleToViewMap = mapOf(
             //프
             "초보 프냥이" to binding.vf1,
-            "HTML 마스터" to binding.vf2,
-            "CSS 마법사" to binding.vf3,
-            "자바스크립트 냥이" to binding.vf4,
+            "HTML 마스터냥" to binding.vf2,
+            "CSS 마법사냥" to binding.vf3,
+            "자바스크립트 프냥이" to binding.vf4,
             "프론트엔드 냥스터" to binding.vf5,
             "프론트엔드 마에스트냥" to binding.vf6,
             //백
-            "초보 백엔드 냥이" to binding.vb1,
+            "초보 백냥이" to binding.vb1,
             "백엔드 탐험가 냥이" to binding.vb2,
             "자바스크립트 백냥이" to binding.vb3,
-            "백엔드 엔지니어" to binding.vb4,
+            "백엔드 냥지니어" to binding.vb4,
             "백엔드 냥스터" to binding.vb5,
             "백엔드 마에스트냥" to binding.vb6
         )
