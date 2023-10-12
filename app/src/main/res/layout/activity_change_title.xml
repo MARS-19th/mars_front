@@ -10,40 +10,32 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ToolbarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline139"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.001" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="23dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="프론트"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.026" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="391dp"
-        android:layout_height="724dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="784dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="23dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="프론트"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,6 +49,7 @@
                 android:id="@+id/vf1"
                 android:layout_width="125dp"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 app:layout_constraintBottom_toBottomOf="@+id/i_f1"
                 app:layout_constraintTop_toBottomOf="@+id/i_f1">
 
@@ -64,11 +57,11 @@
                     android:id="@+id/f1"
                     android:layout_width="110dp"
                     android:layout_height="0dp"
-                    android:layout_marginStart="5dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginBottom="7dp"
                     android:background="@drawable/act_btn"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -136,6 +129,7 @@
                     android:background="@drawable/act_btn"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
@@ -274,11 +268,11 @@
                     android:id="@+id/f4"
                     android:layout_width="110dp"
                     android:layout_height="0dp"
-                    android:layout_marginStart="5dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginBottom="7dp"
                     android:background="@drawable/act_btn"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -496,11 +490,11 @@
                     android:id="@+id/b1"
                     android:layout_width="110dp"
                     android:layout_height="0dp"
-                    android:layout_marginStart="5dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginBottom="7dp"
                     android:background="@drawable/act_btn"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -703,11 +697,11 @@
                     android:id="@+id/b4"
                     android:layout_width="110dp"
                     android:layout_height="0dp"
-                    android:layout_marginStart="5dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginBottom="7dp"
                     android:background="@drawable/act_btn"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -774,7 +768,7 @@
                     android:background="@drawable/act_btn"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintHorizontal_bias="0.2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
@@ -890,6 +884,13 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline139"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="57dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
