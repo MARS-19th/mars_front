@@ -50,6 +50,10 @@ class MainDetailStudyFragment : Fragment() {
             binding.studyView4, binding.studyView5, binding.studyView6, binding.studyView7,
             binding.studyView8, binding.studyView9, binding.studyView10, binding.studyView11,
             binding.studyView12, binding.studyView13, binding.studyView14, binding.studyView15)
+        val viewList:Array<View> = arrayOf(binding.view1, binding.view2, binding.view3,
+            binding.view4, binding.view5, binding.view6, binding.view7,
+            binding.view8, binding.view9, binding.view10, binding.view11,
+            binding.view12, binding.view13, binding.view14)
 
         // 강의 정보 불러오기
         val skillThread = Thread {
@@ -60,7 +64,7 @@ class MainDetailStudyFragment : Fragment() {
                 // 스킬의 강의 수만큼 for문 실행
                 for(i in 0 until lectureObject.getJSONArray("results").length()) {
                     // 클릭시 해당 일차 강의 띄우기
-                    itemList[i].setOnClickListener{
+                    val lecturelistener = View.OnClickListener {
                         var progress = 0 // 유저의 해당 강의 진행도
                         var lectureid = lectureObject.getJSONArray("results").getJSONObject(i).getInt("mark_id") // 강의 번호
 
@@ -130,6 +134,8 @@ class MainDetailStudyFragment : Fragment() {
                         }
                         dlg.show(lectureName, lectureLink, progress) // 다이얼로그 내용에 담을 텍스트
                     }
+                    itemList[i].setOnClickListener(lecturelistener)
+                    viewList[i].setOnClickListener(lecturelistener)
                 }
 
                 // 들은 강의의 수를 저장
