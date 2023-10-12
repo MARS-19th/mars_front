@@ -344,8 +344,42 @@ class MainObjectiveFragment : Fragment() {
 
                 // 클릭한 버튼에 따른 시험 변경
                 if (choice == "frontend") {
+                    // 유저의 해당 스킬 클리어 처리 쓰레드 생성
+                    val titleThread = Thread {
+                        try {
+                            // 칭호 부여 및 변경
+                            val titlejson = JSONObject()
+                            titlejson.put("user_name", savedname) // 닉네임
+                            titlejson.put("value", "프론트엔드 마법사냥") // 칭호
+
+                            Request().reqpost("http://dmumars.kro.kr/api/setusertitle", titlejson)
+
+                        } catch (e: UnknownServiceException) {
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                    titleThread.start() // 쓰레드 실행
+                    titleThread.join() // 쓰레드 종료될 때까지 대기
                     // 앱에서 시험 보기 추가
                 } else {
+                    // 유저의 해당 스킬 클리어 처리 쓰레드 생성
+                    val titleThread = Thread {
+                        try {
+                            // 칭호 부여 및 변경
+                            val titlejson = JSONObject()
+                            titlejson.put("user_name", savedname) // 닉네임
+                            titlejson.put("value", "백엔드 냥지니어") // 칭호
+
+                            Request().reqpost("http://dmumars.kro.kr/api/setusertitle", titlejson)
+
+                        } catch (e: UnknownServiceException) {
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                    titleThread.start() // 쓰레드 실행
+                    titleThread.join() // 쓰레드 종료될 때까지 대기
                     // 앱에서 시험 보기 추가
                 }
             }
