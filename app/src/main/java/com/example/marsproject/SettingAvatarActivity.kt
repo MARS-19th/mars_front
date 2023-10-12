@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -17,6 +18,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marsproject.databinding.ActivitySettingAvatarBinding
+import org.json.JSONObject
+import java.net.UnknownServiceException
 
 class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickListener {
     private lateinit var binding: ActivitySettingAvatarBinding
@@ -29,8 +32,8 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
     private var equipmentAdapter: EquipmentAdapter? = null
     private var equipmentItems: MutableList<EquipmentItem>? = null
 
-    private var face: String = "테스트 표정 1" // 얼굴 (기본값 - 1번째)
-    private var appearance: String = "테스트 외형 1" // 외형 (기본값 - 1번째)
+    private var face: String = "emo1" // 얼굴 (기본값 - 1번째)
+    private var appearance: String = "cat1" // 외형 (기본값 - 1번째)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +65,7 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
         launcher = registerForActivityResult(contract, callback)
 
         // 기본 이미지를 고양이 아바타로 설정
-        binding.avatarImage.setImageResource(com.example.marsproject.R.drawable.cat_avatar)
+        binding.avatarImage.setImageResource(com.example.marsproject.R.drawable.set_cat1_emo1)
 
         val equipmentLayoutManager: RecyclerView.LayoutManager = GridLayoutManager(this, 3)
         binding.equipmentRecyclerView.layoutManager = equipmentLayoutManager
@@ -75,52 +78,61 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
         updateEquipmentItemsForTops()
     }
 
-    // 항목을 클릭하여 선택된 표정을 업데이트하는 함수
+
+    fun getName(): String {
+        val pref = getSharedPreferences("userName", 0)
+        return pref.getString("name", "").toString()
+    }
+
+
     override fun onItemClick(expression: String, expressionAppearance: String) {
         when (expression) {
-            "테스트 표정 1" -> face = "테스트 표정 1"
-            "테스트 표정 2" -> face = "테스트 표정 2"
-            "테스트 표정 3" -> face = "테스트 표정 3"
-            "테스트 표정 4" -> face = "테스트 표정 4"
-            "테스트 표정 5" -> face = "테스트 표정 5"
-            "테스트 표정 6" -> face = "테스트 표정 6"
-            "테스트 표정 7" -> face = "테스트 표정 7"
-            "테스트 표정 8" -> face = "테스트 표정 8"
-            "테스트 표정 9" -> face = "테스트 표정 9"
+            "테스트 표정 1" -> face = "emo1"
+            "테스트 표정 2" -> face = "emo2"
+            "테스트 표정 3" -> face = "emo3"
+            "테스트 표정 4" -> face = "emo4"
+            "테스트 표정 5" -> face = "emo5"
             // 필요한 경우 나머지 표정에 대한 케이스를 추가합니다.
         }
 
         when (expressionAppearance) {
-            "테스트 외형 1" -> appearance = "테스트 외형 1"
-            "테스트 외형 2" -> appearance = "테스트 외형 2"
-            "테스트 외형 3" -> appearance = "테스트 외형 3"
-            "테스트 외형 4" -> appearance = "테스트 외형 4"
-            "테스트 외형 5" -> appearance = "테스트 외형 5"
-            "테스트 외형 6" -> appearance = "테스트 외형 6"
-            "테스트 외형 7" -> appearance = "테스트 외형 7"
-            "테스트 외형 8" -> appearance = "테스트 외형 8"
-            "테스트 외형 9" -> appearance = "테스트 외형 9"
-            // 필요한 경우 나머지 표정에 대한 케이스를 추가합니다.
+            "테스트 외형 1" -> appearance = "cat1"
+            "테스트 외형 2" -> appearance = "cat2"
+            "테스트 외형 3" -> appearance = "cat3"
+            // 필요한 경우 나머지 외형에 대한 케이스를 추가합니다.
         }
 
+        // 로그로 마지막으로 선택한 표정과 외형 값을 출력
+        Log.d("AvatarSelection", "마지막으로 선택한 표정: $face, 외형: $appearance")
+
         // 아이템 클릭과 관련된 다른 메서드나 작업들을 이곳에서 처리할 수 있습니다.
+
+        // 기본 이미지를 appearance와 face 값에 따라 설정
+        val resourceId = resources.getIdentifier("set_${appearance}_$face", "drawable", packageName)
+        val defaultImage = ContextCompat.getDrawable(this, resourceId)
+        binding.avatarImage.setImageDrawable(defaultImage)
+
+        Thread {
+            try {
+                val outputjson = JSONObject()
+                outputjson.put("user_name", getName())
+                outputjson.put("type", "cat")
+                outputjson.put("look", "$face")
+                outputjson.put("color", "$appearance")
+
+                // 서버 디비에 설정 아바타 정보 저장
+                val response = Request().reqpost("http://dmumars.kro.kr/api/setuseravatar", outputjson)
+            } catch (e: UnknownServiceException) {
+                println(e.message)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }.start()
     }
 
     // 고양이 클릭 아바타 이미지 변경
-    fun onCatButtonClick(view: View?) {
-        binding.avatarImage.setImageResource(com.example.marsproject.R.drawable.cat_avatar) // 아바타 이미지 변경
-        binding.catButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_clicked) // 고양이 버튼 배경 변경
-        binding.monkeyButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_background) // 원숭이 버튼 배경 변경
-        animal = "cat" // 값 저장
-    }
 
     // 원숭이 클릭 아바타 이미지 변경
-    fun onMonkeyButtonClick(view: View?) {
-        binding.avatarImage.setImageResource(com.example.marsproject.R.drawable.monkey_avatar)
-        binding.monkeyButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_clicked) // 원숭이 버튼 배경 변경
-        binding.catButton.setBackgroundResource(com.example.marsproject.R.drawable.avatar_button_background) // 고양이 버튼 배경 변경
-        animal = "monkey" // 값 저장
-    }
 
     // 상단 표정 선택
     fun onTopsButtonClick(view: View?) {
@@ -172,15 +184,11 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
             "테스트 표정 2",
             "테스트 표정 3",
             "테스트 표정 4",
-            "테스트 표정 5",
-            "테스트 표정 6",
-            "테스트 표정 7",
-            "테스트 표정 8",
-            "테스트 표정 9"
+            "테스트 표정 5"
         )
 
         for (i in 0 until expressions.size) {
-            ContextCompat.getDrawable(this, resources.getIdentifier("f${i + 1}", "drawable", packageName))?.let { drawable ->
+            ContextCompat.getDrawable(this, resources.getIdentifier("emo${i + 1}", "drawable", packageName))?.let { drawable ->
                 val expressionName = expressions[i]
                 val equipmentItem = EquipmentItem(expressionName, drawable, appearance) // appearance 값을 넣도록 수정
                 equipmentItems?.add(equipmentItem)
@@ -197,17 +205,11 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
         val equipmentNames = arrayOf(
             "테스트 외형 1",
             "테스트 외형 2",
-            "테스트 외형 3",
-            "테스트 외형 4",
-            "테스트 외형 5",
-            "테스트 외형 6",
-            "테스트 외형 7",
-            "테스트 외형 8",
-            "테스트 외형 9"
+            "테스트 외형 3"
         )
 
-        for (i in equipmentNames.indices) {
-            ContextCompat.getDrawable(this, com.example.marsproject.R.drawable.list)?.let { drawable ->
+        for (i in 0 until equipmentNames.size) {
+            ContextCompat.getDrawable(this, resources.getIdentifier("cat${i + 1}", "drawable", packageName))?.let { drawable ->
                 val equipmentName = equipmentNames[i]
                 val equipmentItem = EquipmentItem(equipmentName, drawable, equipmentName) // 선택한 외형 값으로 수정
                 equipmentItems?.add(equipmentItem)

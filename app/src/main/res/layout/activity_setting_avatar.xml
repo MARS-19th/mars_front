@@ -21,7 +21,7 @@
         android:id="@+id/avatarImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/cat_avatar"
+        android:src="@drawable/set_cat1_emo1"
         android:scaleType="centerCrop"
         android:layout_marginBottom="5dp"
         android:contentDescription="아바타"
