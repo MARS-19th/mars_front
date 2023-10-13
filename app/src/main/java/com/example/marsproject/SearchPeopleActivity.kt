@@ -82,6 +82,9 @@ class SearchPeopleActivity : AppCompatActivity() {
                 statusTextView.startAnimation(fadeInAnimation)
                 statusTextView.visibility = TextView.VISIBLE
             }
+        } else {
+            // 사용자가 블루투스 허용 안하면 메인으로
+            finish()
         }
     }
 
@@ -207,5 +210,11 @@ class SearchPeopleActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    // 엑티비티 종료시 유저찾기 종료되게
+    override fun onDestroy() {
+        super.onDestroy()
+        bluetoothsearch.stopbluetoothSearch(bluetoothSearchCallback)
     }
 }
