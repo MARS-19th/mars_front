@@ -61,8 +61,10 @@ class ChangeTitleActivity : AppCompatActivity() {
             try {
                 val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuserdata/${getName()}") //get요청\
                 DBtitle= jsonObject.getString("user_title") // 칭호
-                runOnUiThread{
-                    ChangeDBTitle(titleToViewMap[DBtitle] as ConstraintLayout)
+                if(DBtitle != "새싹") {
+                    runOnUiThread {
+                        ChangeDBTitle(titleToViewMap[DBtitle] as ConstraintLayout)
+                    }
                 }
             } catch (e: UnknownServiceException) {
                 // API 사용법에 나와있는 모든 오류응답은 여기서 처리
