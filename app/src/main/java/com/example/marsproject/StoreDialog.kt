@@ -89,9 +89,6 @@ class StoreDialog(
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-                    activity.runOnUiThread {
-                        activity.load()
-                    }
                 }.start()
 
 
@@ -121,19 +118,14 @@ class StoreDialog(
                 Toast.makeText(context, "재화가 부족합니다", Toast.LENGTH_SHORT).show()
             }
 
+            activity.load()
             dlg?.dismiss()// 다이얼로그 닫기
-            activity.runOnUiThread {
-                activity.load()
-            }
         }
 
         noButton.setOnClickListener {
             dlg?.dismiss()
 
         }
-
         dlg?.show()
-        activity.load()
-
     }
 }
