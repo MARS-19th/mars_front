@@ -45,6 +45,7 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="프론트"
+                android:textColor="#515459"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
@@ -473,6 +474,7 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="백엔드"
+                android:textColor="#515459"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
