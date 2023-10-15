@@ -72,15 +72,17 @@ class FriendListAdapter(
         fun bind(friendInfo: FriendInfo) {
             val username = getUsername()
             // 친구 정보를 뷰에 바인딩
-            nicknameTextView.text = friendInfo.nickname
-            titleTextView.text = friendInfo.title
-
             Glide.with(itemView.context)
                 .load(friendInfo.profileImageUrl)
                 .placeholder(Color.parseColor("#00000000"))
                 .error(R.drawable.profileimage)
                 .skipMemoryCache(true)
                 .into(profileImageView)
+
+            nicknameTextView.text = friendInfo.nickname
+            titleTextView.text = friendInfo.title
+
+
 
             // isFriend 값에 따라 이미지 버튼 이미지 설정
             if (friendInfo.isFriend) {

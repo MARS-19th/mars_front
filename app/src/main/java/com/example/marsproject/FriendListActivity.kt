@@ -107,6 +107,7 @@ class FriendListActivity : AppCompatActivity() {
 
         // 검색할 URL을 생성
         val searchUrl = "http://dmumars.kro.kr/api/getuserdata/${friendCode}"
+        val friendimg = "http://dmumars.kro.kr/api/getprofile/${friendCode}" // GET 요청
         println("에디트 텍스트 값 : $friendCode")
 
         val searchThread = Thread {
@@ -116,13 +117,13 @@ class FriendListActivity : AppCompatActivity() {
 
                 val nickname = jsonObject.getString("user_name") // 닉네임
                 val title = jsonObject.getString("user_title") // 칭호
-                val profileImageUrl = jsonObject.getString("profile_local") // 프로필
 
                 // 여기에서 친구 목록에 해당 친구가 있는지 확인
                 val isFriend = checkIfFriendExists(nickname) // 이 함수는 친구 목록에서 해당 닉네임을 찾아서 있는지 확인하는 로직입니다.
 
                 // FriendInfo 객체를 생성하여 리스트에 추가
-                val friendInfo = FriendInfo(nickname, title, profileImageUrl, isFriend)
+                val friendInfo = FriendInfo(nickname, title, friendimg, isFriend)
+                println("검색 결과: $friendInfo")
                 searchResultList.add(friendInfo)
 
                 // RecyclerView 업데이트
