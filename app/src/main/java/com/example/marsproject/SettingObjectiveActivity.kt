@@ -1,6 +1,5 @@
 package com.example.marsproject
 
-import android.R
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -35,7 +34,7 @@ class SettingObjectiveActivity : AppCompatActivity() {
         // 툴바 설정
         setSupportActionBar(binding.toolbar) // 툴바 지정
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
-        supportActionBar?.setHomeAsUpIndicator(com.example.marsproject.R.drawable.icon_left_resize) // 뒤로가기 버튼 이미지 설정
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.icon_left_resize) // 뒤로가기 버튼 이미지 설정
         supportActionBar?.title = "목표 선택" // 타이틀 지정
 
         // 액티비티 이동하면서 넘어온 값 받아오기
@@ -47,14 +46,12 @@ class SettingObjectiveActivity : AppCompatActivity() {
         appearance = intent.getStringExtra("appearance").toString() // 외형
 
         val contract = ActivityResultContracts.StartActivityForResult()
-        val callback = object: ActivityResultCallback<ActivityResult> {
-            override fun onActivityResult(result: ActivityResult?) {
-                if(result?.resultCode == RESULT_OK) {
-                    // 완료 결과 보내기
-                    val intentA = Intent()
-                    setResult(RESULT_OK, intentA)
-                    finish()
-                }
+        val callback = ActivityResultCallback<ActivityResult> { result ->
+            if(result?.resultCode == RESULT_OK) {
+                // 완료 결과 보내기
+                val intentA = Intent()
+                setResult(RESULT_OK, intentA)
+                finish()
             }
         }
         launcher = registerForActivityResult(contract, callback)
@@ -69,21 +66,21 @@ class SettingObjectiveActivity : AppCompatActivity() {
         val clkListener = View.OnClickListener { p0 ->
             when(p0?.id) {
                 // 공부 목표 클릭 시
-                com.example.marsproject.R.id.studyView,
-                com.example.marsproject.R.id.studyImage,
-                com.example.marsproject.R.id.studyText-> {
-                    binding.studyView.setBackgroundResource(com.example.marsproject.R.drawable.objective_clicked) // 공부 배경 변경
-                    binding.exerciseView.setBackgroundResource(com.example.marsproject.R.drawable.objective_background) // 운동 배경 변경
+                R.id.studyView,
+                R.id.studyImage,
+                R.id.studyText-> {
+                    binding.studyView.setBackgroundResource(R.drawable.objective_clicked) // 공부 배경 변경
+                    binding.exerciseView.setBackgroundResource(R.drawable.objective_background) // 운동 배경 변경
                     binding.studyText.setTextColor(Color.parseColor("#FF8F2F")) // 공부 텍스트 색상 변경
                     binding.exerciseText.setTextColor(Color.parseColor("#000000")) // 운동 텍스트 색상 변경
                     category = "공부" // 값 저장
                 }
                 // 운동 목표 클릭 시
-                com.example.marsproject.R.id.exerciseView,
-                com.example.marsproject.R.id.exerciseImage,
-                com.example.marsproject.R.id.exerciseText -> {
-                    binding.studyView.setBackgroundResource(com.example.marsproject.R.drawable.objective_background) // 공부 배경 변경
-                    binding.exerciseView.setBackgroundResource(com.example.marsproject.R.drawable.objective_clicked) // 운동 배경 변경
+                R.id.exerciseView,
+                R.id.exerciseImage,
+                R.id.exerciseText -> {
+                    binding.studyView.setBackgroundResource(R.drawable.objective_background) // 공부 배경 변경
+                    binding.exerciseView.setBackgroundResource(R.drawable.objective_clicked) // 운동 배경 변경
                     binding.studyText.setTextColor(Color.parseColor("#000000")) // 공부 텍스트 색상 변경
                     binding.exerciseText.setTextColor(Color.parseColor("#FF8F2F")) // 운동 텍스트 색상 변경
                     category = "운동" // 값 저장
@@ -101,17 +98,17 @@ class SettingObjectiveActivity : AppCompatActivity() {
 
     // 툴바에 옵션 메뉴 생성
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(com.example.marsproject.R.menu.toolbar_menu1, menu) // 다음 버튼 생성
+        menuInflater.inflate(R.menu.toolbar_menu1, menu) // 다음 버튼 생성
         return true
     }
 
     // 옵션 메뉴 클릭 함수
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
-            R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
+            android.R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
                 finish() // 액티비티 종료
             }
-            com.example.marsproject.R.id.action_next -> { // 다음 버튼 눌렀을 때
+            R.id.action_next -> { // 다음 버튼 눌렀을 때
                 // 카테고리를 선택하지 않았을 때
                 when (category) {
                     "" -> Toast.makeText(baseContext, "하나를 선택해주세요.", Toast.LENGTH_SHORT).show() // 토스트 메시지 출력

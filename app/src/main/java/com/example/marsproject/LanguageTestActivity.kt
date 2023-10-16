@@ -11,7 +11,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.marsproject.databinding.ActivityLanguageTestBinding
 import org.json.JSONObject
-import java.io.File
 import java.net.UnknownServiceException
 
 class LanguageTestActivity : AppCompatActivity() {

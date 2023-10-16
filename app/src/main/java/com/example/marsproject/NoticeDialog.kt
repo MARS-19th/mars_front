@@ -8,9 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.marsproject.databinding.ActivityDialogNoticeBinding
-import org.json.JSONObject
-import java.net.UnknownServiceException
-
 class NoticeDialog : DialogFragment() {
     private lateinit var binding: ActivityDialogNoticeBinding
 

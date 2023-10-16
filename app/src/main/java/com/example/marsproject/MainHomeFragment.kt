@@ -193,15 +193,6 @@ class MainHomeFragment : Fragment() {
         return binding.root
     }
 
-
-
-
-
-
-
-
-
-
     // 유저 데이터 변경해주는 함수
     private fun changeUserData(title: String, name: String, id: String, objective: String, life: Int, progress: Int) {
         binding.titleText.text = title // 칭호 텍스트 변경

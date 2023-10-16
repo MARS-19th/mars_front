@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import org.w3c.dom.Text
 
 class ObjectiveAdapter(val itemList: ArrayList<ObjectiveItem>) :
     RecyclerView.Adapter<ObjectiveAdapter.ObjectiveViewHolder>() {

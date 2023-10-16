@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Window
-import android.widget.Toast
 import com.example.marsproject.databinding.ActivityLectureDialogCustomBinding
 
 class LectureDialogCustom(private val context : AppCompatActivity) {

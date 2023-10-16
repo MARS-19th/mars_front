@@ -1,7 +1,6 @@
 
 package com.example.marsproject
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -9,10 +8,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.marsproject.databinding.ActivityFriendListBinding
-import org.json.JSONObject
 import java.net.UnknownServiceException
 
 class FriendListActivity : AppCompatActivity() {

@@ -24,7 +24,7 @@ class StoreDialog(
     private val diaprice: String, //다이얼로그 현재 가격
     private var userName: String,
     private val id: Int,
-    var currentItem: Int?= null
+    private var currentItem: Int?= null
 
 ) {
     private lateinit var binding: StoreDialogBinding
@@ -37,9 +37,9 @@ class StoreDialog(
         builder.setView(dialogView)
 
         dlg = builder.create()
-        dlg?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dlg?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dlg?.setCancelable(false)
+        dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dlg.setCancelable(false)
 
         // store_dialog.xml에서 ImageView와 TextView를 찾습니다.
         val dialogImageView = dialogView.findViewById<ImageView>(R.id.item_dialog)
@@ -49,8 +49,8 @@ class StoreDialog(
 
         // 이미지 리소스와 아이템 가격 설정
         dialogImageView.setImageResource(imageResource)
-        dialogPriceTextView.text = "${itemPrice}"
-        diapriceTextView.text = "${diaprice}" //다이얼로그 현재 코인 부분
+        dialogPriceTextView.text = "$itemPrice"
+        diapriceTextView.text = diaprice //다이얼로그 현재 코인 부분
 
         val okButton = dialogView.findViewById<View>(R.id.buy) //구매하기
         val noButton = dialogView.findViewById<View>(R.id.close) //닫기버튼
@@ -119,13 +119,13 @@ class StoreDialog(
             }
 
             activity.load()
-            dlg?.dismiss()// 다이얼로그 닫기
+            dlg.dismiss()// 다이얼로그 닫기
         }
 
         noButton.setOnClickListener {
-            dlg?.dismiss()
+            dlg.dismiss()
 
         }
-        dlg?.show()
+        dlg.show()
     }
 }

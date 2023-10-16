@@ -18,7 +18,6 @@ import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.net.UnknownServiceException
 
-
 class MainDetailStudyFragment : Fragment() {
     private lateinit var binding: FragmentMainDetailStudyBinding
     private lateinit var skill: String
@@ -274,7 +273,6 @@ class MainDetailStudyFragment : Fragment() {
                                     moneyjson
                                 )
 
-                            } catch (e: UnknownServiceException) {
                             } catch (e: Exception) {
                                 e.printStackTrace()
                             }

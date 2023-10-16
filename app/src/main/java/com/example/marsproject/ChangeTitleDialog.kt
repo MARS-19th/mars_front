@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Window
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marsproject.databinding.ActivityDialogCustomBinding
 class ChangeTitleDialog(private val context : AppCompatActivity) {
@@ -18,7 +17,7 @@ class ChangeTitleDialog(private val context : AppCompatActivity) {
     fun show(content : String) {
         binding = ActivityDialogCustomBinding.inflate(context.layoutInflater)
 
-        dlg?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // 레이아웃 배경을 투명하게
+        dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // 레이아웃 배경을 투명하게
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE) // 타이틀 제거
         dlg.setContentView(binding.root) // 다이얼로그에 사용할 xml 파일을 불러오기
         dlg.setCancelable(false) // 바깥 화면을 눌렀을 때 닫히지 않게 하기

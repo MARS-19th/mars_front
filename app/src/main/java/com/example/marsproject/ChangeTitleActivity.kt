@@ -114,7 +114,7 @@ class ChangeTitleActivity : AppCompatActivity() {
         else if(num==2){
             //선택한 칭호는 불투명으로
             runOnUiThread {
-                titleToViewMap.get(userTitle)?.alpha = 1f; //사용자가 가지고 있는 칭호창은 불투며으로 변환
+                titleToViewMap[userTitle]?.alpha = 1f //사용자가 가지고 있는 칭호창은 불투며으로 변환
             }
         }
 
@@ -161,8 +161,8 @@ class ChangeTitleActivity : AppCompatActivity() {
 
                     try {
                         val changeTitleJson = JSONObject()
-                                changeTitleJson.put("user_name", getName()) // 사용자 이름
-                                changeTitleJson.put("value", selectedTitle.replace("\n", " "))  // value 값
+                        changeTitleJson.put("user_name", getName()) // 사용자 이름
+                        changeTitleJson.put("value", selectedTitle.replace("\n", " "))  // value 값
 
                         Request().reqpost("http://dmumars.kro.kr/api/setusertitle", changeTitleJson)
                     } catch (e: UnknownServiceException) {

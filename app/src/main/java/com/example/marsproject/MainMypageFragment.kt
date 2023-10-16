@@ -20,7 +20,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.marsproject.databinding.FragmentMainMypageBinding
 import com.kakao.sdk.user.UserApiClient
 import org.json.JSONObject
@@ -79,11 +78,9 @@ class MainMypageFragment : Fragment() {
         binding = FragmentMainMypageBinding.inflate(inflater)
 
         val contract = ActivityResultContracts.StartActivityForResult()
-        val callback = object : ActivityResultCallback<ActivityResult> {
-            override fun onActivityResult(result: ActivityResult?) {
-                if (result?.resultCode == AppCompatActivity.RESULT_OK) {
-                    (activity as MainActivity).clickchangeFragment(4)
-                }
+        val callback = ActivityResultCallback<ActivityResult> { result ->
+            if (result?.resultCode == AppCompatActivity.RESULT_OK) {
+                (activity as MainActivity).clickchangeFragment(4)
             }
         }
         launcher = registerForActivityResult(contract, callback)

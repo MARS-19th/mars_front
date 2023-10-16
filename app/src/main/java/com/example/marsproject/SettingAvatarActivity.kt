@@ -1,6 +1,5 @@
 package com.example.marsproject
 
-import android.R
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
@@ -43,7 +42,7 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
         // 툴바 설정
         setSupportActionBar(binding.toolbar) // 툴바 지정
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
-        supportActionBar?.setHomeAsUpIndicator(com.example.marsproject.R.drawable.icon_left_resize) // 뒤로가기 버튼 이미지 설정
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.icon_left_resize) // 뒤로가기 버튼 이미지 설정
         supportActionBar?.title = "아바타 설정" // 타이틀 지정
 
         // 액티비티 이동하면서 넘어온 값 받아오기
@@ -52,20 +51,18 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
         name = intent.getStringExtra("name").toString() // 닉네임
 
         val contract = ActivityResultContracts.StartActivityForResult()
-        val callback = object: ActivityResultCallback<ActivityResult> {
-            override fun onActivityResult(result: ActivityResult?) {
-                if(result?.resultCode == RESULT_OK) {
-                    // 완료 결과 보내기
-                    val intentN = Intent()
-                    setResult(RESULT_OK, intentN)
-                    finish()
-                }
+        val callback = ActivityResultCallback<ActivityResult> { result ->
+            if(result?.resultCode == RESULT_OK) {
+                // 완료 결과 보내기
+                val intentN = Intent()
+                setResult(RESULT_OK, intentN)
+                finish()
             }
         }
         launcher = registerForActivityResult(contract, callback)
 
         // 기본 이미지를 고양이 아바타로 설정
-        binding.avatarImage.setImageResource(com.example.marsproject.R.drawable.set_cat1_emo1)
+        binding.avatarImage.setImageResource(R.drawable.set_cat1_emo1)
 
         val equipmentLayoutManager: RecyclerView.LayoutManager = GridLayoutManager(this, 3)
         binding.equipmentRecyclerView.layoutManager = equipmentLayoutManager
@@ -117,8 +114,8 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
                 val outputjson = JSONObject()
                 outputjson.put("user_name", getName())
                 outputjson.put("type", "cat")
-                outputjson.put("look", "$face")
-                outputjson.put("color", "$appearance")
+                outputjson.put("look", face)
+                outputjson.put("color", appearance)
 
                 // 서버 디비에 설정 아바타 정보 저장
                 val response = Request().reqpost("http://dmumars.kro.kr/api/setuseravatar", outputjson)
@@ -150,17 +147,17 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
 
     // 툴바에 옵션 메뉴 생성
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        binding.toolbar.inflateMenu(com.example.marsproject.R.menu.toolbar_menu1) // 다음 버튼 생성
+        binding.toolbar.inflateMenu(R.menu.toolbar_menu1) // 다음 버튼 생성
         return true
     }
 
     // 옵션 메뉴 클릭 함수
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
-            R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
+            android.R.id.home -> { // 뒤로 가기 버튼 눌렀을 때
                 finish() // 액티비티 종료
             }
-            com.example.marsproject.R.id.action_next -> { // 다음 버튼 눌렀을 때
+            R.id.action_next -> { // 다음 버튼 눌렀을 때
                 // 인텐트 생성 후 액티비티 생성
                 val intentO = Intent(this, SettingObjectiveActivity::class.java) // 목표 설정 페이지로 설정
                 intentO.putExtra("email", email) // 이메일
@@ -187,7 +184,7 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
             "테스트 표정 5"
         )
 
-        for (i in 0 until expressions.size) {
+        for (i in expressions.indices) {
             ContextCompat.getDrawable(this, resources.getIdentifier("emo${i + 1}", "drawable", packageName))?.let { drawable ->
                 val expressionName = expressions[i]
                 val equipmentItem = EquipmentItem(expressionName, drawable, appearance) // appearance 값을 넣도록 수정
@@ -208,7 +205,7 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
             "테스트 외형 3"
         )
 
-        for (i in 0 until equipmentNames.size) {
+        for (i in equipmentNames.indices) {
             ContextCompat.getDrawable(this, resources.getIdentifier("cat${i + 1}", "drawable", packageName))?.let { drawable ->
                 val equipmentName = equipmentNames[i]
                 val equipmentItem = EquipmentItem(equipmentName, drawable, equipmentName) // 선택한 외형 값으로 수정

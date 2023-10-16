@@ -32,13 +32,11 @@ class SettingNameActivity : AppCompatActivity() {
         email = intent.getStringExtra("email").toString()
 
         val contract = ActivityResultContracts.StartActivityForResult()
-        val callback = object : ActivityResultCallback<ActivityResult> {
-            override fun onActivityResult(result: ActivityResult?) {
-                if (result?.resultCode == RESULT_OK) {
-                    val intentM = Intent()
-                    setResult(RESULT_OK, intentM)
-                    finish()
-                }
+        val callback = ActivityResultCallback<ActivityResult> { result ->
+            if (result?.resultCode == RESULT_OK) {
+                val intentM = Intent()
+                setResult(RESULT_OK, intentM)
+                finish()
             }
         }
         launcher = registerForActivityResult(contract, callback)
