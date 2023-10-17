@@ -127,9 +127,6 @@ class SettingAvatarActivity : AppCompatActivity(), EquipmentAdapter.OnItemClickL
         }.start()
     }
 
-    // 고양이 클릭 아바타 이미지 변경
-
-    // 원숭이 클릭 아바타 이미지 변경
 
     // 상단 표정 선택
     fun onTopsButtonClick(view: View?) {
