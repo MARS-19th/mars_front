@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "951577103257",
+    "project_id": "growverse-21715",
+    "storage_bucket": "growverse-21715.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951577103257:android:851b4509e7c6bcd7262108",
+        "android_client_info": {
+          "package_name": "com.example.marsproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcv_ON1ahNZx8V6vewOCJ9VsPh8K7mtlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

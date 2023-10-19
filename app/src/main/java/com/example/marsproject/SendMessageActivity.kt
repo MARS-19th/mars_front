@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.marsproject.databinding.ActivitySendMessageBinding
 import com.google.android.material.internal.ToolbarUtils
@@ -36,6 +37,26 @@ class SendMessageActivity : AppCompatActivity() {
         // 이전 액티비티에서 전달된 데이터 추출
         val nickname = intent.getStringExtra("nickname")
         val title = intent.getStringExtra("title")
+
+        binding.friendName.text = nickname!!.toString()
+
+        // 버튼에 대한 클릭 리스너 설정
+        binding.sendMsg1.setOnClickListener {
+            sendMessage(nickname, "지금 뭐해?")
+            Log.d("sdjgksgdjdks", "메세지 보내기")
+        }
+
+        binding.sendMsg2.setOnClickListener {
+            sendMessage(nickname,"공부해라")
+        }
+
+        binding.sendMsg3.setOnClickListener {
+            sendMessage(nickname,"안녕!!")
+        }
+
+        binding.sendMsg4.setOnClickListener {
+            sendMessage(nickname,"열공해!!")
+        }
 
 
         //아바타 이미지 가져오기
@@ -74,7 +95,38 @@ class SendMessageActivity : AppCompatActivity() {
             }
         }.start()
 
+    }
 
+    fun sendMessage(nickname: String, message : String) {
+        Log.d("SDSAFGDADG", "sendMessage 함수 실행")
+        val sendMessageThread = Thread {
+            try {
+                // 다른유저에게 메세지 전송
+                val sendUserMsg = JSONObject() //json 생성
+                sendUserMsg.put("user_name", getName())
+                sendUserMsg.put("from_user", nickname)
+                sendUserMsg.put("messge", message)
+
+                // 유저에게 메세지 전송
+                Request().reqpost("http://dmumars.kro.kr/api/pushuserchat", sendUserMsg)
+
+                Log.d("SDSAFGDADG", "메세지 보냄")
+                runOnUiThread {
+                    Toast.makeText(applicationContext,"${nickname}에게 메세지를 보냈습니다.", Toast.LENGTH_LONG).show()
+                }
+
+            } catch (e: UnknownServiceException) {
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        sendMessageThread.start()
+    }
+
+    // 닉네임 정보를 가져오는 함수
+    fun getName(): String {
+        val pref = getSharedPreferences("userName", 0)
+        return pref.getString("name", "").toString()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

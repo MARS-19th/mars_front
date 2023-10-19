@@ -191,6 +191,37 @@ class SearchPeopleActivity : AppCompatActivity() {
                         e.printStackTrace()
                     }
                 }.start()
+
+                val sendMessageThread = Thread {
+                    try {
+                        // 저장된 닉네임 가져오기
+                        val pref = activity?.getSharedPreferences("userName", 0)
+                        val userName = pref?.getString("name", "").toString()
+
+                        // 찾은 유저의 닉네임 가져오기
+                        val friendName = FriendData.getString("user_name")
+                        Log.d("JSON Response", FriendData.toString())
+
+                        //보낼 메세지 내용
+                        val message = "${userName}님이 친구요청을 보내셨습니다."
+
+                        // 다른유저에게 메세지 전송
+                        val sendUserMsg = JSONObject() //json 생성
+                        sendUserMsg.put("user_name", userName)
+                        sendUserMsg.put("from_user", friendName)
+                        sendUserMsg.put("messge", message)
+
+                        // 유저에게 메세지 전송
+                        Request().reqpost("http://dmumars.kro.kr/api/pushuserchat", sendUserMsg)
+
+                        Log.d("SDSAFGDADG", "메세지 보냄")
+
+                    } catch (e: UnknownServiceException) {
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                sendMessageThread.start()
                 dismiss()
             }
 
