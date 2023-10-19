@@ -166,7 +166,7 @@ class SearchPeopleActivity : AppCompatActivity() {
 
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-            //binding.friendName.text = FriendData.getString("user_name")
+            binding.friendName.text = FriendData.getString("user_name")
 
             // 친구 추가 버튼 이벤트 처리
             binding.addFriendBtn.setOnClickListener {

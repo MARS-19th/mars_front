@@ -56,7 +56,7 @@
             app:layout_constraintHorizontal_bias="0.314"
             app:layout_constraintStart_toStartOf="@+id/guideline62"
             app:layout_constraintTop_toTopOf="@+id/guideline67"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/textView"
@@ -66,10 +66,10 @@
             android:text="나"
             app:layout_constraintBottom_toTopOf="@+id/searching_text"
             app:layout_constraintEnd_toStartOf="@+id/guideline68"
-            app:layout_constraintHorizontal_bias="0.541"
+            app:layout_constraintHorizontal_bias="0.513"
             app:layout_constraintStart_toStartOf="@+id/guideline63"
             app:layout_constraintTop_toTopOf="@+id/guideline61"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.966" />
 
         <ImageView
             android:id="@+id/friend_1"
