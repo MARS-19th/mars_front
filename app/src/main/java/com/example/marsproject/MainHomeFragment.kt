@@ -162,17 +162,6 @@ class MainHomeFragment : Fragment() {
             }
         }
 
-        // 클릭 시 알림 다이얼로그로 이동하는 리스너
-        binding.notification.setOnClickListener {
-
-            val dialog = NoticeDialog()
-
-            //알림창이 띄워져있는 동안 배경 클릭 막기
-            dialog.isCancelable = false
-
-            dialog.show(childFragmentManager, "NoticeDialog")
-        }
-
 
         // 서버에서 프사 이미지 가져와서 profileImage에 적용하기
         Glide.with(this)
