@@ -28,31 +28,30 @@
       app:layout_constraintTop_toTopOf="@+id/guideline70"
       app:srcCompat="@drawable/cat_avatar" />
 
-
-  <TextView
-      android:id="@+id/friendtitle"
+  <LinearLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:fontFamily="@font/pretendardbold"
-      android:text="공부의 신"
-      android:textColor="#939393"
+      android:orientation="horizontal"
       app:layout_constraintBottom_toTopOf="@+id/guideline77"
       app:layout_constraintEnd_toStartOf="@+id/guideline73"
-      app:layout_constraintHorizontal_bias="0.0"
-      app:layout_constraintStart_toEndOf="@+id/titleImage"
-      app:layout_constraintTop_toTopOf="@+id/guideline83" />
-
-  <ImageView
-      android:id="@+id/titleImage"
-      android:layout_width="22dp"
-      android:layout_height="18dp"
-      android:src="@drawable/icon_medal"
-      app:layout_constraintBottom_toTopOf="@+id/guideline77"
-      app:layout_constraintEnd_toStartOf="@+id/guideline86"
-      app:layout_constraintHorizontal_bias="0.589"
       app:layout_constraintStart_toStartOf="@+id/guideline72"
-      app:layout_constraintTop_toTopOf="@+id/guideline83"
-      app:layout_constraintVertical_bias="0.375" />
+      app:layout_constraintTop_toTopOf="@+id/guideline83">
+
+    <ImageView
+        android:id="@+id/titleImage"
+        android:layout_width="22dp"
+        android:layout_height="18dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/icon_medal" />
+
+    <TextView
+        android:id="@+id/friendtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendardbold"
+        android:text="공부의 신"
+        android:textColor="#939393" />
+  </LinearLayout>
 
   <TextView
       android:id="@+id/friendName"
@@ -61,7 +60,7 @@
       android:fontFamily="@font/pretendardbold"
       android:text="마스 수호냥"
       android:textColor="@color/black"
-      android:textSize="25sp"
+      android:textSize="22sp"
       app:layout_constraintBottom_toTopOf="@+id/guideline83"
       app:layout_constraintEnd_toStartOf="@+id/guideline73"
       app:layout_constraintStart_toStartOf="@+id/guideline72"
@@ -69,11 +68,11 @@
 
   <View
       android:id="@+id/view2"
-      android:layout_width="350dp"
+      android:layout_width="0dp"
       android:layout_height="5px"
       android:background="#DEE0E4"
       app:layout_constraintBottom_toTopOf="@+id/guideline92"
-      app:layout_constraintEnd_toStartOf="@+id/guideline91"
+      app:layout_constraintEnd_toStartOf="@+id/guideline74"
       app:layout_constraintStart_toStartOf="@+id/guideline72"
       app:layout_constraintTop_toTopOf="@+id/guideline91" />
 
@@ -126,7 +125,7 @@
       android:textColor="@color/black"
       android:textSize="16sp"
       app:layout_constraintBottom_toTopOf="@+id/guideline95"
-      app:layout_constraintEnd_toStartOf="@+id/guideline96"
+      app:layout_constraintEnd_toStartOf="@+id/guideline74"
       app:layout_constraintStart_toStartOf="@+id/guideline72"
       app:layout_constraintTop_toTopOf="@+id/guideline91"
       app:layout_constraintVertical_bias="0.47" />
@@ -181,13 +180,6 @@
       app:layout_constraintGuide_percent="0.21" />
 
   <androidx.constraintlayout.widget.Guideline
-      android:id="@+id/guideline86"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      app:layout_constraintGuide_percent="0.275" />
-
-  <androidx.constraintlayout.widget.Guideline
       android:id="@+id/guideline91"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
@@ -206,35 +198,28 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
-      app:layout_constraintGuide_begin="348dp" />
-
-  <androidx.constraintlayout.widget.Guideline
-      android:id="@+id/guideline96"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      app:layout_constraintGuide_begin="335dp" />
+      app:layout_constraintGuide_percent="0.48" />
 
   <androidx.constraintlayout.widget.Guideline
       android:id="@+id/guideline97"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
-      app:layout_constraintGuide_begin="370dp" />
+      app:layout_constraintGuide_percent="0.48" />
 
   <androidx.constraintlayout.widget.Guideline
       android:id="@+id/guideline98"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
-      app:layout_constraintGuide_begin="525dp" />
+      app:layout_constraintGuide_percent="0.7" />
 
   <androidx.constraintlayout.widget.Guideline
       android:id="@+id/guideline99"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
-      app:layout_constraintGuide_begin="673dp" />
+      app:layout_constraintGuide_percent="0.92" />
 
   <androidx.constraintlayout.widget.Guideline
       android:id="@+id/guideline100"
