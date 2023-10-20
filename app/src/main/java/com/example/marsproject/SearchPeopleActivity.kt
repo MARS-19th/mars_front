@@ -21,8 +21,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
+import com.bumptech.glide.Glide
 import com.example.marsproject.databinding.ActivityFriendDialogBinding
 import com.example.marsproject.databinding.ActivitySearchPeopleBinding
+import org.json.JSONException
 import org.json.JSONObject
 import java.net.UnknownServiceException
 
@@ -156,6 +158,7 @@ class SearchPeopleActivity : AppCompatActivity() {
     class FriendDialog(val FriendData: JSONObject) : DialogFragment() {
         private lateinit var binding: ActivityFriendDialogBinding
 
+        @SuppressLint("ResourceType")
         override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -167,6 +170,40 @@ class SearchPeopleActivity : AppCompatActivity() {
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
             binding.friendName.text = FriendData.getString("user_name")
+            binding.titleText.text = FriendData.getString("user_title")
+
+            //친구 아바타 이미지 가져오기
+            Thread {
+                try {
+                    val friendName = FriendData.getString("user_name")
+                    val jsonObject = Request().reqget("http://dmumars.kro.kr/api/getuseravatar/${friendName}") // GET 요청
+
+
+                    //type = jsonObject.getString("type")
+                    val face = jsonObject.getString("look")
+                    val appearance = jsonObject.getString("color")
+                    val moun_shop = jsonObject.getString("moun_shop") //장비 장착시 이미지 변경 하도록 구현해야함
+
+                    activity?.runOnUiThread {
+                        // UI 업데이트 및 Glide를 사용하여 이미지 로드
+                        val avatarimg = "set_${appearance}_${face}"
+                        Log.d("AvatarImage", "Avatar Image: $avatarimg")
+
+                        val avatarResourceId = resources.getIdentifier(avatarimg, "drawable", activity?.packageName)
+                        val avatarImageView = view.findViewById<ImageView>(R.id.friendimg)
+
+                        Glide.with(this@FriendDialog)
+                            .load(avatarResourceId)
+                            .placeholder(Color.parseColor("#00000000"))
+                            .error(R.drawable.profileimage)
+                            .skipMemoryCache(true)
+                            .into(avatarImageView)
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    // JSON 파싱 오류에 대한 처리
+                }
+            }.start()
 
             // 친구 추가 버튼 이벤트 처리
             binding.addFriendBtn.setOnClickListener {

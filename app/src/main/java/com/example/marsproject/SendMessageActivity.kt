@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.marsproject.databinding.ActivitySendMessageBinding
-import com.google.android.material.internal.ToolbarUtils
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.UnknownServiceException
@@ -37,8 +36,6 @@ class SendMessageActivity : AppCompatActivity() {
         // 이전 액티비티에서 전달된 데이터 추출
         val nickname = intent.getStringExtra("nickname")
         val title = intent.getStringExtra("title")
-
-        binding.friendName.text = nickname!!.toString()
 
         // 버튼에 대한 클릭 리스너 설정
         binding.sendMsg1.setOnClickListener {
@@ -97,7 +94,7 @@ class SendMessageActivity : AppCompatActivity() {
 
     }
 
-    fun sendMessage(nickname: String, message : String) {
+    fun sendMessage(nickname: String?, message: String) {
         Log.d("SDSAFGDADG", "sendMessage 함수 실행")
         val sendMessageThread = Thread {
             try {

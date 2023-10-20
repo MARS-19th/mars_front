@@ -34,7 +34,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline87" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/friendimg"
         android:layout_width="177dp"
         android:layout_height="235dp"
         android:layout_marginTop="12dp"
@@ -59,7 +59,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline81"
         app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="@+id/guideline80"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/friendimg"
         app:layout_constraintVertical_bias="0.023" />
 
     <Button
