@@ -2,8 +2,10 @@ package com.example.marsproject
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +14,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.kakao.sdk.user.UserApiClient
 import org.json.JSONObject
+import java.net.UnknownServiceException
 
 // FriendInfo 모델 클래스 정의
 data class FriendInfo(
@@ -91,53 +96,53 @@ class FriendListAdapter(
                     // 친구 삭제 로직을 구현, 현재 항목을 친구 목록에서 제거하고 RecyclerView 갱신
                     val context = itemView.context
 
-                    val alertDialog = AlertDialog.Builder(context)
-                        .setTitle("친구 삭제")
-                        .setMessage("${friendInfo.nickname} 님을 친구 목록에서 삭제하시겠습니까?")
-                        .setPositiveButton("확인") { _, _ ->
-                            // 사용자가 확인을 누른 경우
-                            // 친구 삭제 요청을 디비에 저장하는 쓰레드를 실행합니다.
+                    val dlg = MyDialog(context as AppCompatActivity) // 커스텀 다이얼로그 객체 저장
+                    // 예 버튼 클릭 시 실행
+                    dlg.setOnOKClickedListener{
+                        // 사용자가 확인을 누른 경우
+                        // 친구 삭제 요청을 디비에 저장하는 쓰레드를 실행합니다.
 
-                            Thread {
-                                val outputjson = JSONObject() // JSON 생성
-                                outputjson.put("user_name", username) // 아이디
-                                outputjson.put("friend", friendInfo.nickname) // 친구 닉네임
+                        Thread {
+                            val outputjson = JSONObject() // JSON 생성
+                            outputjson.put("user_name", username) // 아이디
+                            outputjson.put("friend", friendInfo.nickname) // 친구 닉네임
 
-                                // 서버에 친구 삭제 요청 보내기
-                                val response = Request().reqpost(
-                                    "http://dmumars.kro.kr/api/delfriend",
-                                    outputjson
-                                )
+                            // 서버에 친구 삭제 요청 보내기
+                            val response = Request().reqpost(
+                                "http://dmumars.kro.kr/api/delfriend",
+                                outputjson
+                            )
 
-                                itemView.post {
-                                    if (response != null) {
-                                        // 친구 삭제 요청이 성공적으로 디비에 저장되면 성공 메시지
-                                        Toast.makeText(
-                                            context,
-                                            "친구 삭제 요청을 보냈습니다.",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                            itemView.post {
+                                if (response != null) {
+                                    // 친구 삭제 요청이 성공적으로 디비에 저장되면 성공 메시지
+                                    Toast.makeText(
+                                        context,
+                                        "친구를 삭제했습니다.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
 
-                                        // 친구 목록에서 해당 친구를 삭제하고 RecyclerView 갱신
-                                        val position = friendList.indexOf(friendInfo)
-                                        if (position != -1) {
-                                            friendList.removeAt(position)
-                                            notifyItemRemoved(position)
-                                            notifyItemChanged(position, friendList.size)
-                                        }
-                                    } else {
-                                        // 친구 삭제 요청이 실패한 경우 실패 메시지
-                                        Toast.makeText(
-                                            context,
-                                            "친구 삭제 요청에 실패했습니다.",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                    // 친구 목록에서 해당 친구를 삭제하고 RecyclerView 갱신
+                                    val position = friendList.indexOf(friendInfo)
+                                    if (position != -1) {
+                                        friendList.removeAt(position)
+                                        notifyItemRemoved(position)
+                                        notifyItemChanged(position, friendList.size)
                                     }
+                                } else {
+                                    // 친구 삭제 요청이 실패한 경우 실패 메시지
+                                    Toast.makeText(
+                                        context,
+                                        "친구 삭제 요청에 실패했습니다.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
-                            }.start()
-                        }
-                        .setNegativeButton("취소") { _, _ -> }.create()
-                    alertDialog.show()
+                            }
+                        }.start()
+                    }
+                    // 아니오 버튼 클릭 시 실행
+                    dlg.setOnNOClickedListener {}
+                    dlg.show("${friendInfo.nickname}님을 삭제하시겠습니까?") // 다이얼로그 내용에 담을 텍스트
                 }
             } else {
                 someButton.setImageResource(R.drawable.plus_background)
@@ -147,18 +152,18 @@ class FriendListAdapter(
                 someButton.setOnClickListener {
                     var isAddingFriend = false
                     isAddingFriend = true // 친구 추가 중 상태로 변경
-                    someButton.isEnabled = false // 버튼 비활성화
+                    //someButton.isEnabled = false // 버튼 비활성화
 
                     val context = itemView.context
 
-                    val alertDialog = AlertDialog.Builder(context)
-                        .setTitle("친구 추가")
-                        .setMessage("${friendInfo.nickname} 님을 친구로 추가하시겠습니까?")
-                        .setPositiveButton("확인") { _, _ ->
-                            // 사용자가 확인을 누른 경우
-                            // 친구 추가 요청을 디비에 저장하는 쓰레드를 실행합니다.
+                    val dlg = MyDialog(context as AppCompatActivity) // 커스텀 다이얼로그 객체 저장
+                    // 예 버튼 클릭 시 실행
+                    dlg.setOnOKClickedListener{
+                        // 사용자가 확인을 누른 경우
+                        // 친구 추가 요청을 디비에 저장하는 쓰레드를 실행합니다.
 
-                            Thread {
+                        Thread {
+                            try {
                                 val outputjson = JSONObject() // JSON 생성
                                 outputjson.put("user_name", username) // 아이디
                                 outputjson.put("friend", friendInfo.nickname) // 친구 닉네임
@@ -189,16 +194,15 @@ class FriendListAdapter(
                                         ).show()
                                     }
                                 }
-                            }.start()
-                        }
-                        .setNegativeButton("취소") { _, _ ->
-                            // 사용자가 취소를 누른 경우
-                            isAddingFriend = false // 친구 추가 취소 시 상태 변경
-                            someButton.isEnabled = true // 버튼 활성화
-                        }
-                        .create()
-
-                    alertDialog.show()
+                            } catch (e: UnknownServiceException) {
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }.start()
+                    }
+                    // 아니오 버튼 클릭 시 실행
+                    dlg.setOnNOClickedListener {}
+                    dlg.show("${friendInfo.nickname}님을 추가하시겠습니까?") // 다이얼로그 내용에 담을 텍스트
                 }
 
             }
