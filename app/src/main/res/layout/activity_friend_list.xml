@@ -32,6 +32,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:hint="친구 닉네임 입력.."
+            android:singleLine="true"
             android:padding="8dp"
             android:drawableLeft="@drawable/search"
             android:drawablePadding="8dp"
