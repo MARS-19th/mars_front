@@ -76,9 +76,9 @@ class MainHomeFragment : Fragment() {
                     val item = item.toString()
                     val emotion = emotion.toString()
                     val color = color.toString()
-                    "${color}_${emotion}_${item}_main"
+                    "${color}_${emotion}_${item}"
                 } else {
-                    "${color}_${emotion}_main"
+                    "${color}_${emotion}"
                 }
                 // 비디오 리소스 이름을 사용하여 리소스 ID 가져오기
                 val resID = resources.getIdentifier(videoName, "raw", requireActivity().packageName)
