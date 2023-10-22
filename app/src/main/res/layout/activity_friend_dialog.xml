@@ -19,8 +19,7 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline88"
         app:layout_constraintEnd_toStartOf="@+id/guideline84"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/titleImage"
+        app:layout_constraintStart_toStartOf="@+id/guideline80"
         app:layout_constraintTop_toTopOf="@+id/guideline87" />
 
     <ImageView
@@ -30,7 +29,7 @@
         android:src="@drawable/icon_medal"
         app:layout_constraintBottom_toTopOf="@+id/guideline88"
         app:layout_constraintEnd_toStartOf="@+id/guideline80"
-        app:layout_constraintStart_toStartOf="@+id/guideline78"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline87" />
 
     <ImageView
